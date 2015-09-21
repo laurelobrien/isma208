@@ -6,6 +6,6 @@ Finished 09/14/15
 Draw 3 equally spaced points diagonally in a straight line
 */
 
-point(33, 33);
-point(66, 66);
-point(99, 99);
+point(30, 30);
+point(60, 60);
+point(90, 90);

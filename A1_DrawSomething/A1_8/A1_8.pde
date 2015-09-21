@@ -10,5 +10,7 @@ Draw a line with ellipses at either end.
 ellipse(20, 50, 10, 10);
 ellipse(80, 50, 10, 10);
 
-// line horizontally aligned with ellipses and 5px short (ellipse radius) of their centerpoints
+// draw line horizontally aligned with ellipses and 10px shorter 
+// (2 10px-ellipse radii) than the space between ellipses'
+// centerpoints
 line(25, 50, 75, 50);

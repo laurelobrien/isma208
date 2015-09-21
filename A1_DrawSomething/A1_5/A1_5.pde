@@ -6,7 +6,7 @@ Finished 09/14/15
 Draw an ellipse in each of the four corners of the canvas.
 */
 
-noStroke(); // monochrome ellipses with only fill, no stroke
+noStroke(); // ellipses with only fill, no stroke
 
 /* 5 or 95 used as coordinates due to how a 10px ellipse is drawn.
 ellipse should touch edge of canvas */

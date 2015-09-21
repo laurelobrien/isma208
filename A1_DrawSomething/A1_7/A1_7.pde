@@ -8,7 +8,7 @@ at least 8 lines radiating from the center.
 */
 
 strokeWeight(4); // cartoony outline
-fill(#ffff00); 
+fill(#ffff00);  // yellow fill
 ellipse(50, 50, 30, 30);
 
 // diagonal line: right to left
