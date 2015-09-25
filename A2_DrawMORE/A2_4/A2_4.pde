@@ -25,6 +25,13 @@ void draw()
   fill(#FFFFFF);
   
   //solid 10px ellipses aligned on x axis with eye outlines, follow mouse vertically
-  ellipse(25, mouseY, 10, 10); //left pupil
-  ellipse(75, mouseY, 10, 10); //right pupil
+  //(mouseY * 0.1) makes argument 10% of mouseY position to reduce the range of possible motion
+  ellipse(20 + (mouseX * 0.1), 45 + (mouseY * 0.1), 10, 10); //left pupil
+  ellipse(70 + (mouseX * 0.1), 45 + (mouseY * 0.1), 10, 10); //right pupil
+  
+  stroke(255);
+  strokeWeight(2);
+  //y coord minus, instead of plus, 10% of mouse y position moves point vertically opposite of the mouse
+  line(11, 30 - (mouseY * 0.1), 38, 30 - (mouseY * 0.1)); //left eyebrow
+  line(61, 30 - (mouseY * 0.1), 88, 30 - (mouseY * 0.1)); //right eyebrow
 }
