@@ -1,13 +1,11 @@
 /*
-A2_1
+A2_2
 Laurel O'Brien
 laureljobrien@gmail.com
 09/22/15
 Change the fill and stroke of two shapes in different ways 
 using mouseX, and mouseY.
 */
-
-
 
 void setup() 
 {
