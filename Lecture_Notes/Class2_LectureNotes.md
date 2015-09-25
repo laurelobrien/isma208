@@ -14,13 +14,13 @@ tells the computer to reserve a memory location big enough and associate it with
 
 	int x; //Declare variable x
 
-	computer reserves 4 slots (bytes? bits?) for said integer, as indicated by not being a string or float
+- computer reserves 4 slots (bytes? bits?) for said integer, as indicated by not being a string or float
 
 limited amount of space a variable can take up
 
-	an integer can take up 4 bytes
+- an integer can take up 4 bytes
 
-	an integer can take up space from -2^31 to 2^31-1
+- an integer can take up space from -2^31 to 2^31-1
 
 
 ##NAMING
@@ -35,9 +35,7 @@ the choice of variable names is very important for communicating to yourself and
 ‘x’ may not be as good a name as ‘xPos’ or ‘xPosition’
 
 ###camelCase 
-capitalize every word after the first such as
-
-	camelCaseMakesVariablesReadable
+capitalize every word after the first such as camelCaseMakesVariablesReadable
 
 	int useCamelCase; //Declare an integer variable named useCamelCase
 
@@ -87,48 +85,50 @@ or declare and initialize/assign at the same time
 ##VARIABLE TYPES
 int - non-decimal number: 0, 3, 12532
 
-	recognized as a variable type due to lack of decimal point and places (2.0 is a float even though it is whole)
+- recognized as a variable type due to lack of decimal point and places (2.0 is a float even though it is whole)
+
+- ints are required for pixel-perfect drawing as a pixel cannot be displayed as smaller than 1 whole pixel
+
 float - decimal number: 3.67, 5.3333
 
-	ints are required for pixel-perfect drawing as a pixel cannot be displayed as smaller than 1 whole pixel
-
-	occasionally the process for arriving at an integer requires float operators and processes
+- occasionally the process for arriving at an integer requires float operators and processes
 
 boolean - either true or false
 
 char - a single text character: ‘p’ or ‘6’
 
-	single quotes are required to differentiate from a String
+- single quotes are required to differentiate from a String
 
 String - a sequence of characters: “a string”
 
-	**String** must be capitalized to be recognized as a reserved word
+- **String** must be capitalized to be recognized as a reserved word
 
-	double quotes are required to differentiate from a char
+- double quotes are required to differentiate from a char
 
 color - stores a processing colour value
 
-	must be spelled the American way, color, to be recognized as a reserved word
+- must be spelled the American way, color, to be recognized as a reserved word
 
 ##VARIABLE TYPE ISSUES
-**// float <- int**
+**float <- int**
 
-float myFloat = 6; //ok
+	float myFloat = 6; //ok
 
 
-**// int <- float**
+**int <- float**
 
-int myInt = 6.04; //not OK (“cannot convert from float to int”)
+	int myInt = 6.04; //not OK (“cannot convert from float to int”)
 
-**// int <- char OR float <- char OR char <- int**
+**int <- char** OR **float <- char** OR **char <- int**
 
 int myInt = ‘5’; //returns 53 (as an integer), which internally corresponds to that character
 
-float myFloat = ‘5’; //returns 53.0, the same internal correspondence but as a float
+	float myFloat = ‘5’; //returns 53.0, the same internal correspondence 
+	//but as a float
 
-char myChar = 5; //returns a character that corresponds with the integer 5, not 53 
-
-	(usually [x] if the font doesn’t have it or it’s abstract)
+	char myChar = 5; //returns a character that corresponds with 
+	//the integer 5, not 53 
+	//(usually [x] if the font doesn’t have it or it’s abstract)
 
 **println();** is useful for debugging or reminding yourself what a variable currently represents
 
@@ -159,7 +159,7 @@ expressions are a way of combining variables and processes in a logical way
 3. + -
 
 extraneous parentheses are not a bad thing if you need to be explicit
-	also communicates your thought process
+- also communicates your thought process
 
 ##EXPRESSIONS
 operations and variables can be mixed
@@ -183,9 +183,9 @@ use parentheses () to force precedence
 
 **height** - height of the canvas
 
-	using width or height to calculate variables and processes means your program will work without knowing
+- using width or height to calculate variables and processes means your program will work without knowing
 
-	the explicit height of the canvas, and will work on any canvas size that doesn’t conflict
+- the explicit height of the canvas, and will work on any canvas size that doesn’t conflict
 
 **mouseX** - x axis position of mouse pointer
 
