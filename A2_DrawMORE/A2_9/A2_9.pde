@@ -9,23 +9,19 @@ respectively. Ensure the colour and size wrap around different
 arbitrary values.
 */
 
-//initialize variables to change colour value and shape coordinates
-int yellow = 0;
-int leftCornerX = 0;
-int leftCornerY = 0;
-int rightCornerX = 0;
-int rightCornerY = 0;
+//initialize variables for storing size and colour values
+int rectLength = 0; //manipulate height argument of rect();
+int green = 0; //manipulate green and blue values of an rgb colour
+int blue = 0;
 
 void draw() 
 {
-  background(128); //medium grey
   noStroke();
+  background(242, 211, 164); //medium grey: wipe last drawing from running draw()
   
-  fill(242, 211, 164); //peach
-  quad(90, 10, (55 + rightCornerX), (20 + rightCornerY), (45 - leftCornerX), (20 + leftCornerY), 10, 10);
+  fill(255, (128 + green) % 255), (128 + blue) % 255); //peach minus green and blue variables
+  rect(30, 0, 40, 40 + rectLength); //square grows to tall rectangle
   
-  leftCornerX ++; //increments by 1 to move left
-  leftCornerY ++; //increments by 1 to move down
-  rightCornerX ++; //increments by 1 to move right
-  rightCornerY ++; //increments by 1 to move down
+  green += (mouseY * 0.1);
+  blue += (mouseY * 0.1);
 }
