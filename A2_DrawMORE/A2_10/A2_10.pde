@@ -12,7 +12,7 @@ int colourBar = 0;
 int ripple = 0;
 int frameMemory = 0; //store previous draw()'s frameCount
 boolean rainbowDown = false;
-
+int eye = 0;
 
 //draw pac-man vomitting a rainbow off the right edge of the canvas 
 //that undulates up and down every 10 frames
@@ -47,7 +47,7 @@ void draw()
   
   noStroke();
   fill(0); //black
-  ellipse(25, 43, 7, 7); //eye
+  ellipse(25, 43, (7 + eye) % 11, (7 + eye) % 11); //eye whose size pulses to 11 and wraps
   
   colourBar += 2; //extend rainbow 2 pixels to the right
   
@@ -61,4 +61,6 @@ void draw()
     ripple = 0; //return rainbow stream to starting y coordinate
     rainbowDown = false; //turn off rainbowDown boolean
   }
+  
+  eye ++;
 }
