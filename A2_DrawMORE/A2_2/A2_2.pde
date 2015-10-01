@@ -13,11 +13,11 @@ void setup()
 }
 
 //draw 2 triangles, changing properties of 
-//stroke and fill with mouse movement
+//each's stroke and fill with mouse movement
 
 void draw()
 { 
-  //declare and initialize local variables for converted mouse position into useful values
+  //declare and initialize local variables for converting mouse position into useful values
   float verticalPos = (mouseY * 0.1); //y position turned into a float between 0 and 1 presuming 100x100 canvas
   float horizontalPos = (mouseX * 2.55); //x position turned into a float between 0 and 255 for rgb colorspace
   

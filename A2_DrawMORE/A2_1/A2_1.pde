@@ -24,6 +24,6 @@ void draw () {
   
   noStroke(); //solid fill only
   fill(red, green, blue);
-  ellipse(mouseX, mouseY, 10, 10);
+  ellipse(mouseX, mouseY, 10, 10); //ellipse origin always beneath mouse pointer
 }
 
