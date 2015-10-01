@@ -9,15 +9,16 @@ Ensure the size values wrap to some common maximum value.
 */
 
 //initialize variables for storing shape size
+int stamenX = 0; //center line's x-axis terminal
+int stamenY = 0; //center line's y-axis terminal
 int floralDisc = 0; //center ellipse's size
-int discPetal = 0; //intermediate triangles' size
 int rayPetal = 0; //outer rectangles' size
 
 //initialize variable for counting cycles of draw()
 int dayCount = 0;
 
 //draw an abstract daisy whose parts grow at different rates,
-//though never closer than 10px to any edge of the canvas
+//though never reaching 80px
 void draw() 
 {
   noStroke();
@@ -27,21 +28,22 @@ void draw()
   fill(#F6F6F6); //almost-white
   rect(50, 50, rayPetal % 80, rayPetal % 80); //outer rectangle
   
-  fill(#FAEEB1); //sunshine yellow
-  ellipse(50, 50, discPetal % 80, discPetal % 80); //intermediate triangles
-  
-  fill(#F7DD57); //golden yellow
+  fill(#F7DD57); //yellow
   ellipse(50, 50, floralDisc % 80, floralDisc % 80); //inner ellipse
+  
+  stroke(#F0B00F); //orange
+  line(50, 50, 50 + stamenX % 40, 50 + stamenY % 40); // stamenX and stamenY wrap at 40px, added to 50 to start from center
   
   dayCount++; //1 day passes
   rayPetal++; //outer petals grow
   
   //only increment some parts of the flower on certain days
-  if (dayCount % 2 == 0) //check if an even number of days have passed
-  {
-    discPetal ++; //inner petals grow
-  }
   if (dayCount % 4 == 0) //check if 4 days have passed
+  {
+    stamenX ++; //stamen grows outwards
+    stamenY ++; //stamen grows downwards
+  }
+  if (dayCount % 6 == 0) //check if 6 days have passed
   {
     floralDisc ++; //center of flower grows
   }
