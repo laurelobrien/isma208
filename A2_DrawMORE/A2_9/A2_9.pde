@@ -23,7 +23,7 @@ void draw()
   background(242, 211, 164); //peach: wipe last drawing from running draw()
   
   fill(255, ((128 + green) % 255), ((128 + blue) % 255)); //grey-ish red plus green and blue variables
-  rect(30, 0, 40, (40 + rectLength) % 91); //square that grows to tall rectangle
+  rect(30, 0, 40, (40 + rectLength) % 90); //square that grows to tall rectangle
   
   //increment variables by 10% of relevant mouse position, +1 to ensure a value > 1 is always added
   //in the case that 10% of mouseX/mouseY is < 1 and no change would occur visually

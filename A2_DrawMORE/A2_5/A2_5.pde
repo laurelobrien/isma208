@@ -1,5 +1,4 @@
 /*
-**NOT FINISHED: ellipse growth speed currently does not respond to mouseX **
 A2_5
 Laurel O'Brien
 laureljobrien@gmail.com
@@ -9,9 +8,8 @@ dependent on the mouse position. Make sure the size of the shape
 wraps at some arbitrary value.
 */
 
-//initialize global variables for increasing size of ellipse in draw()
+//initialize global variable for increasing size of ellipse in draw()
 float diameter = 0; 
-float diameterIncrease = mouseX * 0.2;
 
 //draw a green ellipse that constantly increases in size
 //at a speed increasing as the mouse moves from left to right.
@@ -27,9 +25,9 @@ void draw()
   
   noStroke(); //erase above container's stroke settings
   fill(0, 255, 0); //green
-  ellipse(50, 50, (diameter + diameterIncrease) % 50, (diameter + diameterIncrease) % 50); //mouse x position increases diameter but resets at 50
+  ellipse(50, 50, diameter % 50, diameter % 50); //mouse x position increases diameter but resets at 50
   
-  diameter ++; //increase by a minimum of 1
+  diameter += mouseX * 0.05 + 1; //increase by 0.5% of mouseX, minimum of 1
   
   
 }
