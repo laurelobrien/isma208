@@ -31,6 +31,8 @@ void draw()
   fill(#F7DD57); //yellow
   ellipse(50, 50, floralDisc % 80, floralDisc % 80); //inner ellipse
   
+  //stamen intentionally wraps at 40 instead of 80 to be visually consistent with other shapes
+  //since they're drawn from the center
   stroke(#F0B00F); //orange
   line(50, 50, 50 + stamenX % 40, 50 + stamenY % 40); // stamenX and stamenY wrap at 40px, added to 50 to start from center
   
