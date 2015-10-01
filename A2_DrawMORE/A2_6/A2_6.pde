@@ -17,7 +17,9 @@ void draw()
 {
   background(128); //medium grey
   
+  stroke(255); //white
   line(xPos % 100, 20, xPos % 100, 80); //x axis of both points dictated by xPos
+  stroke(0); //black
   line((xPos + 10) % 100, 20, (xPos + 10) % 100, 80); //10px farther down x axis than first line
   
   xPos ++; //increment xPos by 1
