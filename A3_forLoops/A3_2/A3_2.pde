@@ -23,10 +23,10 @@ void setup()
 void draw() 
 {
   fill(15, 128, 15); //dark green
-  rect(50, 50, 40, 20);
+  rect(50, 50, 40, 20); //height of button
   
   fill(15, 128, 15); //dark green
-  ellipse(50, 60, 40, 30);
+  ellipse(50, 60, 40, 30); //base of button
   
   fill(ranFill); //3 identical, random variables in RGB colourspace
   ellipse(50, 40, 40, 30); //button face
