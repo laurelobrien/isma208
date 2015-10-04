@@ -8,8 +8,8 @@ when the opposite shape is pressed.
 */
 
 //initialize variables for fill() functions
-int leftGrey;
-int rightGrey;
+float leftGrey;
+float rightGrey;
 
 //set background and stroke settings
 void setup() 
@@ -31,14 +31,14 @@ void draw()
   rect(60, 10, 30, 80); //right box
 }
 
+
 //check if mouse is pressed and if so,
 //where in the window it is pressed
 void mousePressed() 
 {
-  //if mouse horizontal position is between 10 and 40 inclusive:
-  if ((mouseX > 9) && (mouseX < 41)) {
-    leftGrey = 128; //make left box medium grey
-  } else {
-    leftGrey = 0; //otherwise, make left box black
+  //if mouse horizontal position is between 10 and 40 inclusive,
+  //AND mouse vertical position is between 10 and 90 inclusive:
+  if (((mouseX > 9) && (mouseX < 41)) && ((mouseY > 9) && (mouseY < 91))) {
+    rightGrey = random(0, 255); //make right box random grey value
   }
 }
