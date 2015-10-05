@@ -7,21 +7,24 @@ Make two shapes that change colour
 when the opposite shape is pressed.
 */
 
-//initialize variables for fill() functions
-float leftGrey;
+//initialize variables
+float leftGrey; //storing value for fill()
 float rightGrey;
+boolean leftBoundary = false; //storing state of mouse position
+boolean rightBoundary = false;
 
 //set background and stroke settings
 void setup() 
 {
   background(#e6e6e6); //light grey
   strokeWeight(3); //persistent thick stroke
+  frameRate(12); //slowed framerate
 }
 
-
-//draw 2 triangles whose fill is changed if the opposite
-//triangle is pressed. colour change occurs every frame and will
-//not stop until the mouse press is released.
+//draw 2 rectangles whose fill is changed if the opposite
+//rectangle is pressed. colour change occurs every frame and will
+//not stop until the mouse press is released, and will reset 
+//to a black fill when released
 void draw() 
 {
   fill(leftGrey);
@@ -29,16 +32,25 @@ void draw()
   
   fill(rightGrey);
   rect(60, 10, 30, 80); //right box
-}
-
-
-//check if mouse is pressed and if so,
-//where in the window it is pressed
-void mousePressed() 
-{
-  //if mouse horizontal position is between 10 and 40 inclusive,
-  //AND mouse vertical position is between 10 and 90 inclusive:
+  
+  //assign RGB-compatible values to leftGrey or rightGrey if mouse
+  //is being pressed and its location inside a shape is true
+  if ((mousePressed) && (leftBoundary == true)) {
+    rightGrey = random(0, 255);
+  } else if ((mousePressed) && (rightBoundary == true)) {
+    leftGrey = random(0, 255);
+    //if mouse is not pressed in left or right box respectively:
+  } else {
+    leftGrey = 0; //reset to black fill
+    rightGrey = 0;
+  }
+  
+  //assign a boolean variable that indicates if the mouse
+  //is inside or outside each rect()
   if (((mouseX > 9) && (mouseX < 41)) && ((mouseY > 9) && (mouseY < 91))) {
-    rightGrey = random(0, 255); //make right box random grey value
+    leftBoundary = true; //mouse is inside left rect()
+  }
+  if (((mouseX > 59) && (mouseX < 91)) && ((mouseY > 9) && (mouseY < 91))) {
+    rightBoundary = true;
   }
 }
