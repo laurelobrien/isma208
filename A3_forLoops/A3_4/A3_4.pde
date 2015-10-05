@@ -8,9 +8,10 @@ and changes direction when it reaches the canvas bounds.
 */
 
 //initialize variables
-int elliX = 15; //x position of ellipse()
-int elliY = 15; //y position of ellipse()
-boolean movingRightDown = false;
+int elliX = 50; //x position of ellipse()
+int elliY = 50; //y position of ellipse()
+int xDirectionModifier = 1; //indicate positive or negative movement
+int yDirectionModifier = 1;
 
 void setup() 
 {
@@ -22,12 +23,16 @@ void setup()
 void draw() 
 {
   background(#AEF0EF);
-  fill(#FFFFFF); //white
-  ellipse(elliX, elliY, 30, 30);
   
-  if ((elliX < 85) && (elliY < 85)) {
-    elliX ++;
-    elliY ++;
-    movingRightDown = true;
+  elliX += 1 * xDirectionModifier; //move x position 1px
+  elliY += 1 * yDirectionModifier; //move y position 1px
+  
+  if (elliX == 85) {
+    xDirectionModifier = (-1);
+  } else if (elliX == 15) {
+    xDirectionModifier = 1;
   }
+  
+  fill(#FFFFFF); //white
+  ellipse(elliX, 50, 30, 30);
 }
