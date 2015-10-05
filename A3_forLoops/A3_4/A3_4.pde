@@ -28,14 +28,13 @@ void setup()
 //call 2 functions to draw 2 ellipses moving in straight lines
 //within the confines of the canvas at different speeds 
 void draw() {
+  background(#AEEDF0);
   slowEllipse(); //x and y rates of movement are equal and consistent
   fastEllipse(); //x and y rates of movement movement are different 
 }
 
 void slowEllipse() 
 {
-  background(#AEF0EF);
-  
   elliX += 1 * xDirectionModifier; //move x position 1px
   elliY += 1 * yDirectionModifier; //move y position 1px
   
