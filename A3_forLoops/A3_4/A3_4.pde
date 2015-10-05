@@ -20,9 +20,8 @@ int yDirectionMod = 1;
 
 void setup() 
 {
-  background(#AEF0EF); //light blue
   noStroke(); //persistent lack of stroke
-  frameRate(18); //slowed to see effect of iteration
+  frameRate(18); //slowed framerate
 }
 
 //call 2 functions to draw 2 ellipses moving in straight lines
