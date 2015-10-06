@@ -13,6 +13,7 @@ int rectX = 50; //x position of rect()
 int rectY = 50; //y position of rect()
 int xDirectionModifier = 1; //indicate positive or negative movement
 int yDirectionModifier = 1;
+//variables for making random (roughly bluish-green) fill
 float red = 0;
 float green = 200;
 float blue = 255;
