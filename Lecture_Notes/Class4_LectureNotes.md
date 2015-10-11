@@ -91,81 +91,137 @@ They can be declared and initialized at the same time like variables:
 
 ###array access
 You access array elements by their **index**
+
 Assign 10 to the first element of the array:
+
   myArray[0] = 10;
+
 Access the last element in the array:
+
   ellipse(myArray[9], 50, 10, 10); //x position of ellipse will be 10th value in myArray[]
 If you use an index larger than the length of the array, you get an error
+
 You can use myArray.length to indicate an an integer equal to the number of array items
+
 This is useful if the length of your array is variable, or has been changed throughout the code and you don’t recall or don’t know its current length
+
   println(myArray.length); //this will print 10 to the console
 
 ###exercise & example
 Write a program that draws 5 points where the x position of those points are stored in an array.
+
   //declare and initialize
+
   int[] drawnPoints = new int[5]; //integer array with 5 empty places
 
   //for every place in array drawnPoints[], select an index and assign a value depedent 
+
   //on how many iterations have occurred
+
   for (int element = 0; element < drawnPoints.length; element++) {
+
     drawnPoints[element] += element * 10; //assign index in drawnPoints[] the current value of element times 10
+
   }
 
   //draw point whose x position is pulled from a specific index's value in drawnPoints[]
+
   for (int loops = 0; loops < drawnPoints.length; loops++) {
+
     point(drawnPoints[loops], 10);
+
   }
+
 The first for-loop selects each empty index in drawnPoints and assigns it a value based on the variable used to count iterations: element. if the loop is on its 3rd iteration, element will have a value of 2 (since it starts at 0). So, the third index of drawnPoints[] is selected (arrays’ first index is also starts at 0), and it is assigned a value of 2 * 10. If you were to “open up” the array and look at its contents when the first for-loop was completed, it would look like this:
+
   drawnPoints[0] == 0
+
   drawnPoints[1] == 10
+
   drawnPoints[2] == 20
+
   drawnPoints[3] == 30
+
   drawnPoints[4] == 40
+
 which is all 5 indices accounted for, even though drawnPoints[4] may look like you are only referencing the 4th index out of 5.
 
 ##FUNCTIONS
 You use functions all the time, like ellipse()
+
 You know it’s a function because it has closed parentheses attached
+
 even fill() and noStroke() are functions, albeit basic ones already defined by Processing
 
 ###declare and define a new function
 void circle(int xPosition, int yPosition, int diameter) {
+
   ellipse(xPosition, yPosition, diameter, diameter);
+
 }
 
+
 Use the function in draw:
+
 void draw() {
+
   circle(width/2, height/2, 50);
+
 }
+
+
 Now you can see that circle() defines the arguments it accepts and where it places those arguments once you provide them. You can reuse it with any arguments you want as many times as you want. Once circle() is defined you can use it instead of 
+
   ellipse(width/2, height/2, 50, 50);
+
 if you already know you want to draw an ellipse with 2 equal diameters, aka a circle
+
 
 ##USING IMAGES
 To use images we use the PImage type:
+
   PImage myImage; //declare myImage
+
 Use the loadImage() function to initialize:
+
   myImage = loadImage(“myImage.png”);
+
 Use the “Add File…” function to add your image file to your sketch
+
 Draw your image using the image() function:
+
   image(myImage, 0, 0); //your image, x position, y position
+
 
 ##PROJECT ONE
 ###two choices:
 1. Subversion: comment / reflect / subvert social or cultural norms and/or expectations using computation
 for example, when you make an account on a website, it usually asks for your gender and only offers 2 choices, male or female. this is frustrating and obviously useless for non-binary people. it enforces social norms with limitations and assumptions about the input the user will want to provide.
+
 2. Exploitation: write a program that represents time in a non-traditional way
+
 make a “clock” that visualizes or otherwise computes time in a brand new way, or a way that is not how we normally visualize time (i.e. analog clocks, digital clocks, calendars, linear time etc)
+
 
 ##assessment
 - Was the work submitted on time?
+
 - How much has the student’s ability increased?
+
 - How well is the work documented through
+
   - the project statement? (300 words within the code arguing your choices of topic, concept, and methods to realize that concept)
+
   - the appropriate use of inline comments?
+
 - Craft (assessed according to code and execution)
+
   - composition and design
+
   - effective use of code
+
 - Concept (assessed according to project statement and execution)
+
   - is the work in scope with the student’s ability?
+  
   - does the work effectively realize the student’s intention? (does it function the way it is meant to?)
