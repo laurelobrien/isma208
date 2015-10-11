@@ -24,9 +24,13 @@ this loop will add 1 to the variable i until variable i is no longer less than 1
 
 ##WHILE STATEMENT
   int iteration = 0;
+
   while (iteration < 10) {
+
     //Code to iterate over.
+
     iteration++;
+
   }
 
 ###EXERCISE & EXAMPLE
@@ -34,60 +38,106 @@ this loop will add 1 to the variable i until variable i is no longer less than 1
 Use a for loop to draw a row of 10 small ellipses.
 
   //initialize variables
+
   int i;
 
+
   //for every iteration, add one to i and perform actions
+
   //until iteration has been performed 10 times
+
   for (i = 0; i < 11; i++) {
+
     noStroke(); //remove stroke
 
-    ellipse(5 + (i * 10), height/2, 10, 10); //draw an ellipse whose origin moves 10px further with each iteration
+
+    ellipse(5 + (i * 10), height/2, 10, 10); //draw an 
+
+    ellipse whose origin moves 10px further with each 
+
+    iteration
+
   }
 
 Now, use a variable to store the number of ellipses so you can change it
 
   //initialize variables
+
   int i;
+
   int ellipseBoundary = 50; //this is the variable that controls # of ellipses drawn
 
   noStroke(); //remove stroke
 
+
   //for every iteration, add one to i and perform actions
+
   //until iteration has been performed 10 times
+
   for (i = 0; i < ellipseBoundary; i++) {
 
-      ellipse(5 + (i * 10), height/2, 10, 10); //draw an ellipse whose origin moves 10 px further with each iteration
+
+      ellipse(5 + (i * 10), height/2, 10, 10); //draw an 
+
+      ellipse whose origin moves 10 px further with each 
+
+      iteration
   }
 
 Finally, make the ellipse diameter dynamic so they always fit in the width of the window
 
   int i;
+
   int ellipseBoundary = 50;
+
   int diam = width / (ellipseBoundary); //diameter of ellipse repeated within ellipseBoundary will fit width perfectly
+
   int radiusOffset = diam / 2; //ellipse starting position is half its diameter because it's drawn from the center
+
 
   noStroke(); //remove stroke
 
+
   //for every iteration, add one to i and perform actions
+
   //until iteration has been performed 10 times
+
   for (i = 0; i < ellipseBoundary; i++) {
-    ellipse(radiusOffset + (i * diam), 50, diam, diam); //draw an ellipse whose origin moves further by its diameter value every iteration, and whose diameter will always fit the row inside the canvas
+
+    ellipse(radiusOffset + (i * diam), 50, diam, diam); 
+
+    //draw an ellipse whose origin moves further by its 
+
+    diameter value every iteration, and whose diameter will 
+
+    always fit the row inside the canvas
+
   }
 
 Because ellipseBoundary, the number of ellipses drawn, can be whatever the user changes it to, the diameter of the ellipse needs to be variable and adapt to the number of ellipses drawn in any instance. The ellipses must fit, edge to edge, the number of times they will be drawn and so their diameters are represented as diam = width/ellipseBoundary;
 
 To make this visually more obvious / fun, change the fill to:
-  fill((0 + (i * 20)) % 255); //fill with greyscale colour that becomes lighter with each iteration
+
+  fill((0 + (i * 20)) % 255); //fill with greyscale colour 
+
+  that becomes lighter with each iteration
 
 ##ARRAYS
 
 An array is a container of fixed length that holds a sequence of variables of the same type
+
 Declare an array of ints:
+
   int[] myArray;
+
 Initialize the array to hold 10 ints:
+
   myArray = int[10];
+
 They can be declared and initialized at the same time like variables:
+
   int[10] = myArray;
+
 
 ###array access
 You access array elements by their **index**
@@ -99,6 +149,7 @@ Assign 10 to the first element of the array:
 Access the last element in the array:
 
   ellipse(myArray[9], 50, 10, 10); //x position of ellipse will be 10th value in myArray[]
+
 If you use an index larger than the length of the array, you get an error
 
 You can use myArray.length to indicate an an integer equal to the number of array items
@@ -111,18 +162,31 @@ This is useful if the length of your array is variable, or has been changed thro
 Write a program that draws 5 points where the x position of those points are stored in an array.
 
   //declare and initialize
+
   int[] drawnPoints = new int[5]; //integer array with 5 empty places
 
+
   //for every place in array drawnPoints[], select an index and assign a value depedent 
+
   //on how many iterations have occurred
+
   for (int element = 0; element < drawnPoints.length; element++) {
-    drawnPoints[element] += element * 10; //assign index in drawnPoints[] the current value of element times 10
+
+    drawnPoints[element] += element * 10; //assign index in 
+
+    drawnPoints[] the current value of element times 10
+
   }
 
+
   //draw point whose x position is pulled from a specific index's value in drawnPoints[]
+
   for (int loops = 0; loops < drawnPoints.length; loops++) {
+
     point(drawnPoints[loops], 10);
+
   }
+
 
 The first for-loop selects each empty index in drawnPoints and assigns it a value based on the variable used to count iterations: element. if the loop is on its 3rd iteration, element will have a value of 2 (since it starts at 0). So, the third index of drawnPoints[] is selected (arrays’ first index is also starts at 0), and it is assigned a value of 2 * 10. If you were to “open up” the array and look at its contents when the first for-loop was completed, it would look like this:
 
@@ -146,15 +210,20 @@ You know it’s a function because it has closed parentheses attached
 even fill() and noStroke() are functions, albeit basic ones already defined by Processing
 
 ###declare and define a new function
+
   void circle(int xPosition, int yPosition, int diameter) {
+
     ellipse(xPosition, yPosition, diameter, diameter);
+
   }
 
 
 Use the function in draw:
 
   void draw() {
+
     circle(width/2, height/2, 50);
+    
   }
 
 
