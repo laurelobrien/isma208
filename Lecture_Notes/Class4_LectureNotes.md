@@ -7,7 +7,7 @@ Java and Processing both accept lines that finish anywhere, including a new line
   i = 20
   ;
 but just because it works doesn’t mean it’s readable or elegant code, which should be a goal
-once you start writing longer programs, debugging becomes very difficult because it takes so long visually to find where the error might be
+Once you start writing longer programs, debugging becomes very difficult because it takes so long visually to find where the error might be
 
 ##FOR STATEMENT
 for loops have 3 statements you need to make the for loop work:
