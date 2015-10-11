@@ -111,25 +111,17 @@ This is useful if the length of your array is variable, or has been changed thro
 Write a program that draws 5 points where the x position of those points are stored in an array.
 
   //declare and initialize
-
   int[] drawnPoints = new int[5]; //integer array with 5 empty places
 
   //for every place in array drawnPoints[], select an index and assign a value depedent 
-
   //on how many iterations have occurred
-
   for (int element = 0; element < drawnPoints.length; element++) {
-
     drawnPoints[element] += element * 10; //assign index in drawnPoints[] the current value of element times 10
-
   }
 
   //draw point whose x position is pulled from a specific index's value in drawnPoints[]
-
   for (int loops = 0; loops < drawnPoints.length; loops++) {
-
     point(drawnPoints[loops], 10);
-
   }
 
 The first for-loop selects each empty index in drawnPoints and assigns it a value based on the variable used to count iterations: element. if the loop is on its 3rd iteration, element will have a value of 2 (since it starts at 0). So, the third index of drawnPoints[] is selected (arrays’ first index is also starts at 0), and it is assigned a value of 2 * 10. If you were to “open up” the array and look at its contents when the first for-loop was completed, it would look like this:
@@ -154,20 +146,16 @@ You know it’s a function because it has closed parentheses attached
 even fill() and noStroke() are functions, albeit basic ones already defined by Processing
 
 ###declare and define a new function
-void circle(int xPosition, int yPosition, int diameter) {
-
-  ellipse(xPosition, yPosition, diameter, diameter);
-
-}
+  void circle(int xPosition, int yPosition, int diameter) {
+    ellipse(xPosition, yPosition, diameter, diameter);
+  }
 
 
 Use the function in draw:
 
-void draw() {
-
-  circle(width/2, height/2, 50);
-
-}
+  void draw() {
+    circle(width/2, height/2, 50);
+  }
 
 
 Now you can see that circle() defines the arguments it accepts and where it places those arguments once you provide them. You can reuse it with any arguments you want as many times as you want. Once circle() is defined you can use it instead of 
@@ -223,5 +211,5 @@ make a “clock” that visualizes or otherwise computes time in a brand new way
 - Concept (assessed according to project statement and execution)
 
   - is the work in scope with the student’s ability?
-  
+
   - does the work effectively realize the student’s intention? (does it function the way it is meant to?)
