@@ -74,7 +74,7 @@ Finally, make the ellipse diameter dynamic so they always fit in the width of th
     ellipse(radiusOffset + (i * diam), 50, diam, diam); //draw an ellipse whose origin moves further by its diameter value every iteration, and whose diameter will always fit the row inside the canvas
   }
 
-Because ellipseBoundary. the number of ellipses drawn, can be whatever the user changes it to, the diameter of the ellipse needs to be variable and adapt to the number of ellipses drawn in any instance. The ellipses must fit, edge to edge, the number of times they will be drawn and so their diameters are represented as diam = width/ellipseBoundary;
+Because ellipseBoundary, the number of ellipses drawn, can be whatever the user changes it to, the diameter of the ellipse needs to be variable and adapt to the number of ellipses drawn in any instance. The ellipses must fit, edge to edge, the number of times they will be drawn and so their diameters are represented as diam = width/ellipseBoundary;
 
 To make this visually more obvious / fun, change the fill to:
   fill((0 + (i * 20)) % 255); //fill with greyscale colour that becomes lighter with each iteration
@@ -90,7 +90,7 @@ They can be declared and initialized at the same time like variables:
   int[10] = myArray;
 
 ###array access
-You access array elements by their index
+You access array elements by their **index**
 Assign 10 to the first element of the array:
   myArray[0] = 10;
 Access the last element in the array:
