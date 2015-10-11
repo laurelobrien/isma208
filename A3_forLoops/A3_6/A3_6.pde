@@ -6,29 +6,37 @@ laureljobrien@gmail.com
 Use a for loop and a random number generator to draw 100 shapes.
 */
 
-//declare and initialize 
-int i;
-int diameter = i + 5;
-int radius = diameter / 2;
+
+//declare and initialize
+int diameter = 10; //diameter of ellipse
+int radius = diameter / 2; //radius of ellipse
+int rowCount = 0; //number of rows filled with ellipses
+int xAxis; //count and modify for-loop iterations
+
 
 void setup() 
 {
   noStroke(); //remove stroke
-  background(#333333); //dark grey
+  background(255); //white
 }
 
+
+//fill the canvas with 100 pieces of confetti that touch each other
+//without overlapping or exceeding the canvas bounds.
+//every time the program is run, they will each be a different colour.
 void draw() 
 {
-  //declare and initialize local variables
-  float ranRed = random(0, 255);
-  float ranGreen = random(0, 255);
-  float ranBlue = random(0, 255);
-  
   //repeat for 100 iterations and then stop
   for (int i = 0; i < 100; i++) {
-    fill(ranRed, ranGreen, ranBlue);
-    ellipse(random(0 + radius, height - radius), random(0 + radius, height - radius), diameter, diameter);
+    fill(random(0, 255), random(0, 255), random(0, 255)); //re-randomize fill values
+    ellipse(radius + (xAxis * diameter), radius + (rowCount * diameter), diameter, diameter); //draw ellipse moving right until it hits canvas boundary, moves down, and resets to left edge
+    
+    xAxis ++; //count for-loop iterations without affecting its arguments
+    
+    //determine if ellipse's x position has reached the edge of the canvas
+    if ((xAxis * diameter) > (width - radius)) {
+      xAxis = 0; //reset x position modifier to 0
+      rowCount ++; //move down to start filling in next row
+    }
   }
-  
-  println(i);
 }
