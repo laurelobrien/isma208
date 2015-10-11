@@ -1,4 +1,4 @@
-#class 2, september 21st 2015
+#isma 208: class 2, september 21st 2015
 
 ##VARIABLES AND MEMORY
 bytes are a measure of how much space in a computer a piece of information is going to use

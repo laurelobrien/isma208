@@ -1,3 +1,5 @@
+isma 208: class 1, september 14th 2015
+
 #What is programming?
 low-level - what computers understand; machine language
 high-level - languages the computer must be taught that provide an interface/language humans can more easily interpret
@@ -8,7 +10,7 @@ what’s the relationship between code and math?
 	linear algebra
 	find an algorithm or mathematical equation that represents your intention
 
-##art slides & examples
+##ART SLIDES & EXAMPLES
 ###Desmond Paul Henry - 1962 “picture made by drawing machine 1”
 	program that is written by arranging gears in an analog computer
 	computer that was designed and built for military applications, ballistics
@@ -46,14 +48,14 @@ what’s the relationship between code and math?
 	when you tell a computer to sleep, it will pause for a set amount of time to allow other processes
 	sleep is communicated in seconds - 8 * 60 * 60
 
-##memory
+##MEMORY
 some languages are good at parsing things in time, others work in repeatable loops
 a computer reads and writes symbols from/to memory
 	you can think of memory as a set of empty boxes
 the way data is structured in a computer is different between languages, for example how it interprets integers vs floats; python and java are not transparent about how they interpret floats and integers when they change variable types
 low level languages fill boxes in a linear fashion, java might find the right number of boxes anywhere that fits, python does not indicate use of "boxes"
 
-##why processing?
+###why processing?
 flexible and popular in art and design
 cross platform
 built on java, similar to c++
@@ -62,7 +64,7 @@ relatively easy to learn
 
 processing is an IDE - text editor, compiler, debugging tools
 
-##Processing actions and settings
+##PROCESSING ACTIONS AND SETTINGS
 run - takes what’s inside the text editor, compiles it into code your computer can execute, runs the code and displays the result
 stop - terminates a running program
 new - create a new sketch (project)
@@ -82,18 +84,19 @@ different shapes have different origin points or logic with which they’re draw
 	you can either draw an ellipse from the middle, or dictate a box within the ellipse is drawn (from the upper left corner)
 
 noStroke(); - 100x100 ellipse exceeds a 100x100 box because of the stroke and antialiasing, the stroke adds pixels
-	applies to all stroke-applicable shapes that follow such as
-		noStroke();
-		ellipse(75, 25, 12, 12);
-		ellipse(50, 100, 12, 12);
-		ellipse(50, 50, 20, 20);
-		//creates 2 ellipses without strokes
+applies to all stroke-applicable shapes that follow such as
+	noStroke();
+	ellipse(75, 25, 12, 12);
+	ellipse(50, 100, 12, 12);
+	ellipse(50, 50, 20, 20);
+	//creates 2 ellipses without strokes
 
-##comments
+##COMMENTS
 helps 3rd party understand your code that isn’t privy to your planning and thinking process
 helps you get back into code you wrote a long time ago and don’t remember the purpose of certain lines or functions
-/* multi line comments are good for describing whole programs */
-// single line comments are good for quick annotations
+	/* multi line comments are good for 
+	describing whole programs */
+	// single line comments are good for quick annotations
 readability is important for yourself and peers who may work on it (or grade it ;))
 comment before many lines to describe the whole function
 comment after a line to annotate a single line that may need explanation/clarifying
@@ -110,6 +113,5 @@ comment after a line to annotate a single line that may need explanation/clarify
 
 ##homework
 1. download and install processing on your own computer (use version 2.2.1)
-2. do assignment 1
-	on moodle under week 2
-	due tuesday, 22 september 2015, 9am
+2. do assignment 1 on moodle
+due tuesday, 22 september 2015, 9am
