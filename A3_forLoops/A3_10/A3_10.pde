@@ -2,11 +2,11 @@
 A3_10
 Laurel O'Brien
 laureljobrien@gmail.com
-10/11/15
+10/12/15
 Create a motion graphic using cos and/or sin.
 */
 
-//starsMatter() copied from A3_8
+//starSmatter() copied from A3_8
 
 //declare and initialize
 float xAxis; //x position that shifts according to sine wave

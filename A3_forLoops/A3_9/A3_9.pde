@@ -2,7 +2,7 @@
 A3_9
 Laurel O'Brien
 laureljobrien@gmail.com
-10/11/15
+10/12/15
 Count the number of mouse presses in the canvas and use that
 to change the number of shapes drawn for each frame 
 such that more mouse presses means more shapes.
