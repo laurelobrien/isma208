@@ -6,10 +6,12 @@ laureljobrien@gmail.com
 Create a motion graphic using cos and/or sin.
 */
 
+//starsMatter() copied from A3_8
+
 //declare and initialize
 float xAxis; //x position that shifts according to sine wave
 float trackLength; //length of path xAxis can follow
-float angle = 0; //modify sin() argument, the speed xAxis shifts along trackLength
+float angle = 0; //modify sin() argument; the speed xAxis shifts along trackLength
 int[] starChart = new int[99]; //100 empty indices
 
 
@@ -61,7 +63,7 @@ void drawBackground()
   fill(#863f48); //purple
   rect(0, 0, width, height-height/1.3);
   
-  starSmatter(); //call function that draws a random smatter of stars from A3_8
+  starSmatter(); //call function that draws a random smattering of stars
   noStroke(); //turn off stroke from starSmatter()
   
   fill(#E85621); //blood orange
@@ -79,6 +81,6 @@ void starSmatter()
   for (int stars = 0; stars < starChart.length; stars ++) {
     stroke(255); //white
     strokeWeight(random(1, 2)); //randomize diameter of point()s
-    point(starChart[stars], starChart[98 - stars]); //x axis is for-loop count, y axis is its opposite
+    point(starChart[stars], starChart[98 - stars]); //x axis = for-loop count, y axis is its opposite
   }
 }
