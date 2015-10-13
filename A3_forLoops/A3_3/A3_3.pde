@@ -13,7 +13,7 @@ float rightGrey;
 boolean leftBoundary = false; //storing state of mouse position
 boolean rightBoundary = false;
 
-//set background and stroke settings
+//persistent settings
 void setup() 
 {
   background(#e6e6e6); //light grey
@@ -21,10 +21,10 @@ void setup()
   frameRate(12); //slowed framerate
 }
 
-//draw 2 rectangles whose fill is changed if the opposite
+//draw 2 rectangles whose fill is changed to a random grey if the opposite
 //rectangle is pressed. colour change occurs every frame and will
-//not stop until the mouse press is released, and will reset 
-//to a black fill when released
+//not stop until the mouse press is released, and will then 
+//reset to a black fill.
 void draw() 
 {
   fill(leftGrey);
@@ -49,8 +49,13 @@ void draw()
   //is inside or outside each rect()
   if (((mouseX > 9) && (mouseX < 41)) && ((mouseY > 9) && (mouseY < 91))) {
     leftBoundary = true; //mouse is inside left rect()
+  } else {
+    leftBoundary = false; //mouse is not
   }
+  
   if (((mouseX > 59) && (mouseX < 91)) && ((mouseY > 9) && (mouseY < 91))) {
-    rightBoundary = true;
+    rightBoundary = true; //mouse is inside right rect()
+  } else {
+    rightBoundary = false; //mouse is not
   }
 }
