@@ -6,8 +6,8 @@ laureljobrien@gmail.com
 Draw a 4 x 4 grid using for loops.
 */
 
-//initialize variables
-int linePos; //holds iterations to translate line()'s
+//declare and initialize
+int linePos; //holds iterations to 'translate' line()
 
 void setup() 
 {
@@ -15,11 +15,11 @@ void setup()
   stroke(#FFFFFF); //persistent white stroke
 }
 
-//draw a 4x4 grid of white lines running edge to edge
+//draw a 4x4 grid divided by white lines running edge to edge.
 void draw() 
 {
-  //increase linePos by 20 every loop until it equals 80
-  for (linePos = 20; linePos <= 80; linePos += 20) {
+  //increase linePos by 25 and draw a line() every loop until it has created 4 cells
+  for (int linePos = 25; linePos <= 75; linePos += 25) {
     line(0, linePos, 99, linePos); //horizontal lines
     line(linePos, 0, linePos, 99); //vertical lines
   }
