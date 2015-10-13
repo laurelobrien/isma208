@@ -10,32 +10,29 @@ Create a motion graphic using cos and/or sin.
 float xAxis;
 float trackLength;
 float angle = 0; //modify sin and cos arguments
-int greyTone = 0; //greyness in RGB colourspace
-int greyMod = 1; //whether greyness darkens or lightens
 
 void setup()
 {
-  background(#12deef); //cyan: erase last frame
-  trackLength = width - 30; //30px buffer
-  noStroke();
+  trackLength = width - 40; //40px buffer
+
+  noFill(); //remove fill
 }
 
 
 void draw() 
 {
-  float xAxis = 15 + (sin(angle + PI/2) * trackLength/2) + trackLength/2;
+  background(#12deef); //cyan: erase last frame
   
-  fill(0 + greyTone * greyMod);
-  ellipse(xAxis, height/2, 20, 20);
+  float xAxis = 20 + (sin(angle + PI/2) * trackLength/2) + trackLength/2; //left and right drifting
   
-  if (greyTone == 255) {
-    greyMod = (-1); //make increments negative
-  } else if (greyTone == 0) {
-    greyMod = 1; //make increments positive
-  }
+  noStroke(); //remove stroke from white ring
+  fill(0, 0, 0, 50); //low opacity black
+  ellipse(xAxis-4, height/1.5+11, 27, 7); //ellipse drawn under and to the left of white ring
   
-  angle += 0.03; //increment sin()/cos() angle
-  greyTone += 1 * greyMod; //increment greyTone by 2
+  noFill(); //remove fill from black ellipse
+  stroke(255); //white
+  strokeWeight(2); //thicker stroke
+  ellipse(xAxis, height/1.5, 20, 20); //white ring
   
-  println(greyTone);
+  angle += 0.02; //increment sin()/cos() angle
 }
