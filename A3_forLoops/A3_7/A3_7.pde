@@ -8,22 +8,21 @@ the circumference of a larger circle.
 */
 
 //declare and initialize
-float orbitPath; //diameter of orbit path
+float orbitPath; //diameter of orbit path and large circle
 float angle = 0; //modify sin() and cos() arguments
 
 void setup() { 
   orbitPath = height - 20; //20px buffer from edge of canvas
 }
 
-//draw a moon orbiting a sun on a visible path with twinkling stars.
-//every time the program is run, the stars are in a different layout.
+//draw a planet (small circle) orbiting a sun on a visible path (large circle)
 void draw() {
   background(0); //black: erase last frame
   
   stroke(255); //white 1px stroke
   strokeWeight(1); //reset changes from starSmatter()
   noFill(); //no fill
-  ellipse(width/2, height/2, orbitPath, orbitPath); //draw visual indicator of orbitPath
+  ellipse(width/2, height/2, orbitPath, orbitPath); //large circle
 
   noStroke(); //remove stroke
   
@@ -35,10 +34,10 @@ void draw() {
   float yAxis = 10 + (cos(angle + PI/2) * orbitPath/2) + orbitPath/2;
   
   fill(255, 210, 0); //yellow
-  ellipse(width/2, height/2, 30, 30); //larger static ellipse
+  ellipse(width/2, height/2, 30, 30); //sun
   
   fill(20, 200, 255); //light blue
-  ellipse(xAxis, yAxis, 15, 15); //smaller orbiting ellipse
+  ellipse(xAxis, yAxis, 15, 15); //small circle
   
   angle += 0.02; //increment sin/cos argument 
 }

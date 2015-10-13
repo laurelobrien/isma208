@@ -8,8 +8,13 @@ to smoothly change the colour of the smaller circle.
 i.e. map the angle to the colour value in some way.
 */
 
+/*
+Code copied from A3_7 to draw the large circle
+with a small circle orbiting its circumference
+*/
+
 //declare and initialize
-float orbitPath; //diameter of orbit path
+float orbitPath; //diameter of orbit path and large circle
 float angle = 0; //modify sin() and cos() arguments
 int[] starChart = new int[99]; //100 empty indices for star coordinates
 
@@ -22,8 +27,8 @@ void setup() {
   }
 }
 
-//draw a moon orbiting a sun on a visible path with twinkling stars.
-//every time the program is run, the stars are in a different layout.
+//draw a planet (small circle) orbiting a sun on a visible path (large circle) 
+//with twinkling stars. every time the program is run, the stars are in a different layout.
 void draw() {
   background(0); //black: erase last frame
   
@@ -32,22 +37,21 @@ void draw() {
   stroke(255); //white 1px stroke
   strokeWeight(1); //reset changes from starSmatter()
   noFill(); //no fill
-  ellipse(width/2, height/2, orbitPath, orbitPath); //draw visual indicator of orbitPath
+  ellipse(width/2, height/2, orbitPath, orbitPath); //draw large circle
 
   noStroke(); //remove stroke
   
-  //use sine and cosine to modulate x and y axes forward and back, up and down, simultaneously
-  //(* orbitPath/2) scales it to a visible increase by its intended path radius and 
+  //use sine and cosine to modulate x and y axes forward and back, up and down, simultaneously.
+  //(* orbitPath/2) scales sin() result to a visible increase by its intended path radius and
   //(+ orbitPath/2) indicates the radius of the path itself
-  //add 10
   float xAxis = 10 + (sin(angle + PI/2) * orbitPath/2) + orbitPath/2;
   float yAxis = 10 + (cos(angle + PI/2) * orbitPath/2) + orbitPath/2;
   
   fill(255, 210, 0); //yellow
-  ellipse(width/2, height/2, 30, 30); //larger static ellipse
+  ellipse(width/2, height/2, 30, 30); //sun
   
-  fill(20 + (xAxis * 2), 200, 255 - (yAxis * 2)); //light blue, with red modulated by horizontal movement and blue modulated by vertical movement
-  ellipse(xAxis, yAxis, 15, 15); //smaller orbiting ellipse
+  fill(20 + (xAxis * 2), 200, 255 - (yAxis * 2)); //light blue, with colour changed modulated by x and y movement
+  ellipse(xAxis, yAxis, 15, 15); //small circle
   
   angle += 0.02; //increment sin/cos argument 
 }
