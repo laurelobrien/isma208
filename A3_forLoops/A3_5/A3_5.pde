@@ -14,9 +14,9 @@ int rectY = 50; //y position of rect()
 int xDirectionModifier = 1; //indicate positive or negative movement
 int yDirectionModifier = 1;
 //variables for making random (roughly bluish-green) fill
-float red = 0;
-float green = 200;
-float blue = 255;
+float red;
+float green;
+float blue;
 
 void setup() 
 {
@@ -41,21 +41,21 @@ void draw()
   //movement along x axis
   if (rectX == width - 10) {
     xDirectionModifier = (-1); //make increments (decrements?) negative
-    red = random(0, 100); //redness changes
+    red = random(0, 255); //redness changes
   } else if (rectX == 10) {
     xDirectionModifier = 1; //make increments positive
-    green = random(0, 200); //greenness changes
+    green = random(0, 255); //greenness changes
   }
   
   //test if square has touched top or bottom edge
   //and if so, similarly reverse its direction
   if (rectY == height - 10) {
     yDirectionModifier = (-1); //make increments negative
-    blue = random(200, 255); //blueness changes
+    blue = random(0, 255); //blueness changes
   } else if (rectY == 10) {
     yDirectionModifier = 1; //make increments positive
-    green = random(100, 255); //greenness and blueness both change
-    blue = random(100, 255);
+    green = random(0, 255); //greenness and blueness both change
+    blue = random(0, 255);
   }
   
   fill(red, green, blue); //light blue
