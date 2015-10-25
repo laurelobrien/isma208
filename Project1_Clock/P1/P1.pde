@@ -19,22 +19,28 @@ void setup()
 void draw() 
 {
   background(#ffffff); //white: erase last frame
-  secondBlocks();
+  secondsAndMinutes(); //draw second and minute blocks
 }
 
 
-void secondBlocks() 
+void secondsAndMinutes() 
 {
+  fill(#12deef);
   for (int i = 0; i < second(); i ++) {
-    drawSixtyBlock(radius+i*radius, radius);
+    drawSixtyBlock(radius+i*diameter, radius);
+  }
+  
+  fill(#FF00FF);
+  for (int i = 0; i < minute(); i ++) {
+    drawSixtyBlock(radius+i*diameter, radius+diameter);
   }
 }
 
 
-//draw 46x46 cyan rectangle with white stroke
+//draw 46x46 cyan rectangle with white stroke.
+//60 of these fit inside a "unit container"
 void drawSixtyBlock(float xxx, float yyy) 
 {
-  fill(#12deef); //cyan
   strokeWeight(2); //2px stroke
   stroke(#ffffff); //white stroke
   rect(xxx, yyy, diameter, diameter); //(x, y) args provided through function args
