@@ -50,8 +50,9 @@ void secondsAndMinutes()
 }
 
 
-//draw 46x46 cyan rectangle with white stroke.
-//60 of these fit inside a "unit container"
+//draw diameter x diameter rectangle with white stroke.
+//60 of these fit inside a "unit container".
+//2 arguments, x and y coordinates, are provided when calling the function.
 void drawSixtyBlock(float xxx, float yyy) 
 {
   strokeWeight(strokeThickness);
