@@ -8,10 +8,14 @@
 //declare and initialize variables
 float diameter = 15; //diameter of second and minute blocks
 float radius = diameter / 2; //radius of second and minute blocks
-float hourDiameter = diameter * 2.5; //diameter of hour blocks: 2.5x larger than second blocks to fill same container
+float hourDiameter = diameter * 2.5; //hour blocks 2.5x taller than second blocks to fill same container
 float hourRadius = hourDiameter / 2; //radius of hour blocks
-float dayDiameter = diameter * 2; //diameter of day blocks: 2x larger than second blocks to fill same container
+float dayDiameter = diameter * 2; //day blocks 2x taller than second blocks
 float dayRadius = dayDiameter / 2; //radius of day blocks
+float monthDiameter = diameter * 5; //month blocks 5x taller than second blocks
+float monthRadius = monthDiameter / 2; //radius of month blocks
+float yearDiameter = 30;
+float yearRadius = yearDiameter / 2;
 
 float strokeThickness = 2; //goes in strokeWeight()
 float strokeBuffer = strokeThickness / 2; //buffer around stroked shape due to centered stroke alignment
@@ -24,8 +28,6 @@ void setup()
   noStroke(); //turn off stroke
   size(960, 560); //canvas size
   rectMode(CENTER); //draw rectangles from their center
-  
-  println(26%6);
 }
 
 
@@ -34,16 +36,13 @@ void draw()
   background(#ffffff); //white: erase last frame
   
   drawContainers();
+  
   countSeconds();
   countMinutes();
   countHours();
   countDays();
-  
-
-  /*countMinutes(); //draw minute blocks
-  countHours(); //draw hour blocks
-  //countDays();
-  //countYears(); */
+  countMonths();
+  countYears();
 }
 
 
@@ -87,6 +86,24 @@ void drawContainers()
       drawThirtyContainerBlock((diameter * 24) + (i * diameter), dayRadius + (j * dayDiameter)); //draw a grey placeholder block
     }
   }
+  
+  //MONTH CONTAINER
+  //for 6 columns:
+  for (int i = 0; i < 6; i++) {
+    //for 2 rows:
+    for (int j = 0; j < 2; j++) {
+      drawTwelveContainerBlock((diameter * 32) + (i * diameter), monthRadius + (j * monthDiameter)); //draw a grey placeholder block
+    }
+  }
+  
+  //YEAR CONTAINER
+  //for 10 columns:
+  for (int i = 0; i < 10; i++) {
+    //for 9 rows:
+    for (int j = 0; j < 9; j++) {
+      drawNinetyContainerBlock(yearRadius + (i * yearDiameter), diameter*12 + (j * yearDiameter)); //draw a grey placeholder block
+    }
+  }
 }
 
 //draw 1 block for every unit currently being counted by the computer's clock. 
@@ -127,6 +144,21 @@ void countDays()
   }
 }
 
+void countMonths() 
+{
+  for (int i = 0; i < month(); i++) {
+    drawTwelveBlock((diameter * 32) + (month() % 6 - 1) * diameter, monthRadius); //
+  }
+}
+
+void countYears() 
+{
+  for (int i = 0; i < month(); i++) {
+    drawNinetyBlock(yearRadius + ((year() - 1994) % 10) * yearDiameter, diameter*12); //replace 1994 with user's birth year
+  }
+}
+
+
 
 //draw diameter x diameter rectangle with white fill, and
 //an inset rectangle with coloured fill to mitigate the dimension difficulties 
@@ -161,6 +193,24 @@ void drawThirtyBlock(float xxx, float yyy)
   rect(xxx, yyy, diameter - strokeThickness, dayDiameter - strokeThickness);
 }
 
+void drawTwelveBlock(float xxx, float yyy) 
+{
+  fill(#ffffff); //white
+  rect(xxx, yyy, diameter, monthDiameter); //(x, y) args provided through function args
+  
+  fill(#ff0000); //red
+  rect(xxx, yyy, diameter - strokeThickness, monthDiameter - strokeThickness);
+}
+
+void drawNinetyBlock(float xxx, float yyy) 
+{
+  fill(#ffffff); //white
+  rect(xxx, yyy, yearDiameter, yearDiameter); //(x, y) args provided through function args
+  
+  fill(#00ff00); //green
+  rect(xxx, yyy, yearDiameter - strokeThickness, yearDiameter - strokeThickness);
+}
+
 
 void drawSixtyContainerBlock(float xxx, float yyy)
 {
@@ -189,4 +239,23 @@ void drawThirtyContainerBlock(float xxx, float yyy)
   
   fill(#e6e6e6); //light grey
   rect(xxx, yyy, diameter - strokeThickness * 2, dayDiameter - strokeThickness * 2);
+}
+
+
+void drawTwelveContainerBlock(float xxx, float yyy) 
+{
+  fill(#ffffff); //white
+  rect(xxx, yyy, diameter, monthDiameter);
+  
+  fill(#e6e6e6); //light grey
+  rect(xxx, yyy, diameter - strokeThickness * 2, monthDiameter - strokeThickness * 2);
+}
+
+void drawNinetyContainerBlock(float xxx, float yyy) 
+{
+  fill(#ffffff); //white
+  rect(xxx, yyy, yearDiameter, yearDiameter);
+  
+  fill(#e6e6e6); //light grey
+  rect(xxx, yyy, yearDiameter - strokeThickness * 2, yearDiameter - strokeThickness * 2);
 }
