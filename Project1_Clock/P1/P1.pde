@@ -6,6 +6,8 @@
    [Project Description (approximately 300 words)] */
    
 //declare and initialize variables
+float birthYear = 1994; //initialize this with your own birth year if you're feeling morbid
+
 float diameter = 15; //diameter of second and minute blocks
 float radius = diameter / 2; //radius of second and minute blocks
 float hourDiameter = diameter * 2.5; //hour blocks 2.5x taller than second blocks to fill same container
@@ -121,7 +123,8 @@ void drawContainers()
   }
 }
 
-/* DRAWING COLOURED CELLS
+
+/* FILLING IN COLOURED CELLS
 draw 1 block for every unit currently being counted by the computer's clock within its grid.
 each new block appears next to the previous 
 and they are each erased when their unit of time "wraps" automatically.
@@ -140,7 +143,7 @@ void countSeconds()
 //minutes
 void countMinutes() 
 {
-  secondsOrMinutes = color(247, 208, 132); //magenta: assign fill variable used in drawSixtyBlock()
+  secondsOrMinutes = color(247, 208, 132); //light orange: assign fill variable used in drawSixtyBlock()
   for (int i = 0; i < minute(); i++) {
     drawSixtyBlock((diameter * 8) + (minute() % 6) * diameter, radius); //repeat actions for second blocks but for minutes, shifted 8 grid cells over
   }
@@ -175,7 +178,7 @@ void countMonths()
 //and their container size determined by a generous human lifespan.
 void countYears() 
 {
-  for (int i = 0; i < month(); i++) {
+  for (int i = 0; i < year(); i++) {
     drawNinetyBlock(yearRadius + ((year() - 1994) % 10) * yearDiameter, diameter*13); //replace 1994 with user's birth year
   }
 }
@@ -193,7 +196,7 @@ void drawSixtyBlock(float xxx, float yyy)
   fill(#ffffff); //white
   rect(xxx, yyy, diameter, diameter); //(x, y) args provided through function args
   
-  fill(secondsOrMinutes); //cyan or magenta
+  fill(secondsOrMinutes); //yellow or light orange
   rect(xxx, yyy, diameter - strokeThickness, diameter - strokeThickness);
 }
 
@@ -203,7 +206,7 @@ void drawTwentyFourBlock(float xxx, float yyy)
   fill(#ffffff); //white
   rect(xxx, yyy, diameter, hourDiameter); //(x, y) args provided through function args
   
-  fill(#ff9d7b); //light orange
+  fill(#ff9d7b); //orange
   rect(xxx, yyy, diameter - strokeThickness, hourDiameter - strokeThickness);
 }
 
@@ -213,7 +216,7 @@ void drawThirtyBlock(float xxx, float yyy)
   fill(#ffffff); //white
   rect(xxx, yyy, diameter, dayDiameter); //(x, y) args provided through function args
   
-  fill(#e95c63); //dark orange
+  fill(#e95c63); //light red
   rect(xxx, yyy, diameter - strokeThickness, dayDiameter - strokeThickness);
 }
 
@@ -223,7 +226,7 @@ void drawTwelveBlock(float xxx, float yyy)
   fill(#ffffff); //white
   rect(xxx, yyy, diameter, monthDiameter); //(x, y) args provided through function args
   
-  fill(#d15260); //light red
+  fill(#d15260); //dark red
   rect(xxx, yyy, diameter - strokeThickness, monthDiameter - strokeThickness);
 }
 
