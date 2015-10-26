@@ -8,10 +8,12 @@
 //declare and initialize variables
 float diameter = 15; //diameter of second and minute blocks
 float radius = diameter / 2; //radius of second and minute blocks
+float hourDiameter = diameter * 2.5; //diameter of hour blocks: 2.5x larger than second blocks to fill same container
+float hourRadius = hourDiameter / 2; //radius of hour blocks
+
 float strokeThickness = 2; //goes in strokeWeight()
 float strokeBuffer = strokeThickness / 2; //buffer around stroked shape due to centered stroke alignment
-float unitContainerHeight = (diameter * 59) + (strokeThickness/2 * 59);
-float hourDiameter = unitContainerHeight / 23;
+
 
 void setup() 
 {
@@ -23,26 +25,47 @@ void setup()
 
 void draw() 
 {
-  background(#333333); //white: erase last frame
+  background(#ffffff); //white: erase last frame
   
   drawContainers();
   countSeconds();
   
-  /*countSeconds(); //draw second blocks
-  countMinutes(); //draw minute blocks
+
+  /*countMinutes(); //draw minute blocks
   countHours(); //draw hour blocks
   //countDays();
   //countYears(); */
 }
 
-
+//draw a grid "container" for each unit of time filled with enough grey cells
+//to contain the maximum parts of that single unit.
+//eg container for minutes has 60 cells and container for hours has 24 cells
 void drawContainers() 
 {
+  //SECOND CONTAINER
   //for 6 columns:
   for (int i = 0; i < 6; i++) {
     //for 10 rows:
     for (int j = 0; j < 10; j++) {
-      drawContainerBlock(radius + i * diameter, radius + j * diameter); //draw a grey placeholder block
+      drawSixtyContainerBlock(radius + i * diameter, radius + j * diameter); //draw a grey placeholder block
+    }
+  }
+  
+  //MINUTE CONTAINER
+  //for 6 columns:
+  for (int i = 0; i < 6; i++) {
+    //for 10 rows:
+    for (int j = 0; j < 10; j++) {
+      drawSixtyContainerBlock((diameter * 8) + (i * diameter), radius + j * diameter); //draw a grey placeholder block
+    }
+  }
+  
+  //HOUR CONTAINER
+  //for 6 columns:
+  for (int i = 0; i < 6; i++) {
+    //for 4 rows:
+    for (int j = 0; j < 4; j++) {
+      drawTwentyFourContainerBlock((diameter * 16) + (i * diameter), hourRadius + j * hourDiameter); //draw a grey placeholder block
     }
   }
 }
@@ -53,11 +76,8 @@ void drawContainers()
 //i.e. 12:53:59 -> 12:54:00 displays 59 second blocks and then 0 second blocks.
 void countSeconds() 
 {
-  //these for loops currently draw entire columns per second
-  for (int j = 0; j < 6; j++) {
-    for (int i = 0; i < second(); i ++) {
-      drawSixtyBlock(radius + i * diameter, radius + j * diameter);
-    }
+  for (int i = 0; i < second(); i++) {
+    drawSixtyBlock(radius + (second() % 6) * diameter, radius);
   }
 }
 
@@ -65,17 +85,13 @@ void countSeconds()
 void countMinutes() 
 {
   for (int i = 0; i < minute(); i ++) {
-    drawSixtyBlock(i*(diameter+strokeBuffer), radius+diameter+strokeBuffer);
+    drawSixtyBlock(i * diameter, radius + diameter);
   }
 }
 
 
 void countHours() 
 {
- fill(#FFFF00);
- for (int i = 0; i < hour(); i ++) {
-    drawTwentyFourBlock(i*(hourDiameter+strokeBuffer), hourDiameter/2+(diameter+strokeBuffer)*2);
- }
 }
 
 
@@ -89,22 +105,30 @@ void drawSixtyBlock(float xxx, float yyy)
   rect(xxx, yyy, diameter, diameter); //(x, y) args provided through function args
   
   fill(#12deef); //cyan
-  rect(xxx, yyy, diameter-strokeThickness, diameter-strokeThickness);
+  rect(xxx, yyy, diameter - strokeThickness, diameter - strokeThickness);
 }
 
 
 void drawTwentyFourBlock(float xxx, float yyy) 
 {
-  rect(xxx, yyy, hourDiameter, hourDiameter);
-  rect(xxx, yyy, hourDiameter-strokeThickness, hourDiameter-strokeThickness);
 }
 
 
-void drawContainerBlock(float xxx, float yyy)
+void drawSixtyContainerBlock(float xxx, float yyy)
 {
   fill(#ffffff); //white
   rect(xxx, yyy, diameter, diameter);
   
   fill(#e6e6e6); //light grey
   rect(xxx, yyy, diameter-strokeThickness*2, diameter-strokeThickness*2);
+}
+
+
+void drawTwentyFourContainerBlock(float xxx, float yyy) 
+{
+  fill(#ffffff); //white
+  rect(xxx, yyy, diameter, hourDiameter);
+  
+  fill(#e6e6e6); //light grey
+  rect(xxx, yyy, diameter - strokeThickness * 2, hourDiameter - strokeThickness * 2);
 }
