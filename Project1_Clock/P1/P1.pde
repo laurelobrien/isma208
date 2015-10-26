@@ -130,7 +130,7 @@ i.e. 12:53:59 -> 12:54:00 displays the second container emptying but the minute 
 //seconds
 void countSeconds() 
 {
-  secondsOrMinutes = color(0, 255, 255); //cyan: assign fill variable used in drawSixtyBlock()
+  secondsOrMinutes = color(242, 240, 132); //yellow: assign fill variable used in drawSixtyBlock()
   //increment i when second() increases
   for (int i = 0; i < second(); i++) {
     drawSixtyBlock(radius + (second() % 6) * diameter, radius); //draw second block in grid location corresponding to second() value
@@ -140,7 +140,7 @@ void countSeconds()
 //minutes
 void countMinutes() 
 {
-  secondsOrMinutes = color(255, 0, 255); //magenta: assign fill variable used in drawSixtyBlock()
+  secondsOrMinutes = color(247, 208, 132); //magenta: assign fill variable used in drawSixtyBlock()
   for (int i = 0; i < minute(); i++) {
     drawSixtyBlock((diameter * 8) + (minute() % 6) * diameter, radius); //repeat actions for second blocks but for minutes, shifted 8 grid cells over
   }
@@ -203,7 +203,7 @@ void drawTwentyFourBlock(float xxx, float yyy)
   fill(#ffffff); //white
   rect(xxx, yyy, diameter, hourDiameter); //(x, y) args provided through function args
   
-  fill(#ffff00); //yellow
+  fill(#ff9d7b); //light orange
   rect(xxx, yyy, diameter - strokeThickness, hourDiameter - strokeThickness);
 }
 
@@ -213,7 +213,7 @@ void drawThirtyBlock(float xxx, float yyy)
   fill(#ffffff); //white
   rect(xxx, yyy, diameter, dayDiameter); //(x, y) args provided through function args
   
-  fill(#000000); //black
+  fill(#e95c63); //dark orange
   rect(xxx, yyy, diameter - strokeThickness, dayDiameter - strokeThickness);
 }
 
@@ -223,7 +223,7 @@ void drawTwelveBlock(float xxx, float yyy)
   fill(#ffffff); //white
   rect(xxx, yyy, diameter, monthDiameter); //(x, y) args provided through function args
   
-  fill(#ff0000); //red
+  fill(#d15260); //light red
   rect(xxx, yyy, diameter - strokeThickness, monthDiameter - strokeThickness);
 }
 
@@ -233,7 +233,7 @@ void drawNinetyBlock(float xxx, float yyy)
   fill(#ffffff); //white
   rect(xxx, yyy, yearDiameter, yearDiameter); //(x, y) args provided through function args
   
-  fill(#00ff00); //green
+  fill(#445eb4); //navy blue
   rect(xxx, yyy, yearDiameter - strokeThickness, yearDiameter - strokeThickness);
 }
 
