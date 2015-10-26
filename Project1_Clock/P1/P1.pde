@@ -6,15 +6,16 @@
    [Project Description (approximately 300 words)] */
    
 //declare and initialize variables
-float diameter = 20; //diameter of second and minute blocks
+float diameter = 15; //diameter of second and minute blocks
 float radius = diameter / 2; //radius of second and minute blocks
-float strokeThickness = 4; //goes in strokeWeight()
+float strokeThickness = 2; //goes in strokeWeight()
 float strokeBuffer = strokeThickness / 2; //buffer around stroked shape due to centered stroke alignment
 float unitContainerHeight = (diameter * 59) + (strokeThickness/2 * 59);
-int grey = 0;
+float hourDiameter = unitContainerHeight / 23;
 
 void setup() 
 {
+  noStroke(); //turn off stroke
   size(960, 560); //canvas size
   rectMode(CENTER); //draw rectangles from their center
 }
@@ -22,40 +23,88 @@ void setup()
 
 void draw() 
 {
-  background(#ffffff); //white: erase last frame
+  background(#333333); //white: erase last frame
   
-  //testing if unitContainerHeight is calculated correctly
-  noStroke(); //remove stroke
-  rectMode(CORNER); //draw rectangles from their corner
-  fill(#333333); //dark grey
-  rect(0, 0, unitContainerHeight, 40); //draw rect at canvas origin that can contain 60 diameter*diameter blocks with stroke
+  drawContainers();
+  countSeconds();
   
-  secondsAndMinutes(); //draw second and minute blocks
-  
-  println(unitContainerHeight);
+  /*countSeconds(); //draw second blocks
+  countMinutes(); //draw minute blocks
+  countHours(); //draw hour blocks
+  //countDays();
+  //countYears(); */
 }
 
 
-void secondsAndMinutes() 
+void drawContainers() 
 {
-  fill(#12deef); //cyan
-  for (int i = 0; i < second(); i ++) {
-    drawSixtyBlock(i*(diameter+strokeBuffer), radius);
+  //for 6 columns:
+  for (int i = 0; i < 6; i++) {
+    //for 10 rows:
+    for (int j = 0; j < 10; j++) {
+      drawContainerBlock(radius + i * diameter, radius + j * diameter); //draw a grey placeholder block
+    }
   }
-  
-  fill(#FF00FF); //magenta
+}
+
+//draw 1 block for every second currently being counted by the computer's clock. 
+//each new block appears next to the previous and
+//they are all erased when their unit of time "wraps" automatically;
+//i.e. 12:53:59 -> 12:54:00 displays 59 second blocks and then 0 second blocks.
+void countSeconds() 
+{
+  //these for loops currently draw entire columns per second
+  for (int j = 0; j < 6; j++) {
+    for (int i = 0; i < second(); i ++) {
+      drawSixtyBlock(radius + i * diameter, radius + j * diameter);
+    }
+  }
+}
+
+
+void countMinutes() 
+{
   for (int i = 0; i < minute(); i ++) {
     drawSixtyBlock(i*(diameter+strokeBuffer), radius+diameter+strokeBuffer);
   }
 }
 
 
-//draw diameter x diameter rectangle with white stroke.
-//60 of these fit inside a "unit container".
-//2 arguments, x and y coordinates, are provided when calling the function.
+void countHours() 
+{
+ fill(#FFFF00);
+ for (int i = 0; i < hour(); i ++) {
+    drawTwentyFourBlock(i*(hourDiameter+strokeBuffer), hourDiameter/2+(diameter+strokeBuffer)*2);
+ }
+}
+
+
+//draw diameter x diameter rectangle with white fill, and
+//an inset rectangle with coloured fill to mitigate the dimension difficulties 
+//caused by using stroke() and strokeWeight().
+//60 of these blocks fit inside a "unit container".
 void drawSixtyBlock(float xxx, float yyy) 
 {
-  strokeWeight(strokeThickness);
-  stroke(#ffffff); //white stroke
+  fill(#ffffff); //white
   rect(xxx, yyy, diameter, diameter); //(x, y) args provided through function args
+  
+  fill(#12deef); //cyan
+  rect(xxx, yyy, diameter-strokeThickness, diameter-strokeThickness);
+}
+
+
+void drawTwentyFourBlock(float xxx, float yyy) 
+{
+  rect(xxx, yyy, hourDiameter, hourDiameter);
+  rect(xxx, yyy, hourDiameter-strokeThickness, hourDiameter-strokeThickness);
+}
+
+
+void drawContainerBlock(float xxx, float yyy)
+{
+  fill(#ffffff); //white
+  rect(xxx, yyy, diameter, diameter);
+  
+  fill(#e6e6e6); //light grey
+  rect(xxx, yyy, diameter-strokeThickness*2, diameter-strokeThickness*2);
 }
