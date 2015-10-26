@@ -14,10 +14,10 @@ float dayDiameter = diameter * 2; //day blocks 2x taller than second blocks
 float dayRadius = dayDiameter / 2; //radius of day blocks
 float monthDiameter = diameter * 5; //month blocks 5x taller than second blocks
 float monthRadius = monthDiameter / 2; //radius of month blocks
-float yearDiameter = 30;
+float yearDiameter = diameter * 2.5;
 float yearRadius = yearDiameter / 2;
 
-float strokeThickness = 2; //goes in strokeWeight()
+float strokeThickness = 3; //goes in strokeWeight()
 float strokeBuffer = strokeThickness / 2; //buffer around stroked shape due to centered stroke alignment
 color secondsOrMinutes = color(0, 255, 255); //colour of fill for drawSixtyBlock()
 
@@ -26,25 +26,35 @@ color secondsOrMinutes = color(0, 255, 255); //colour of fill for drawSixtyBlock
 void setup() 
 {
   noStroke(); //turn off stroke
-  size(960, 560); //canvas size
+  size(663, 505); //canvas size
   rectMode(CENTER); //draw rectangles from their center
 }
 
-
+/*
+draw a grid "container" for each common unit of time, from seconds to years.
+inside each grid, fill a cell with colour to indicate it has been counted towards a whole unit.
+empty the grid when it maxes out and increase the coloured cell count of the next largest unit.
+continue in this way so that time is always accounted for in some unit or another 
+until there are no units left.
+*/
 void draw() 
 {
   background(#ffffff); //white: erase last frame
   
-  drawContainers();
+  pushMatrix(); //isolate memory for transformations
+  translate(50, 50); //move following functions 100 px right and down to create margin
   
-  countSeconds();
-  countMinutes();
-  countHours();
-  countDays();
-  countMonths();
-  countYears();
+  //call functions 
+  drawContainers(); //draw grey "empty" unit containers
+  countSeconds(); //draw blocks for each count of seconds
+  countMinutes(); //repeat for minutes
+  countHours(); //repeat for hours
+  countDays(); //repeat for days
+  countMonths(); //repeat for months
+  countYears(); //repeat for years
+  
+  popMatrix(); //done isolating memory for transformations
 }
-
 
 //draw a grid "container" for each unit of time filled with enough grey cells
 //to contain the maximum parts of that single unit.
@@ -56,7 +66,8 @@ void drawContainers()
   for (int i = 0; i < 6; i++) {
     //for 10 rows:
     for (int j = 0; j < 10; j++) {
-      drawSixtyContainerBlock(radius + i * diameter, radius + j * diameter); //draw a grey placeholder block
+      //draw a grey placeholder block in each column by row, with (radius +) to account for rectMode(CENTER)
+      drawSixtyContainerBlock(radius + i * diameter, radius + j * diameter);
     }
   }
   
@@ -65,6 +76,7 @@ void drawContainers()
   for (int i = 0; i < 6; i++) {
     //for 10 rows:
     for (int j = 0; j < 10; j++) {
+      //replace (radius +) with ((diameter * 8) +) to space container 2 cells away from previous 6-cell container
       drawSixtyContainerBlock((diameter * 8) + (i * diameter), radius + (j * diameter)); //draw a grey placeholder block
     }
   }
@@ -74,7 +86,8 @@ void drawContainers()
   for (int i = 0; i < 6; i++) {
     //for 4 rows:
     for (int j = 0; j < 4; j++) {
-      drawTwentyFourContainerBlock((diameter * 16) + (i * diameter), hourRadius + (j * hourDiameter)); //draw a grey placeholder block
+      //keep width of second and minute diameter, but lengthen cell with new hourDiameter
+      drawTwentyFourContainerBlock((diameter * 16) + (i * diameter), hourRadius + (j * hourDiameter));
     }
   }
   
@@ -97,19 +110,24 @@ void drawContainers()
   }
   
   //YEAR CONTAINER
-  //for 10 columns:
-  for (int i = 0; i < 10; i++) {
-    //for 9 rows:
-    for (int j = 0; j < 9; j++) {
-      drawNinetyContainerBlock(yearRadius + (i * yearDiameter), diameter*12 + (j * yearDiameter)); //draw a grey placeholder block
+  //for 15 columns:
+  for (int i = 0; i < 15; i++) {
+    //for 6 rows:
+    for (int j = 0; j < 6; j++) {
+      //year container has its own diameters, and is placed 13 cells below the smaller containers
+      //with a width equal to the sum of all smaller containers plus a margin: diameter*13
+      drawNinetyContainerBlock(yearRadius + (i * yearDiameter), diameter*13 + (j * yearDiameter)); //draw a grey placeholder block
     }
   }
 }
 
-//draw 1 block for every unit currently being counted by the computer's clock. 
-//each new block appears next to the previous and
-//they are all erased when their unit of time "wraps" automatically;
-//i.e. 12:53:59 -> 12:54:00 displays the second container emptying but the minute container gaining 1 block.
+/* DRAWING COLOURED CELLS
+draw 1 block for every unit currently being counted by the computer's clock within its grid.
+each new block appears next to the previous 
+and they are each erased when their unit of time "wraps" automatically.
+i.e. 12:53:59 -> 12:54:00 displays the second container emptying but the minute container gaining 1 block.
+*/
+//seconds
 void countSeconds() 
 {
   secondsOrMinutes = color(0, 255, 255); //cyan: assign fill variable used in drawSixtyBlock()
@@ -119,7 +137,7 @@ void countSeconds()
   }
 }
 
-
+//minutes
 void countMinutes() 
 {
   secondsOrMinutes = color(255, 0, 255); //magenta: assign fill variable used in drawSixtyBlock()
@@ -128,7 +146,7 @@ void countMinutes()
   }
 }
 
-
+//hours
 void countHours() 
 {
   for (int i = 0; i < hour(); i++) {
@@ -136,7 +154,7 @@ void countHours()
   }
 }
 
-
+//days
 void countDays() 
 {
   for (int i = 0; i < day(); i++) {
@@ -144,6 +162,7 @@ void countDays()
   }
 }
 
+//months
 void countMonths() 
 {
   for (int i = 0; i < month(); i++) {
@@ -151,19 +170,24 @@ void countMonths()
   }
 }
 
+//years
+//year blocks have their count determined by the user's birth year vs current year
+//and their container size determined by a generous human lifespan.
 void countYears() 
 {
   for (int i = 0; i < month(); i++) {
-    drawNinetyBlock(yearRadius + ((year() - 1994) % 10) * yearDiameter, diameter*12); //replace 1994 with user's birth year
+    drawNinetyBlock(yearRadius + ((year() - 1994) % 10) * yearDiameter, diameter*13); //replace 1994 with user's birth year
   }
 }
 
 
-
-//draw diameter x diameter rectangle with white fill, and
-//an inset rectangle with coloured fill to mitigate the dimension difficulties 
-//caused by using stroke() and strokeWeight().
-//60 of these blocks fit inside a "unit container".
+/* DRAW "CONTAINERS": EMPTY GRIDS
+draw diameter x diameter rectangle with white fill, and
+an inset rectangle with coloured fill to mitigate the dimension difficulties 
+caused by using stroke() and strokeWeight().
+all blocks are based on either the diameter of second/minute blocks, or a product thereof.
+*/
+//second and minute blocks
 void drawSixtyBlock(float xxx, float yyy) 
 {
   fill(#ffffff); //white
@@ -173,7 +197,7 @@ void drawSixtyBlock(float xxx, float yyy)
   rect(xxx, yyy, diameter - strokeThickness, diameter - strokeThickness);
 }
 
-
+//hour blocks
 void drawTwentyFourBlock(float xxx, float yyy) 
 {
   fill(#ffffff); //white
@@ -183,7 +207,7 @@ void drawTwentyFourBlock(float xxx, float yyy)
   rect(xxx, yyy, diameter - strokeThickness, hourDiameter - strokeThickness);
 }
 
-
+//day blocks
 void drawThirtyBlock(float xxx, float yyy) 
 {
   fill(#ffffff); //white
@@ -193,6 +217,7 @@ void drawThirtyBlock(float xxx, float yyy)
   rect(xxx, yyy, diameter - strokeThickness, dayDiameter - strokeThickness);
 }
 
+//month blocks
 void drawTwelveBlock(float xxx, float yyy) 
 {
   fill(#ffffff); //white
@@ -202,6 +227,7 @@ void drawTwelveBlock(float xxx, float yyy)
   rect(xxx, yyy, diameter - strokeThickness, monthDiameter - strokeThickness);
 }
 
+//year blocks
 void drawNinetyBlock(float xxx, float yyy) 
 {
   fill(#ffffff); //white
@@ -211,7 +237,7 @@ void drawNinetyBlock(float xxx, float yyy)
   rect(xxx, yyy, yearDiameter - strokeThickness, yearDiameter - strokeThickness);
 }
 
-
+//second and minute CONTAINER blocks
 void drawSixtyContainerBlock(float xxx, float yyy)
 {
   fill(#ffffff); //white
@@ -221,7 +247,7 @@ void drawSixtyContainerBlock(float xxx, float yyy)
   rect(xxx, yyy, diameter-strokeThickness*2, diameter-strokeThickness*2);
 }
 
-
+//hour CONTAINER blocks
 void drawTwentyFourContainerBlock(float xxx, float yyy) 
 {
   fill(#ffffff); //white
@@ -231,7 +257,7 @@ void drawTwentyFourContainerBlock(float xxx, float yyy)
   rect(xxx, yyy, diameter - strokeThickness * 2, hourDiameter - strokeThickness * 2);
 }
 
-
+//day CONTAINER blocks
 void drawThirtyContainerBlock(float xxx, float yyy) 
 {
   fill(#ffffff); //white
@@ -241,7 +267,7 @@ void drawThirtyContainerBlock(float xxx, float yyy)
   rect(xxx, yyy, diameter - strokeThickness * 2, dayDiameter - strokeThickness * 2);
 }
 
-
+//month CONTAINER blocks
 void drawTwelveContainerBlock(float xxx, float yyy) 
 {
   fill(#ffffff); //white
@@ -251,11 +277,12 @@ void drawTwelveContainerBlock(float xxx, float yyy)
   rect(xxx, yyy, diameter - strokeThickness * 2, monthDiameter - strokeThickness * 2);
 }
 
+//year CONTAINER blocks
 void drawNinetyContainerBlock(float xxx, float yyy) 
 {
   fill(#ffffff); //white
   rect(xxx, yyy, yearDiameter, yearDiameter);
   
   fill(#e6e6e6); //light grey
-  rect(xxx, yyy, yearDiameter - strokeThickness * 2, yearDiameter - strokeThickness * 2);
+  rect(xxx, yyy, yearDiameter - strokeThickness * 3, yearDiameter - strokeThickness * 3);
 }
