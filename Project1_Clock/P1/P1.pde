@@ -3,7 +3,38 @@
    Laurel O'Brien
    lobrien14692@ecuad.ca
 
-   [Project Description (approximately 300 words)] */
+*Accumulate* is a clock that visualizes the discrete passage of time in a human 
+lifespan. Containers for standard units—seconds, minutes, hours, days, months, 
+and years—fill up one cell at a time as the previous container rolls over 
+and resets, much like a traditional clock flipping from 3:59 to 4:00. However,
+very rarely do we see where this tally is shuttled off to after an hour rolls
+into a day, let alone weeks or years. The classic clock design loops right back
+to where it started yesterday and digital clocks mimic the same wrapping effect.
+Clocks are meant to report the time now in relation to other times happening
+today and this suits most of us pretty well. Our bodies have a daily rhythm of
+sleep and eating and we organize each other with agreed-upon times.
+
+Instead of wrapping at the 24th hour and tossing the byproduct away, an entire
+day, I wanted to record that passage and let it keep wrapping into weeks, 
+months, etc, as the usual time-telling units kept plotting along. These smaller-
+unit “container” grids fill quickly which is meditative and engaging compared
+to the containers which will take weeks to fill, indicating to the viewer what
+the clock is actually doing. Each container is the same size because we know 
+where it wraps in our lives (with their own column counts, all calculated by 
+their relationship with second’s/minute’s column count). The viewer can 
+anticipate that even if they won’t see it immediately, an hour container with 
+59 cells filled in will soon be emptied into a day cell. But the year grid is
+not as certain: it could roll into a century, but (statistically speaking) 
+the person who started the clock will never see it filled. A fixed container
+with empty cells, rather than an open-ended tally, implies a maximum 
+capacity. Time that has passed and ‘disappeared’ on a traditional clock stays
+accounted for in *Accumulate*; a personal record of units and containers filling
+until there are no empty spaces left.
+
+Ideally, user-input of a birthday will start the clock, accounting for time
+already passed going forward, as currently shown in the year container by
+subtracting a user’s birth year from the computer’s year() (this needs the
+variable birthYear to be initialized before running). */
    
 //declare and initialize variables
 float birthYear = 1994; //initialize this with your own birth year if you're feeling morbid
