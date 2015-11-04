@@ -24,7 +24,7 @@ To take an input and make it applicable for an output range, you may need to cha
 
 You can use linear mapping in processing to do this automatically
 
-  output = map(input, 0, output, 0);
+    output = map(input, 0, output, 0);
 
 ##LINEAR MOTION
 
@@ -33,15 +33,15 @@ you can create your own functions that maps a value like output() with modificat
 
 sinSmooth() in the moodle example takes a value within an original range of inputs and maps it to an output, but uses a sine wave to arrive there:
 
-  // Smoothing function that uses a sinewave.
-  float sinSmooth(float value, float inputMin, float inputMax, float outputMin, float outputMax) {
-  
-  // Convert input value (ranging from inputMin to inputMax) to pi relative values.
-  float piValue = map(value, inputMin, inputMax, -HALF_PI, HALF_PI);
-  
-  // Calculate smoothed version using a section of a sinwave.
-  return ((0.5*(sin(piValue)+1))*(outputMax-outputMin))+outputMin;
-  }
+    // Smoothing function that uses a sinewave.
+    float sinSmooth(float value, float inputMin, float inputMax, float outputMin, float outputMax) {
+    
+    // Convert input value (ranging from inputMin to inputMax) to pi relative values.
+    float piValue = map(value, inputMin, inputMax, -HALF_PI, HALF_PI);
+    
+    // Calculate smoothed version using a section of a sinwave.
+    return ((0.5*(sin(piValue)+1))*(outputMax-outputMin))+outputMin;
+    }
 
 ##IMAGE MANIPULATION
 
@@ -50,13 +50,13 @@ Setting fill() before drawing images has no effect on the appearance of the chan
 
 To change the colour, use tint():
 
-  tint(0, 255, 0);
-  image(myImage, 0, 0);
+    tint(0, 255, 0);
+    image(myImage, 0, 0);
 
 You can also change the opacity of images
 
-  tiny(255, 127); //full colour, 50% opacity
-  image(myImage, 0, 0);
+    tiny(255, 127); //full colour, 50% opacity
+    image(myImage, 0, 0);
 
 ###access pixel values
 
@@ -68,38 +68,38 @@ While pixels appear to be in 2D grid, they are actually stored in a 1D structure
 
 ###loop through all pixels
 
-//convert image data into an array accessible to Processing
-myImage.loadPixels();
+    //convert image data into an array accessible to Processing
+    myImage.loadPixels();
 
-  //loop though every pixel column
-  for (int x = 0; x < myImage.width; x ++) {
-  //loop through every pixel row
-  for (int y = 0;; y < myImage.height; y ++) {
-    //use the formula to find 1D location
-    int index = x + (y * myImage.width);
-    //get RGB pixel value
-    color pixelColour = myImage.pixels[index];
-  }
-}
+    //loop though every pixel column
+    for (int x = 0; x < myImage.width; x ++) {
+      //loop through every pixel row
+      for (int y = 0;; y < myImage.height; y ++) {
+        //use the formula to find 1D location
+        int index = x + (y * myImage.width);
+        //get RGB pixel value
+        color pixelColour = myImage.pixels[index];
+      }
+    }
 
 You can use images as a source of data without every drawing them on-screen (see Class7_E2)
 
 ###create image from scratch
 
-  // Initialize new empty image 
-  myImage = createImage(100, 100, ARGB); 
+    // Initialize new empty image 
+    myImage = createImage(100, 100, ARGB); 
 
-  // Convert (empty) image data into array accessible to Processing 
-  myImage.loadPixels(); 
+    // Convert (empty) image data into array accessible to Processing 
+    myImage.loadPixels(); 
 
-  // Loop through all pixels in array 
-  for(int i = 0; i < myImage.width*myImage.height; i ++) {
-    //set each pixel to a random colour and alpha value
-    myImage.pixels[i] = color(random(255), random(255), random(255), random(255));
-  }
+    // Loop through all pixels in array 
+    for(int i = 0; i < myImage.width*myImage.height; i ++) {
+      //set each pixel to a random colour and alpha value
+      myImage.pixels[i] = color(random(255), random(255), random(255), random(255));
+    }
 
-  //convert pixel array back to image data
-  myImage.updatePixels();
+    //convert pixel array back to image data
+    myImage.updatePixels();
 
 ###openGL
 Old games would use interpolation between pixels to smooth the effect of hard pixel edges
@@ -134,9 +134,9 @@ ultrasonic is much longer range than infrared
 
 you can upload programs to an arduino that take arduino’s outputs (which are inputs from an external source usually, such as sound or temperature)
 
-  //import processing libraries to use arduino
-  import processing.serial.*;
-  import cc.arduino.*
+    //import processing libraries to use arduino
+    import processing.serial.*;
+    import cc.arduino.*
 
 There are arduino libraries so the data arduino collects can be used by Processing or other arduino-compatible languages
 
