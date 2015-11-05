@@ -63,8 +63,8 @@ void draw() {
   eraseBlurMask(); //erases blurMask where mouse is pressed
   image(blurMask, 0, 0); //draw PGraphics holding everything drawn to blurMask
   
-  if (idleFogging()) {
-    refogWindow();
+  if (hasUserIdled() == true) {
+    refogWindow(); //draw kaoriBlurred with increasing opacity
   }
   
   //draw houseplants on windowsill
@@ -74,7 +74,7 @@ void draw() {
 
 
 
-boolean idleFogging() {
+boolean hasUserIdled() {
   //begin counting frames of idling when user isn't drawing
   if (mousePressed == false) {
     idleCounter ++;
