@@ -17,53 +17,49 @@ eraseBlurMaskPlain: do the same thing but without anything covering the canvas
    
 
 int brushSize = 15; //diameter of eraser applied by pressing mouse
-boolean isUserIdle = false;
 int idleCounter; //track frames passed since mouse was last pressed
-int opacCounter;
-float brushSizeJitter = sinSmooth(brushSize, 20, 10, 20, 10);
+int opacCounter; //opacity of image that refogs window
 int frameMemory;
-PImage[] imageArray = new PImage[4];
+int currentImage = 0; //index in images[] of current photo displayed
+PImage[] images = new PImage[8]; //array of photos
 
 
 
 void setup() {
+  
   size(900, 675); //window size
-  noStroke(); //remove stroke
+  noStroke(); //remove str
   noFill(); //remove fill
   
   //initialize PGraphics
   blurMask = createGraphics(width, height);
   staticImage = createGraphics(width, height);
   
-  //initialize PImages
-  karori = loadImage("karori.jpg"); //karori neighborhood in wellington, new zealand
-  karoriBlurred = loadImage("karori_blur.jpg"); //" " blurred
-  pacificStreet = loadImage("pacificstreet.jpg"); //1080 pacific street
-  pacificStreetBlurred = loadImage("pacificstreet_blur.jpg");
-  waihekeIsland = loadImage("waihekeIsland.jpg");
-  waihekeIslandBlurred = loadImage("waihekeIslandBlurred.jpg");
-  
   //initialize imageArray
-  imageArray[0] = karori;
-  imageArray[1] = karoriBlurred;
-  imageArray[2] = pacificStreet;
-  imageArray[3] = pacificStreetBlurred;
+  for (int i = 0; i < images.length; i ++)
+   {
+    images[i] = loadImage( i +".jpg");
+   }
   
+  //initialize houseplant images
   leafyPlant = loadImage("leafy_plant-01.png");
   spikyPlant = loadImage("spiky_plant-01.png");
   
   //set up initial PGraphics contents
   staticImage.beginDraw();
-  staticImage.image(imageArray[0], 0, 0); //draw karori photo at window origin
+  staticImage.image(images[currentImage], 0, 0); //draw karori photo at window origin
   staticImage.endDraw();
   
   blurMask.beginDraw();
-  blurMask.image(imageArray[1], 0, 0); //draw blurred karori photo at window origin
+  blurMask.image(images[currentImage + 1], 0, 0); //draw blurred karori photo at window origin
   blurMask.endDraw();
 }
 
 
 void draw() {
+  //change image if user has idled for 10 seconds
+  transitionImage();
+  
   //draw photos
   image(staticImage, 0, 0); //draw PGraphics holding karori
   eraseBlurMask(); //erases blurMask where mouse is pressed
@@ -71,21 +67,13 @@ void draw() {
   
   if (hasUserIdled() == true) {
     refogWindow(); //draw kaoriBlurred with increasing opacity
+    frameMemory ++;
   }
   
   //draw houseplants on windowsill
   image(leafyPlant, 30, 437); //laurels
   image(spikyPlant, 700, 508); //aloe
-  
-  //map increases in brush size to a sine wave via sinSmooth
-  brushSizeJitter = sinSmooth(brushSize, 30, 10, 30, 10);
-  
-  //draw pulsing ellipse to test sinSmooth
-  fill(255);
-  ellipse(width/2, height/2, brushSizeJitter, brushSizeJitter);
-  noFill();
-  
-  //every 7 frames:
+       
   if (frameCount % 7 == 0) {
     brushSize ++; //increment brushSize
   }
@@ -95,19 +83,41 @@ void draw() {
 
 //check if 5 seconds have passed since user drew anything
 boolean hasUserIdled() {
-  //begin counting frames of idling when user isn't drawing
+  //if user is not pressing a mouse button:
   if (mousePressed == false) {
-    idleCounter ++;
+    idleCounter ++; //increment count of idle frames
+  //if user IS pressing a mouse button
   } else if (mousePressed == true) {
-    idleCounter = 0;
-    opacCounter = 0;
+    idleCounter = 0; //reset idle counter
+    opacCounter = 0; //reset opacity of "re-fogging" image in refogWindow()
   }
   
   //check if 5 seconds of idling have elapsed
   if (idleCounter > frameRate * 5) {
-    return true;
+    return true; //5 straight seconds of no mouse pressing
   } else {
-    return false;
+    return false; //mouse was pressed in the last 5 seconds
+  }
+}
+
+
+
+//transition image if user is idle for 10 seconds
+void transitionImage() {
+  if (frameMemory >= frameRate * 10) {
+    currentImage += 2; //increment index used to draw image(images[x])
+    
+    //re-assign staticImage's contents
+    staticImage.beginDraw();
+    staticImage.image(images[currentImage], 0, 0);
+    staticImage.endDraw();
+    
+    //re-assign blurMask's contents
+    blurMask.beginDraw();
+    blurMask.image(images[currentImage+1], 0, 0);
+    blurMask.endDraw();
+    
+    frameMemory = 0; //reset memory of last transition
   }
 }
 

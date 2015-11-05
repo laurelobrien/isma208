@@ -1,27 +1,15 @@
 ////////////////////////
 // Photos and PGraphics: declaration, functions
 
-//declare photo variables
-PImage karori; //unblurred image behind window
-PImage karoriBlurred; //blurred image on surface on window
-PImage karoriBlurredPlain;
-
-PImage pacificStreet; //view from 1080 pacific street
-PImage pacificStreetBlurred; //blurred
-
-PImage waihekeIsland;
-PImage waihekeIslandBlurred;
-
-PImage leafyPlant; //leafy houseplant
-PImage spikyPlant;
-
+PImage leafyPlant; //laurels
+PImage spikyPlant; //aloe
 PGraphics blurMask; //"layer" storing blurred images and effects
 PGraphics staticImage; //"layer" storing unblurred image
 
 
 void refogWindow() {
   tint(255, 0+opacCounter);
-  image(imageArray[1], 0, 0);
+  image(images[currentImage+1], 0, 0);
   noTint();
   
   if (opacCounter < 255) {
@@ -30,7 +18,7 @@ void refogWindow() {
   //if window fully refogs, re-assign blurMask as holding an un-erased photo
   if (opacCounter >= 255) {
     blurMask.beginDraw();
-    blurMask.image(imageArray[1], 0, 0); //draw blurred karori photo at window origin
+    blurMask.image(images[currentImage+1], 0, 0); //draw blurred karori photo at window origin
     blurMask.endDraw();
   }
 }
@@ -40,6 +28,9 @@ void refogWindow() {
 //load pixels of blurMask into an array and turn pixels transparent
 //if they're within (brushSize) range of mouse position.
 void eraseBlurMask() {
+  //map increases in brush size to a sine wave via sinSmooth
+  float brushSizeJitter = sinSmooth(brushSize, 30, 10, 30, 10);
+  
   color transparent = color(0, 0); //black, 0% opacity
   
   blurMask.beginDraw(); //start drawing to blurMask
