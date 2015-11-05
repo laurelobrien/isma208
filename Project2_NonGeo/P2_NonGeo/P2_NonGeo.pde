@@ -22,6 +22,7 @@ int idleCounter; //track frames passed since mouse was last pressed
 int opacCounter;
 float brushSizeJitter = sinSmooth(brushSize, 20, 10, 20, 10);
 int frameMemory;
+PImage[] imageArray = new PImage[4];
 
 
 
@@ -42,16 +43,22 @@ void setup() {
   waihekeIsland = loadImage("waihekeIsland.jpg");
   waihekeIslandBlurred = loadImage("waihekeIslandBlurred.jpg");
   
+  //initialize imageArray
+  imageArray[0] = karori;
+  imageArray[1] = karoriBlurred;
+  imageArray[2] = pacificStreet;
+  imageArray[3] = pacificStreetBlurred;
+  
   leafyPlant = loadImage("leafy_plant-01.png");
   spikyPlant = loadImage("spiky_plant-01.png");
   
   //set up initial PGraphics contents
   staticImage.beginDraw();
-  staticImage.image(waihekeIsland, 0, 0); //draw karori photo at window origin
+  staticImage.image(imageArray[0], 0, 0); //draw karori photo at window origin
   staticImage.endDraw();
   
   blurMask.beginDraw();
-  blurMask.image(waihekeIslandBlurred, 0, 0); //draw blurred karori photo at window origin
+  blurMask.image(imageArray[1], 0, 0); //draw blurred karori photo at window origin
   blurMask.endDraw();
 }
 
@@ -106,7 +113,7 @@ boolean hasUserIdled() {
 
 
 
-// Smoothing function that uses a sinewave.
+// Smoothing function that uses a sinewave, by Ben Bogart
 float sinSmooth(float value, float inputMin, float inputMax, float outputMin, float outputMax) {
   
   // Convert input value (ranging from inputMin to inputMax) to pi relative values.

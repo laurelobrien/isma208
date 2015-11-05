@@ -21,7 +21,7 @@ PGraphics staticImage; //"layer" storing unblurred image
 
 void refogWindow() {
   tint(255, 0+opacCounter);
-  image(waihekeIslandBlurred, 0, 0);
+  image(imageArray[1], 0, 0);
   noTint();
   
   if (opacCounter < 255) {
@@ -30,7 +30,7 @@ void refogWindow() {
   //if window fully refogs, re-assign blurMask as holding an un-erased photo
   if (opacCounter >= 255) {
     blurMask.beginDraw();
-    blurMask.image(waihekeIslandBlurred, 0, 0); //draw blurred karori photo at window origin
+    blurMask.image(imageArray[1], 0, 0); //draw blurred karori photo at window origin
     blurMask.endDraw();
   }
 }
