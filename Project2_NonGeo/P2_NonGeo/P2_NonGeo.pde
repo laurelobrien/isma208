@@ -15,18 +15,13 @@ eraseBlurMaskPlain: do the same thing but without anything covering the canvas
 */
   
    
-   
-PImage karori; //unblurred image behind window
-PImage karoriBlurred; //blurred image on surface on window
-PImage karoriBlurredPlain;
-PImage leafyPlant; //leafy houseplant
-PImage spikyPlant;
-PGraphics blurMask; //"layer" storing blurred images and effects
-PGraphics staticImage; //"layer" storing unblurred image
+
 int brushSize = 15; //diameter of eraser applied by pressing mouse
 boolean isUserIdle = false;
 int idleCounter; //track frames passed since mouse was last pressed
 int opacCounter;
+float brushSizeJitter = sinSmooth(brushSize, 20, 10, 20, 10);
+int frameMemory;
 
 
 
@@ -43,16 +38,19 @@ void setup() {
   karori = loadImage("karori.jpg"); //karori neighborhood in wellington, new zealand
   karoriBlurred = loadImage("karori_blur.jpg"); //" " blurred
   karoriBlurredPlain = loadImage("karori_blur.jpg"); //" " blurred
+  pacificStreet = loadImage("pacificstreet.jpg"); //1080 pacific street
+  pacificStreetBlurred = loadImage("pacificstreet_blur.jpg");
+  
   leafyPlant = loadImage("leafy_plant-01.png");
   spikyPlant = loadImage("spiky_plant-01.png");
   
   //set up initial PGraphics contents
   staticImage.beginDraw();
-  staticImage.image(karori, 0, 0); //draw karori photo at window origin
+  staticImage.image(pacificStreet, 0, 0); //draw karori photo at window origin
   staticImage.endDraw();
   
   blurMask.beginDraw();
-  blurMask.image(karoriBlurred, 0, 0); //draw blurred karori photo at window origin
+  blurMask.image(pacificStreetBlurred, 0, 0); //draw blurred karori photo at window origin
   blurMask.endDraw();
 }
 
@@ -70,10 +68,24 @@ void draw() {
   //draw houseplants on windowsill
   image(leafyPlant, 30, 437); //laurels
   image(spikyPlant, 700, 508); //aloe
+  
+  //map increases in brush size to a sine wave via sinSmooth
+  brushSizeJitter = sinSmooth(brushSize, 30, 10, 30, 10);
+  
+  //draw pulsing ellipse to test sinSmooth
+  fill(255);
+  ellipse(width/2, height/2, brushSizeJitter, brushSizeJitter);
+  noFill();
+  
+  //every 7 frames:
+  if (frameCount % 7 == 0) {
+    brushSize ++; //increment brushSize
+  }
 }
 
 
 
+//check if 5 seconds have passed since user drew anything
 boolean hasUserIdled() {
   //begin counting frames of idling when user isn't drawing
   if (mousePressed == false) {
@@ -92,43 +104,13 @@ boolean hasUserIdled() {
 }
 
 
-void refogWindow() {
-  tint(255, 0+opacCounter);
-  image(karoriBlurredPlain, 0, 0);
-  noTint();
+
+// Smoothing function that uses a sinewave.
+float sinSmooth(float value, float inputMin, float inputMax, float outputMin, float outputMax) {
   
-  if (opacCounter < 255) {
-    opacCounter ++;
-  }
-  //if window fully refogs, re-assign blurMask as holding an un-erased photo
-  if (opacCounter >= 255) {
-    blurMask.beginDraw();
-    blurMask.image(karoriBlurred, 0, 0); //draw blurred karori photo at window origin
-    blurMask.endDraw();
-  }
-}
-
-
-
-//load pixels of blurMask into an array and turn pixels transparent
-//if they're within (brushSize) range of mouse position.
-void eraseBlurMask() {
-  color transparent = color(0, 0); //black, 0% opacity
+  // Convert input value (ranging from inputMin to inputMax) to pi relative values.
+  float piValue = map(value, inputMin, inputMax, -HALF_PI, HALF_PI);
   
-  blurMask.beginDraw(); //start drawing to blurMask
-  if (mousePressed) {
-    blurMask.loadPixels(); //load pixels in blurMask into an array
-    //for every column of pixels
-    for (int x = 0; x < blurMask.width; x ++) {
-      //for every row of pixels
-      for (int y = 0; y < blurMask.height; y ++) {
-        if (dist(x, y, mouseX, mouseY) <= brushSize) {
-          int loc = x + y * blurMask.width; //translate x,y location into linear index in .pixels[]
-          blurMask.pixels[loc] = transparent; //change colour of pixel at [loc] index to c
-        } 
-      }
-    } //end of column/row for loop
-    blurMask.updatePixels(); //update the state of pixels in pixel array
-  }
-  blurMask.endDraw(); //finished drawing to blurMask
+  // Calculate smoothed version using a section of a sinwave.
+  return ((0.5*(sin(piValue)+1))*(outputMax-outputMin))+outputMin;
 }
