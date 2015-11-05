@@ -1,38 +1,44 @@
 ///////////////////////
 // transition between 2 images after 3 seconds
 
-PImage one, two;
 float fade;
-boolean isImageTransitioned;
+boolean isImageTransitioned = false;
 int frameMemory;
+PImage[] images = new PImage[8];
+int idleCounter;
+int currentImage = 0;
+
 
 void setup() {
-size(900, 675, P3D);
+  size(900, 675, P3D);
 
-one = loadImage("pacificstreet.jpg");
-two = loadImage("waihekeIsland.jpg");
+  //initialize imageArray
+  for (int i = 0; i < images.length; i ++)
+   {
+    images[i] = loadImage( i +".jpg");
+   }
 }
 
 void draw() {
-  background(one);
-  tint(255, 255, 255, 255-fade);
-  image(two, 0, 0);
+  //current image
+  tint(255, 0+fade);
+  image(images[currentImage+1], 0, 0);
+  noTint();
   
-  //if 3 seconds have passed since last transition:
+  fade += 0.5; //increase opacity of tint()
+  
+  //if 3 seconds have passed since last transition
   if (frameMemory > frameRate * 3) {
-    //increase fade up to max opacity
-    if (fade < 255) {
-      fade ++;
-    }
-    //indicate image has fully transitioned
-    if (fade >= 255) {
-      isImageTransitioned = true;
-    }
-    //reset frameMemory for next transition
-    if (isImageTransitioned == true) {
-      frameMemory = 0;
-    }
+    //image to fade over top
+    currentImage += 2; //increase index of drawn image
+    fade = 0; //reset fade
+    frameMemory = 0; //reset memory of last transition
   }
   
-  frameMemory ++;
+  //if the next image's index exceeds images[], restart at [0]
+  if ((currentImage + 3) > images.length) {
+    currentImage = 0;
+  }
+  
+  frameMemory ++; //increment count of frames since last transition
 }
