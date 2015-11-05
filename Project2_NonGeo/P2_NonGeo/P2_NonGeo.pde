@@ -5,121 +5,128 @@
 
    [Project Description (approximately 300 words)] */
    
-PImage karori;
-PImage karoriBlurred;
-PImage karoriBlurredPlain;
-int opacCounter = 0;
+PImage karori; //unblurred image behind window
+PImage karoriBlurred; //blurred image on surface on window
+PGraphics blurMask; //"layer" storing blurred images and effects
+PGraphics staticImage; //"layer" storing unblurred image
+int brushSize = 20; //diameter of eraser applied by pressing mouse
 
-int num = 120;
-float mx[] = new float[num];
-float my[] = new float[num];
 
 void setup() {
   size(900, 675); //window size
   noStroke(); //remove stroke
+  noFill(); //remove fill
   
+  //initialize PGraphics
+  blurMask = createGraphics(width, height);
+  staticImage = createGraphics(width, height);
+  
+  //initialize PImages
   karori = loadImage("karori.jpg"); //karori neighborhood in wellington, new zealand
   karoriBlurred = loadImage("karori_blur.jpg"); //" " blurred
-  karoriBlurredPlain = loadImage("karori_blur.jpg"); //" " blurred
   
-  smooth();
+  //set up initial PGraphics contents
+  staticImage.beginDraw();
+  staticImage.image(karori, 0, 0); //draw karori photo at window origin
+  staticImage.endDraw();
+  
+  blurMask.beginDraw();
+  blurMask.image(karoriBlurred, 0, 0); //draw blurred karori photo at window origin
+  blurMask.endDraw();
 }
+
 
 void draw() {
-  image(karori, 0, 0); //draw karori photo at window origin
-  image(karoriBlurred, 0, 0); //draw pre-blurred karori photo
+  image(staticImage, 0, 0); //call PGraphics holding karori
   
-  mousePressed(); //erase karoriBlurred at mouse pos while mouse is pressed
+  /* !! comment out all but 1 to see effects !! */
+  //eraseBlurMask(); //erase where mouse pressed, cover with blurred image over time
+  //eraseBlurMaskRed(); //erase where mouse pressed, cover with red over time
+  eraseBlurMaskPlain(); //no covering, just erase where mouse pressed
+  /* !!                                      !! */
   
-  /*tint(255, 1+opacCounter);
-  image(karoriBlurredPlain, 0, 0);
-  noTint();*/
-  
-} //end of draw()
-
-
-
-void mousePressed() {
-  if (mouseButton == LEFT) {
-    eraseBlurMask();
-    
-    // Cycle through the array, using a different entry on each frame. 
-    // Using modulo (%) like this is faster than moving all the values over.
-    int which = frameCount % num;
-    mx[which] = mouseX;
-    my[which] = mouseY;
-    
-    for (int i = 0; i < num; i++) {
-      // which+1 is the smallest (the oldest in the array)
-      int index = (which + 1 + i) % num;
-      //redrawBlurMask(mx[index], my[index]);
-      tint(255, 5);
-      redrawBlurMask(mx[index], my[index]);
-      noTint();
-      
-      println(mx[index], my[index]);
-    }
-  }
+  image(blurMask, 0, 0); //call PGraphics holding everything drawn to blurMask
 }
 
 
-//store last 60 mouse positions in an array
-void delayTrail() {
-  // Cycle through the array, using a different entry on each frame. 
-  // Using modulo (%) like this is faster than moving all the values over.
-  int which = frameCount % num;
-  while (mousePressed) {
-    mx[which] = mouseX;
-    my[which] = mouseY;
-  }
-  
-  for (int i = 0; i < num; i++) {
-    // which+1 is the smallest (the oldest in the array)
-    int index = (which + 1 + i) % num;
-    //redrawBlurMask(mx[index], my[index]);
-    fill(255, 0, 0, 255);
-    ellipse(mx[index], my[index], 20, 20);
-    noFill();
-    println(mx[index], my[index]);
-  }
-} //end of delayTrail();
 
-//load pixels of karoriBlurred into an array and turn pixels transparent
-//if they're within brushSize range of mouse position.
+//load pixels of blurMask into an array and turn pixels transparent
+//if they're within (brushSize) range of mouse position.
 void eraseBlurMask() {
-  color c = color(0, 0); //black, 0% opacity
-  karoriBlurred.loadPixels();
-  //for every column of pixels
-  for (int x = 0; x < karoriBlurred.width; x ++) {
-    //for every row of pixels
-    for (int y = 0; y < karoriBlurred.height; y ++) {
-      if (dist(x, y, mouseX, mouseY) <= 20) {
-        //translate x,y location into linear index in .pixels[]
-        int loc = x + y * karoriBlurred.width;
-        karoriBlurred.pixels[loc] = c; //change colour of pixel at [loc] index to c
-      } 
-    }
-  } //end of column/row for loop
-  karoriBlurred.updatePixels(); //update the state of pixels in pixel array
-} //end of eraseBlurMask()
+  color transparent = color(0, 0); //black, 0% opacity
+  
+  blurMask.beginDraw(); //start drawing to blurMask
+  
+  //draw copy of blurred photo that will replace "fog" gradually where
+  //if (mousePressed) below will remove it
+  blurMask.tint(255, 5); //white, low opacity tint
+  blurMask.image(karoriBlurred, 0, 0); //blurred image stacking opacity
+  blurMask.noTint(); //end tint
+  
+  if (mousePressed) {
+    blurMask.loadPixels(); //load pixels in blurMask into an array
+    //for every column of pixels
+    for (int x = 0; x < blurMask.width; x ++) {
+      //for every row of pixels
+      for (int y = 0; y < blurMask.height; y ++) {
+        if (dist(x, y, mouseX, mouseY) <= brushSize) {
+          int loc = x + y * blurMask.width; //translate x,y location into linear index in .pixels[]
+          blurMask.pixels[loc] = transparent; //change colour of pixel at [loc] index to c
+        } 
+      }
+    } //end of column/row for loop
+    blurMask.updatePixels(); //update the state of pixels in pixel array
+  }
+  blurMask.endDraw(); //finished drawing to blurMask
+}
+
+void eraseBlurMaskRed() {
+  color transparent = color(0, 0); //black, 0% opacity
+  
+  blurMask.beginDraw(); //start drawing to blurMask
+  
+  //draw copy of blurred photo that will replace "fog" gradually where
+  //if (mousePressed) below will remove it
+  blurMask.fill(255, 0, 0, 5); //red, low opacity
+  blurMask.rect(0, 0, width, height); //rectangle filling canvas
+  blurMask.noFill(); //end fill
+  
+  if (mousePressed) {
+    blurMask.loadPixels(); //load pixels in blurMask into an array
+    //for every column of pixels
+    for (int x = 0; x < blurMask.width; x ++) {
+      //for every row of pixels
+      for (int y = 0; y < blurMask.height; y ++) {
+        if (dist(x, y, mouseX, mouseY) <= brushSize) {
+          int loc = x + y * blurMask.width; //translate x,y location into linear index in .pixels[]
+          blurMask.pixels[loc] = transparent; //change colour of pixel at [loc] index to c
+        } 
+      }
+    } //end of column/row for loop
+    blurMask.updatePixels(); //update the state of pixels in pixel array
+  }
+  blurMask.endDraw(); //finished drawing to blurMask
+}
 
 
 
-void redrawBlurMask(float inputX, float inputY) 
-{
-  karoriBlurred.loadPixels();
-  karoriBlurredPlain.loadPixels();
-  //for every column of pixels
-  for (int x = 0; x < karoriBlurred.width; x ++) {
-    //for every row of pixels
-    for (int y = 0; y < karoriBlurred.height; y ++) {
-        if (dist(x, y, inputX, inputY) <= 20) {
-        //translate x,y location into linear index in .pixels[]
-        int loc = x + y * karoriBlurred.width;
-        //change [loc] to unaltered state of karoriBlurredPlain
-        karoriBlurred.pixels[loc] = karoriBlurredPlain.pixels[loc]; 
-      } 
-    }
-  } //end of grid for-loop
-  karoriBlurred.updatePixels(); //update the state of pixels in pixel array
+void eraseBlurMaskPlain() {
+  color transparent = color(0, 0); //black, 0% opacity
+  
+  blurMask.beginDraw(); //start drawing to blurMask
+  if (mousePressed) {
+    blurMask.loadPixels(); //load pixels in blurMask into an array
+    //for every column of pixels
+    for (int x = 0; x < blurMask.width; x ++) {
+      //for every row of pixels
+      for (int y = 0; y < blurMask.height; y ++) {
+        if (dist(x, y, mouseX, mouseY) <= brushSize) {
+          int loc = x + y * blurMask.width; //translate x,y location into linear index in .pixels[]
+          blurMask.pixels[loc] = transparent; //change colour of pixel at [loc] index to c
+        } 
+      }
+    } //end of column/row for loop
+    blurMask.updatePixels(); //update the state of pixels in pixel array
+  }
+  blurMask.endDraw(); //finished drawing to blurMask
 }
