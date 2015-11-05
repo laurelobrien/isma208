@@ -100,6 +100,12 @@ void refogWindow() {
   if (opacCounter < 255) {
     opacCounter ++;
   }
+  //if window fully refogs, re-assign blurMask as holding an un-erased photo
+  if (opacCounter >= 255) {
+    blurMask.beginDraw();
+    blurMask.image(karoriBlurred, 0, 0); //draw blurred karori photo at window origin
+    blurMask.endDraw();
+  }
 }
 
 
