@@ -18,11 +18,15 @@ eraseBlurMaskPlain: do the same thing but without anything covering the canvas
    
 PImage karori; //unblurred image behind window
 PImage karoriBlurred; //blurred image on surface on window
+PImage karoriBlurredPlain;
 PImage leafyPlant; //leafy houseplant
 PImage spikyPlant;
 PGraphics blurMask; //"layer" storing blurred images and effects
 PGraphics staticImage; //"layer" storing unblurred image
 int brushSize = 15; //diameter of eraser applied by pressing mouse
+boolean isUserIdle = false;
+int idleCounter; //track frames passed since mouse was last pressed
+int opacCounter;
 
 
 
@@ -38,6 +42,7 @@ void setup() {
   //initialize PImages
   karori = loadImage("karori.jpg"); //karori neighborhood in wellington, new zealand
   karoriBlurred = loadImage("karori_blur.jpg"); //" " blurred
+  karoriBlurredPlain = loadImage("karori_blur.jpg"); //" " blurred
   leafyPlant = loadImage("leafy_plant-01.png");
   spikyPlant = loadImage("spiky_plant-01.png");
   
@@ -53,15 +58,48 @@ void setup() {
 
 
 void draw() {
+  //draw photos
   image(staticImage, 0, 0); //draw PGraphics holding karori
-  
   eraseBlurMask(); //erases blurMask where mouse is pressed
-  
   image(blurMask, 0, 0); //draw PGraphics holding everything drawn to blurMask
+  
+  if (idleFogging()) {
+    refogWindow();
+  }
   
   //draw houseplants on windowsill
   image(leafyPlant, 30, 437); //laurels
   image(spikyPlant, 700, 508); //aloe
+}
+
+
+
+boolean idleFogging() {
+  //begin counting frames of idling when user isn't drawing
+  if (mousePressed == false) {
+    idleCounter ++;
+  } else if (mousePressed == true) {
+    idleCounter = 0;
+    opacCounter = 0;
+  }
+  
+  //check if 5 seconds of idling have elapsed
+  if (idleCounter > frameRate * 5) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
+void refogWindow() {
+  tint(255, 0+opacCounter);
+  image(karoriBlurredPlain, 0, 0);
+  noTint();
+  
+  if (opacCounter < 255) {
+    opacCounter ++;
+  }
 }
 
 
