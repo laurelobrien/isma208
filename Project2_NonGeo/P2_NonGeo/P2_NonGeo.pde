@@ -37,20 +37,21 @@ void setup() {
   //initialize PImages
   karori = loadImage("karori.jpg"); //karori neighborhood in wellington, new zealand
   karoriBlurred = loadImage("karori_blur.jpg"); //" " blurred
-  karoriBlurredPlain = loadImage("karori_blur.jpg"); //" " blurred
   pacificStreet = loadImage("pacificstreet.jpg"); //1080 pacific street
   pacificStreetBlurred = loadImage("pacificstreet_blur.jpg");
+  waihekeIsland = loadImage("waihekeIsland.jpg");
+  waihekeIslandBlurred = loadImage("waihekeIslandBlurred.jpg");
   
   leafyPlant = loadImage("leafy_plant-01.png");
   spikyPlant = loadImage("spiky_plant-01.png");
   
   //set up initial PGraphics contents
   staticImage.beginDraw();
-  staticImage.image(pacificStreet, 0, 0); //draw karori photo at window origin
+  staticImage.image(waihekeIsland, 0, 0); //draw karori photo at window origin
   staticImage.endDraw();
   
   blurMask.beginDraw();
-  blurMask.image(pacificStreetBlurred, 0, 0); //draw blurred karori photo at window origin
+  blurMask.image(waihekeIslandBlurred, 0, 0); //draw blurred karori photo at window origin
   blurMask.endDraw();
 }
 
