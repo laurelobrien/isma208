@@ -57,8 +57,12 @@ void setup() {
 
 
 void draw() {
-  //change image if user has idled for 10 seconds
-  transitionImage();
+  //if user is currently idle:
+  if (hasUserIdled() == true) {
+    //transition to next image if 10 seconds have passed 
+    //since last transition
+    transitionImage(); 
+  }
   
   //draw photos
   image(staticImage, 0, 0); //draw PGraphics holding karori
@@ -67,13 +71,14 @@ void draw() {
   
   if (hasUserIdled() == true) {
     refogWindow(); //draw kaoriBlurred with increasing opacity
-    frameMemory ++;
+    frameMemory ++; //increase count of idle frames for transitioning images
   }
   
   //draw houseplants on windowsill
   image(leafyPlant, 30, 437); //laurels
   image(spikyPlant, 700, 508); //aloe
        
+  //every 7 frames:
   if (frameCount % 7 == 0) {
     brushSize ++; //increment brushSize
   }
@@ -82,13 +87,14 @@ void draw() {
 
 
 //check if 5 seconds have passed since user drew anything
+//if so, return true
 boolean hasUserIdled() {
   //if user is not pressing a mouse button:
   if (mousePressed == false) {
     idleCounter ++; //increment count of idle frames
   //if user IS pressing a mouse button
   } else if (mousePressed == true) {
-    idleCounter = 0; //reset idle counter
+    idleCounter = 0; //reset idle counter: user is drawing
     opacCounter = 0; //reset opacity of "re-fogging" image in refogWindow()
   }
   
@@ -105,7 +111,7 @@ boolean hasUserIdled() {
 //transition image if user is idle for 10 seconds
 void transitionImage() {
   if (frameMemory >= frameRate * 10) {
-    currentImage += 2; //increment index used to draw image(images[x])
+    currentImage += 2; //increment index used to draw image(images[])
     
     //re-assign staticImage's contents
     staticImage.beginDraw();
