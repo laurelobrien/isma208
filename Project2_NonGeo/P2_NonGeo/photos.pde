@@ -3,8 +3,11 @@
 
 PImage leafyPlant; //laurels
 PImage spikyPlant; //aloe
+PImage sharpPhoto; //original, unblurred photo
+PImage blurryPhoto; //pre-blurred version of sharpPhoto
 PGraphics blurMask; //"layer" storing blurred images and effects
 PGraphics staticImage; //"layer" storing unblurred image
+PGraphics alphaMask; //"layer" storing greyscale drawings for an alpha .mask()
 
 
 void refogWindow() {

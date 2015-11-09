@@ -4,14 +4,7 @@ Option 2: Exploration of non-geometric aesthetics
 Laurel O'Brien
 lobrien14692@ecuad.ca
 
-There are 3 functions in draw() that all do almost the same thing:
-eraseBlurMask(): turn blurred photo transparent where mouse is pressed,
-  draw another copy of blurred photo on top to create illusion of window
-  re-condensating
-eraseBlurMaskRed: do the same thing but covering the canvas with a red rectangle
-  instead of a copy of the blurred photo
-eraseBlurMaskPlain: do the same thing but without anything covering the canvas
-  over the erasure of the blurred photo
+[Project Description]
 */
   
    
@@ -21,8 +14,7 @@ int idleCounter; //track frames passed since mouse was last pressed
 int opacCounter; //opacity of image that refogs window
 int frameMemory;
 int currentImage = 0; //index in images[] of current photo displayed
-PImage[] images = new PImage[8]; //array of photos
-
+PImage[] images = new PImage[20]; //array of photos
 
 
 void setup() {
@@ -34,8 +26,9 @@ void setup() {
   //initialize PGraphics
   blurMask = createGraphics(width, height);
   staticImage = createGraphics(width, height);
+  alphaMask = createGraphics(width, height);
   
-  //initialize imageArray
+  //initialize images[] with all photos
   for (int i = 0; i < images.length; i ++)
    {
     images[i] = loadImage( i +".jpg");
@@ -53,23 +46,38 @@ void setup() {
   blurMask.beginDraw();
   blurMask.image(images[currentImage + 1], 0, 0); //draw blurred karori photo at window origin
   blurMask.endDraw();
+  
+  alphaMask.beginDraw();
+  alphaMask.background(255);
+  alphaMask.endDraw();
 }
 
 
 void draw() {
-  //if user is currently idle:
+  /*if user is currently idle:
   if (hasUserIdled() == true) {
     //transition to next image if 10 seconds have passed 
     //since last transition
     transitionImage(); 
-  }
+  }*/
   
   //draw photos
   image(staticImage, 0, 0); //draw PGraphics holding karori
-  eraseBlurMask(); //erases blurMask where mouse is pressed
-  image(blurMask, 0, 0); //draw PGraphics holding everything drawn to blurMask
   
-  if (hasUserIdled() == true) {
+  alphaMask.beginDraw();
+  if (mousePressed) {
+    alphaMask.fill(0); //black
+    alphaMask.ellipse(mouseX, mouseY, brushSize, brushSize);
+  }
+  alphaMask.endDraw();
+  
+  //assign alphaMask as a mask of whatever images[currentImage+1] is
+  images[currentImage+1].mask(alphaMask);
+  
+  //call that image (with mask now applied)
+  image(images[currentImage+1], 0, 0);
+  
+  /*if (hasUserIdled() == true) {
     refogWindow(); //draw kaoriBlurred with increasing opacity
     frameMemory ++; //increase count of idle frames for transitioning images
   }
@@ -81,7 +89,7 @@ void draw() {
   //every 7 frames:
   if (frameCount % 7 == 0) {
     brushSize ++; //increment brushSize
-  }
+  }*/
 }
 
 
