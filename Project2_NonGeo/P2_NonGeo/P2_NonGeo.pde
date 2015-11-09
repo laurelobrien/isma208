@@ -14,7 +14,9 @@ int idleCounter; //track frames passed since mouse was last pressed
 int opacCounter; //opacity of image that refogs window
 int frameMemory;
 int currentImage = 0; //index in images[] of current photo displayed
+boolean hasFogReturned = false;
 PImage[] images = new PImage[20]; //array of photos
+int opacity;
 
 
 
@@ -74,6 +76,8 @@ void draw() {
     alphaMask.fill(0); //black
     alphaMask.ellipse(mouseX, mouseY, brushSize, brushSize);
   }
+  alphaMask.fill(255, opacCounter); //white with variable opacity
+  alphaMask.rect(0, 0, width, height); //rectangle covering canvas
   alphaMask.endDraw();
   
   //assign alphaMask as a mask of whatever blurryPhoto holds
@@ -81,6 +85,10 @@ void draw() {
   
   //call that image (with mask now applied)
   image(blurryPhoto, 0, 0);
+  
+  if (hasUserIdled() == true) {
+    refogWindow();
+  }
   
   /*if (hasUserIdled() == true) {
     refogWindow(); //draw kaoriBlurred with increasing opacity
@@ -95,6 +103,8 @@ void draw() {
   if (frameCount % 7 == 0) {
     brushSize ++; //increment brushSize
   }*/
+  
+  println(idleCounter, hasUserIdled());
 }
 
 
