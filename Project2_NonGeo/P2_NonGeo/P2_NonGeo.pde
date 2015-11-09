@@ -11,12 +11,12 @@ lobrien14692@ecuad.ca
 
 int brushSize = 15; //diameter of eraser applied by pressing mouse
 int idleCounter; //track frames passed since mouse was last pressed
+int frameMemory; //same as idleCounter but reset when transitionImage() executes
 int opacCounter; //opacity of image that refogs window
-int frameMemory;
 int currentImage = 0; //index in images[] of current photo displayed
 boolean hasFogReturned = false;
 PImage[] images = new PImage[20]; //array of photos
-int opacity;
+float brushSizeOscillate;
 
 
 
@@ -26,9 +26,7 @@ void setup() {
   noStroke(); //remove str
   noFill(); //remove fill
   
-  //initialize PGraphics
-  blurMask = createGraphics(width, height);
-  staticImage = createGraphics(width, height);
+  //initialize alphaMask PGraphics
   alphaMask = createGraphics(width, height);
   
   //initialize images[] with all photos
@@ -41,40 +39,32 @@ void setup() {
   leafyPlant = loadImage("leafy_plant-01.png");
   spikyPlant = loadImage("spiky_plant-01.png");
   
-  //set up initial PGraphics contents
-  staticImage.beginDraw();
-  staticImage.image(images[currentImage], 0, 0); //draw karori photo at window origin
-  staticImage.endDraw();
-  
-  blurMask.beginDraw();
-  blurMask.image(images[currentImage + 1], 0, 0); //draw blurred karori photo at window origin
-  blurMask.endDraw();
-  
+  //initialize alphaMask contents
   alphaMask.beginDraw();
-  alphaMask.background(255);
+  alphaMask.background(255); //white: mask is full opacity
   alphaMask.endDraw();
 }
 
 
 void draw() {
+  //transition to next image if user has idled for >10 seconds
+  if (frameMemory > frameRate * 10) {
+    transitionImage();
+  }
+  
+  //update variables
   sharpPhoto = images[currentImage]; //update sharpPhoto's value
   blurryPhoto = images[currentImage+1]; //update blurryPhoto's value
+  brushSizeOscillate = sinSmooth(brushSize, 10, 40, 10, 40); //map brushSize to sine wave
   
-  /*if user is currently idle:
-  if (hasUserIdled() == true) {
-    //transition to next image if 10 seconds have passed 
-    //since last transition
-    transitionImage(); 
-  }*/
-  
-  //draw photos
   image(sharpPhoto, 0, 0); //draw PImage holding images[currentImage]
   
-  //draw black ellipses to alphaMask at mouse position if pressed
+  //draw black ellipses inside alphaMask at mouse position if pressed,
+  //and always draw white rectangle with variable opacity over top
   alphaMask.beginDraw();
   if (mousePressed) {
     alphaMask.fill(0); //black
-    alphaMask.ellipse(mouseX, mouseY, brushSize, brushSize);
+    alphaMask.ellipse(mouseX, mouseY, brushSizeOscillate, brushSizeOscillate);
   }
   alphaMask.fill(255, opacCounter); //white with variable opacity
   alphaMask.rect(0, 0, width, height); //rectangle covering canvas
@@ -83,16 +73,12 @@ void draw() {
   //assign alphaMask as a mask of whatever blurryPhoto holds
   blurryPhoto.mask(alphaMask);
   
-  //call that image (with mask now applied)
+  //call that image with mask now applied
   image(blurryPhoto, 0, 0);
   
+  //if user has been idle for 5 seconds:
   if (hasUserIdled() == true) {
-    refogWindow();
-  }
-  
-  /*if (hasUserIdled() == true) {
-    refogWindow(); //draw kaoriBlurred with increasing opacity
-    frameMemory ++; //increase count of idle frames for transitioning images
+    refogWindow(); //begin increasing opacity of white rect() in alphaMask
   }
   
   //draw houseplants on windowsill
@@ -102,10 +88,10 @@ void draw() {
   //every 7 frames:
   if (frameCount % 7 == 0) {
     brushSize ++; //increment brushSize
-  }*/
+  }
   
-  println(idleCounter, hasUserIdled());
-}
+  println(idleCounter / frameRate, frameMemory / frameRate);
+} //end of draw()
 
 
 
@@ -115,10 +101,12 @@ boolean hasUserIdled() {
   //if user is not pressing a mouse button:
   if (mousePressed == false) {
     idleCounter ++; //increment count of idle frames
+    frameMemory ++; //increment count of frames since transition
   //if user IS pressing a mouse button
   } else if (mousePressed == true) {
-    idleCounter = 0; //reset idle counter: user is drawing
+    idleCounter = 0; //reset idle frame counter: user is drawing
     opacCounter = 0; //reset opacity of "re-fogging" image in refogWindow()
+    frameMemory = 0; //reset idle frame counter for transitioning
   }
   
   //check if 5 seconds of idling have elapsed
@@ -131,32 +119,15 @@ boolean hasUserIdled() {
 
 
 
-//transition image if user is idle for 10 seconds
+//transition image if user is idle for 60 seconds
 void transitionImage() {
-  if (frameMemory >= frameRate * 10) {
-    currentImage += 2; //increment index used to draw image(images[])
-    
-    //re-assign staticImage's contents
-    staticImage.beginDraw();
-    staticImage.image(images[currentImage], 0, 0);
-    staticImage.endDraw();
-    
-    //re-assign blurMask's contents
-    blurMask.beginDraw();
-    blurMask.image(images[currentImage+1], 0, 0);
-    blurMask.endDraw();
-    
-    frameMemory = 0; //reset memory of last transition
-  }
-}
-
-void mouseClicked() {
-  
+  currentImage += 2; //increment index used to draw image(images[])
+  frameMemory = 0; //reset memory of last transition
 }
 
 
 
-// Smoothing function that uses a sinewave, by Ben Bogart
+// Smoothing function that uses a sine wave, by Ben Bogart
 float sinSmooth(float value, float inputMin, float inputMax, float outputMin, float outputMax) {
   
   // Convert input value (ranging from inputMin to inputMax) to pi relative values.
