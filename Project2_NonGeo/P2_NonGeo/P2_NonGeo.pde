@@ -9,7 +9,10 @@ lobrien14692@ecuad.ca
   
    
 
-int brushSize = 15; //diameter of eraser applied by pressing mouse
+int brushSize = 10; //current brushSize
+int brushSizeMin = 10; //minimum diameter of eraser applied by pressing mouse
+int brushSizeMax = 40; //maximum diameter of eraser
+int brushMod = 1; //amount that brushSize is changed every frame
 int idleCounter; //track frames passed since mouse was last pressed
 int frameMemory; //same as idleCounter but reset when transitionImage() executes
 int opacCounter; //opacity of image that refogs window
@@ -85,10 +88,7 @@ void draw() {
   image(leafyPlant, 30, 437); //laurels
   image(spikyPlant, 700, 508); //aloe
        
-  //every 7 frames:
-  if (frameCount % 7 == 0) {
-    brushSize ++; //increment brushSize
-  }
+  changeBrushSize();
   
   println(idleCounter / frameRate, frameMemory / frameRate);
 } //end of draw()
@@ -125,6 +125,23 @@ void transitionImage() {
   frameMemory = 0; //reset memory of last transition
 }
 
+
+
+//increase and decrease brushSize between its min and max size
+void changeBrushSize() {
+  //every 7 frames:
+  if (frameCount % 7 == 0) {
+    //if brushSize reaches or exceeds its maximum:
+    if (brushSize >= brushSizeMax) {
+      brushMod = -1; //decrease brushSize
+    //if brushSize reaches or goes lower than its minimum:
+    } else if (brushSize <= brushSizeMin) {
+      brushMod = 1; //increase brushSize
+    }
+    
+    brushSize += brushMod; //change brushSize
+  }
+}
 
 
 // Smoothing function that uses a sine wave, by Ben Bogart
