@@ -18,7 +18,7 @@ int frameMemory; //same as idleCounter but reset when transitionImage() executes
 int opacCounter; //opacity of image that refogs window
 int currentImage = 0; //index in images[] of current photo displayed
 boolean hasFogReturned = false;
-PImage[] images = new PImage[20]; //array of photos
+PImage[] images = new PImage[22]; //array of photos
 float brushSizeOscillate;
 
 
@@ -51,7 +51,7 @@ void setup() {
 
 void draw() {
   //transition to next image if user has idled for >10 seconds
-  if (frameMemory > frameRate * 10) {
+  if (frameMemory > frameRate * 3) {
     transitionImage();
   }
   
@@ -121,7 +121,12 @@ boolean hasUserIdled() {
 
 //transition image if user is idle for 60 seconds
 void transitionImage() {
-  currentImage += 2; //increment index used to draw image(images[])
+  //if next pair of image[] indices will be outside its length:
+  if (currentImage + 3 > images.length) {
+    currentImage = 0; //reset currentImage to beginning of images[]
+  } else {
+    currentImage += 2; //increment index used to draw image(images[])
+  }
   frameMemory = 0; //reset memory of last transition
 }
 
