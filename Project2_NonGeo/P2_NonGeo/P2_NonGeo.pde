@@ -17,6 +17,7 @@ int currentImage = 0; //index in images[] of current photo displayed
 PImage[] images = new PImage[20]; //array of photos
 
 
+
 void setup() {
   
   size(900, 675); //window size
@@ -54,6 +55,9 @@ void setup() {
 
 
 void draw() {
+  sharpPhoto = images[currentImage]; //update sharpPhoto's value
+  blurryPhoto = images[currentImage+1]; //update blurryPhoto's value
+  
   /*if user is currently idle:
   if (hasUserIdled() == true) {
     //transition to next image if 10 seconds have passed 
@@ -62,8 +66,9 @@ void draw() {
   }*/
   
   //draw photos
-  image(staticImage, 0, 0); //draw PGraphics holding karori
+  image(sharpPhoto, 0, 0); //draw PImage holding images[currentImage]
   
+  //draw black ellipses to alphaMask at mouse position if pressed
   alphaMask.beginDraw();
   if (mousePressed) {
     alphaMask.fill(0); //black
@@ -71,11 +76,11 @@ void draw() {
   }
   alphaMask.endDraw();
   
-  //assign alphaMask as a mask of whatever images[currentImage+1] is
-  images[currentImage+1].mask(alphaMask);
+  //assign alphaMask as a mask of whatever blurryPhoto holds
+  blurryPhoto.mask(alphaMask);
   
   //call that image (with mask now applied)
-  image(images[currentImage+1], 0, 0);
+  image(blurryPhoto, 0, 0);
   
   /*if (hasUserIdled() == true) {
     refogWindow(); //draw kaoriBlurred with increasing opacity
@@ -133,6 +138,10 @@ void transitionImage() {
     
     frameMemory = 0; //reset memory of last transition
   }
+}
+
+void mouseClicked() {
+  
 }
 
 
