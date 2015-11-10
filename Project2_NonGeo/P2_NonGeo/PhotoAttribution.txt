@@ -11,6 +11,9 @@ Made by Laurel
 2.jpg, Laurel O’Brien, Vancouver, Canada
 4.jpg, Laurel O’Brien, Vancouver, Canada
 18.jpg, Laurel O’Brien, Vancouver, Canada
+pitcherplant.png, ink drawing
+tallplant.png, ink drawing
+shortplant.png, ink drawing
 
 
 Made and contributed by others

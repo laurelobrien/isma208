@@ -154,9 +154,9 @@ void draw() {
   }
   
   //draw houseplants on windowsill
-  image(leafyPlant, 550, 275); //leafy plant
+  image(leafyPlant, 530, 280); //leafy plant
   image(tallPlant, 30, 360); //echinacea
-  image(shortPlant, 250, 480); //aloe
+  image(shortPlant, 215, 480); //aloe
   
   //change brushSize with change amount modulated by sinSmooth     
   changeBrushSize();
