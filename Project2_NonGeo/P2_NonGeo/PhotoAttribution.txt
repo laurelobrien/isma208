@@ -1,15 +1,24 @@
-Photo attribution
+Photo/image attribution
 
-Some photos used in this program have been contributed by friends and family at the request of “a photo of the view from your favourite window at home”, without specification of time-frame or whether or not it was their legal residence.  In order and by file name with photographer, city, and country:
+Some photos used in this program have been contributed by friends and family at the request of “a photo of the view from your favourite window at home”, without specification of time-frame or whether or not it was their legal residence.  
 
+
+By file name with photographer, city, and country:
+
+Made by Laurel
+---------------------
 0.jpg, Laurel O’Brien, Wellington, New Zealand
 2.jpg, Laurel O’Brien, Vancouver, Canada
 4.jpg, Laurel O’Brien, Vancouver, Canada
+18.jpg, Laurel O’Brien, Vancouver, Canada
+
+
+Made and contributed by others
+---------------------
 6.jpg, Dave O’Brien, Waiheke, New Zealand
 8.jpg, Orion Holder-Monk, Wellington, New Zealand
 10.jpg, Morgan Wisheart, Paraparaumu, New Zealand
 12.jpg, Cory Knight, Hokitika, New Zealand
 14.jpg, Gina Grimshaw, Granada, Spain
 16.jpg, Derek Bruce-Durand, Vancouver, Canada
-18.jpg, Laurel O’Brien, Vancouver, Canada
 20.jpg, Jamila Pomeroy, Vancouver, Canada
