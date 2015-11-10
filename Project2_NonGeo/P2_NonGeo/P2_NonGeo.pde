@@ -17,7 +17,11 @@ int idleCounter; //track frames passed since mouse was last pressed
 int frameMemory; //same as idleCounter but reset when transitionImage() executes
 int opacCounter; //opacity of image that refogs window
 int currentImage = 0; //index in images[] of current photo displayed
+int transitionWait = 10; //seconds between image transitions
+int initialOpac = 255;
+int fade = 0;
 boolean hasFogReturned = false;
+boolean hasImageChanged = true;
 PImage[] images = new PImage[22]; //array of photos
 float brushSizeOscillate;
 
@@ -51,8 +55,15 @@ void setup() {
 
 void draw() {
   //transition to next image if user has idled for >10 seconds
-  if (frameMemory > frameRate * 3) {
+  if (frameMemory > frameRate * transitionWait) {
     transitionImage();
+    initialOpac = 0;
+    fade = 0;
+    hasImageChanged = true;
+  }
+  
+  if (hasImageChanged == true) {
+    fade();
   }
   
   //update variables
@@ -60,7 +71,14 @@ void draw() {
   blurryPhoto = images[currentImage+1]; //update blurryPhoto's value
   brushSizeOscillate = sinSmooth(brushSize, 10, 40, 10, 40); //map brushSize to sine wave
   
-  image(sharpPhoto, 0, 0); //draw PImage holding images[currentImage]
+  if (currentImage > 0) {
+    previousPhoto = images[currentImage - 1];
+    image(previousPhoto, 0, 0);
+  }
+  
+  if (hasImageChanged == false) {
+    image(sharpPhoto, 0, 0); //draw PImage holding images[currentImage]
+  }
   
   //draw black ellipses inside alphaMask at mouse position if pressed,
   //and always draw white rectangle with variable opacity over top
@@ -77,7 +95,9 @@ void draw() {
   blurryPhoto.mask(alphaMask);
   
   //call that image with mask now applied
+  tint(255, initialOpac+fade);
   image(blurryPhoto, 0, 0);
+  noTint();
   
   //if user has been idle for 5 seconds:
   if (hasUserIdled() == true) {
@@ -90,7 +110,7 @@ void draw() {
        
   changeBrushSize();
   
-  println(idleCounter / frameRate, frameMemory / frameRate);
+  println(hasImageChanged);
 } //end of draw()
 
 
@@ -127,6 +147,7 @@ void transitionImage() {
   } else {
     currentImage += 2; //increment index used to draw image(images[])
   }
+
   frameMemory = 0; //reset memory of last transition
 }
 
@@ -145,6 +166,19 @@ void changeBrushSize() {
     }
     
     brushSize += brushMod; //change brushSize
+  }
+}
+
+
+
+//increase opacity of next image during transition
+void fade() {
+  //if opacity is less than maximum alpha value
+  if (fade < 255) {
+    fade ++; //increment opacity
+  //else if opacity has reached its maximum and image is full transitioned
+  } else if (fade >= 255) {
+    hasImageChanged = false; //forget image has changed so it can reoccur
   }
 }
 

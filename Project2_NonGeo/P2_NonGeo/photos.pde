@@ -3,6 +3,7 @@
 
 PImage leafyPlant; //laurels
 PImage spikyPlant; //aloe
+PImage previousPhoto; //last transition's blurPhoto
 PImage sharpPhoto; //original, unblurred photo
 PImage blurryPhoto; //pre-blurred version of sharpPhoto
 PGraphics alphaMask; //"layer" storing greyscale drawings for an alpha .mask()
