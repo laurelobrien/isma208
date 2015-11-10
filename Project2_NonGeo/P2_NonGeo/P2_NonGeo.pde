@@ -3,14 +3,46 @@
    Laurel O'Brien
    lobrien14692@ecuad.ca
 
-   [Project Description]
-*/
-
-/* ! change this integer (minimum of 5 seconds) to reduce time between image transitions */
-int transitionWait = 60; //seconds between image transitions
+   Visual Critical Analysis
+   ------------------------
+   Condensate is an interactive view from somebody’s favourite window. The actual 
+   program window becomes the pane of glass between the user and the photograph; 
+   each one different but each depicting a scene just outside of a domestic space. 
+   The images fade between each other endlessly but can be stalled and solidified 
+   if the user disturbs the condensation clouding their view.
+   Any frame of the program is made of 3 main components: a sharp image, a layer of 
+   blurriness over top, and ink drawings of houseplants in the foreground. The fog 
+   obscuring the sharp image can be rubbed away so that the user may reveal the 
+   sharp image beneath, emulating the absent-minded shapes you might trace on a 
+   cold window while you wait in the car, wait for coffee to brew, wait for a 
+   friend to return from the bathroom. If 5 seconds pass with no drawing, the 
+   window will fog back up again. If several minutes pass the same way, the view 
+   fades away into a different one. 
+     This interactivity allows the viewer to control how much of a scene they will 
+   reveal and which ones they will let fade away. However, inactivity means the 
+   photos keep cycling, albeit slowly, so there is a degree of inevitability when 
+   you choose to doodle and unmask and draw and the image transitions wait for you. 
+   Eventually you will be done interacting with the window or you don’t re-engage 
+   it quite in time and it’s gone, like trying to remember a dream in the morning.
+     The ink drawings contextualize the window as being a composite and digital 
+   creation, but one that is made with a human hand. They appear to be on “our side” 
+   of the window, especially when the condensation resembles a short depth of field 
+   before cutting into it with ghostly fingers. The inside space becomes lived-in 
+   and cozy. Condensate asks you to make choices about which homes and memories and 
+   environments you preserve with concentration, knowing you will still have to let 
+   go eventually, and which ones you let slip away. 
+   ------------------------
+   Note: Because the project brief said to only use photos/images you created —
+   Most of the photos used were taken by me, but several were contributed by
+   friends and family to extend the idea of windows in your home being an individual 
+   but universal view from inside, out. Attribution for each photo is included in the
+   PhotoCredits.txt file in the sketch folder.  */
 
 //declare and/or initialize variables
 //
+// ! change this integer (minimum of 5 seconds) to reduce time between image transitions !
+int transitionWait = 60; //seconds between image transitions
+
 //PImages and PGraphics
 PImage leafyPlant; //leafy plant in pitcher
 PImage tallPlant; //echinacea in pot
