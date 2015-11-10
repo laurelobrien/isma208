@@ -17,7 +17,7 @@ int idleCounter; //track frames passed since mouse was last pressed
 int frameMemory; //same as idleCounter but reset when transitionImage() executes
 int opacCounter; //opacity of image that refogs window
 int currentImage = 0; //index in images[] of current photo displayed
-int transitionWait = 10; //seconds between image transitions
+int transitionWait = 7; //seconds between image transitions
 int initialOpac = 255;
 int fade = 0;
 boolean hasFogReturned = false;
