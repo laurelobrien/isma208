@@ -154,7 +154,7 @@ void draw() {
   }
   
   //draw houseplants on windowsill
-  image(leafyPlant, 530, 280); //leafy plant
+  image(leafyPlant, 530, 245); //leafy plant
   image(tallPlant, 30, 360); //echinacea
   image(shortPlant, 215, 480); //aloe
   
