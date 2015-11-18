@@ -2,6 +2,7 @@ class TypeBucket {
   //attributes
   char x, y, z;
   char[] bucketContents = new char[3];
+  String identifier = new String(bucketContents);
 
   //contructor
   TypeBucket(char tempX, char tempY, char tempZ) {
@@ -11,6 +12,7 @@ class TypeBucket {
     bucketContents[0] = x;
     bucketContents[1] = y;
     bucketContents[2] = z;
+    identifier = new String(bucketContents)+" bin\n";
   }
 
 //methods
