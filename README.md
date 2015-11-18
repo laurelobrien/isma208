@@ -13,3 +13,12 @@ Taught by Ben Bogart as part of the Interactive + Social Media major.
 Processing programs are called *sketches*. Both Processing's name itself and the name it gives its programs are unfortunate and confusing, so they will be referred to as programs. A program (.pde) needs to be in its original folder to run, even if said program does not have any associated files. 
 
 The easiest way to compile it is to simply install the Processing IDE ([free](https://processing.org/download/)) and run it from there. Eclipse is also capable of highlighting and compiling Processing programs, which is made easier with [proclipsing](https://code.google.com/p/proclipsing/) (I know, who names this stuff?).
+
+##project 1
+Create a non-traditional clock. (incomplete) [:arrow-right:](https://github.com/laurelobrien/isma208/tree/master/Project1_Clock/P1)
+
+##project 2
+Explore non-geometric aesthetics. This can include hand-made images, curves, vectors, sine waves, natural-looking acceleration and deceleration etc. [:arrow-right:](https://github.com/laurelobrien/isma208/tree/master/Project2_NonGeo/P2_NonGeo)
+
+##project 3
+Anything. (link forthcoming)
