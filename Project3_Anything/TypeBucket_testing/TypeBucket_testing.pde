@@ -6,27 +6,30 @@ lobrien14692@ecuad.ca
 [Project Description]
 */
 
-import processing.pdf.*; //import everything in PDF library
+//import everything in PDF library
+import processing.pdf.*;
 
+//declare and initialize global variables
+//
+//
+String sentence = "i love austin"; //input text
 char letter;
-String singleWord = "";
-String sentence = "hello world!";
-char sentenceChars[] = {'h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd', '!'};
 char[] charArray;
-char splitList[];
 
-String helloWorld = new String(sentenceChars);
+//Strings for drawing text on canvas
 String instructionList = ""; //empty list of instructions
 String header = "Pull one character from each of these bins.";
 String spaces = "Use up to "+int(random(2, 5))+" spaces.";
 String ink = "Ink the type with a mix of "+int(random(2, 33))+" parts Pthalo Green, "+int(random(2, 33))+
 " parts Crimson Red, and "+int(random(2, 33))+" parts Ultramarine Blue.";
 
+//declare PFont for drawing text in drawInstructions()
 PFont apercu;
 
-TypeBucket[] allBuckets; //declare array of TypeBucket objects
+//declare array of TypeBucket objects
+TypeBucket[] allBuckets; 
 
-//declare and instantiate TypeBuckets for each 
+//declare and instantiate TypeBuckets for each real bucket of type at ECUAD
 TypeBucket abcBucket = new TypeBucket('a', 'b', 'c');
 TypeBucket defBucket = new TypeBucket('d', 'e', 'f');
 TypeBucket ghiBucket = new TypeBucket('g', 'h', 'i');
@@ -40,13 +43,13 @@ TypeBucket yzBucket = new TypeBucket('y', 'z', '!');
 
 
 void setup() {
-  //size(500, 700, PDF, "woodtype_test.pdf"); //pdf output size and file name
-  size(500, 700);
+  size(500, 700, PDF, "woodtype_test.pdf"); //pdf output size and file name
+  //size(500, 700); //canvas size for non-PDF test runs
   background(255); //white background
   apercu = createFont("ApercuProMono.ttf", 18); //initialize apercu font
   allBuckets = new TypeBucket[9]; //create array to store all available TypeBuckets
   
-  //initialize allBuckets[]
+  //initialize allBuckets[] with all TypeBucket instances
   allBuckets[0] = abcBucket;
   allBuckets[1] = defBucket;
   allBuckets[2] = ghiBucket;
@@ -57,14 +60,16 @@ void setup() {
   allBuckets[7] = vwxBucket;
   allBuckets[8] = yzBucket;
   
-  //newCheckBuckets(sentenceChars);
-  //drawInstructions();
+  //convert sentence into a character array, and feed that array through newCheckBuckets
+  //to determine which bucket each character can be found in
+  newCheckBuckets(convertString(sentence));
+  
+  //call drawInstructions to format and draw complete set of instructions
+  drawInstructions();
   //println(instructionList);
   
-  println(convertString(sentence)); //print "hello world!" as a character array
-  
-  //exit(); //save and exit pdf file
-  //println("Drawn and saved."); //indicate draw() has finished incl writing PDF file
+  exit(); //save and exit pdf file
+  println("Drawn and saved."); //indicate setup() has finished, including writing to PDF
 }
 
 
