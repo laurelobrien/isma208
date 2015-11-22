@@ -3,7 +3,8 @@ Project 3
 Laurel O'Brien
 lobrien14692@ecuad.ca
 
-[Project Description]
+TO DO
+- decide if draw() will be used at all in this program
 */
 
 //import everything in PDF library
@@ -12,16 +13,21 @@ import processing.pdf.*;
 //declare and initialize global variables
 //
 //
-String sentence = "i love austin"; //input text
+String sentence = "hello world!"; //input text
 char letter;
 char[] charArray;
 
 //Strings for drawing text on canvas
 String instructionList = ""; //empty list of instructions
-String header = "Pull one character from each of these bins.";
+String header = "Pull one character from each bin.";
 String spaces = "Use up to "+int(random(2, 5))+" spaces.";
 String ink = "Ink the type with a mix of "+int(random(2, 33))+" parts Pthalo Green, "+int(random(2, 33))+
 " parts Crimson Red, and "+int(random(2, 33))+" parts Ultramarine Blue.";
+
+float fontSize = 18; //point-size of loaded PFont
+float lineLeading = fontSize * 1.4; //leading: looks best at 140% of text size for short-form
+float numInstructions = 0; //count of instructions added to instructionList
+float margin = 30; //pixel margin to stay inside, inset from edge of canvas
 
 //declare PFont for drawing text in drawInstructions()
 PFont apercu;
@@ -43,10 +49,10 @@ TypeBucket yzBucket = new TypeBucket('y', 'z', '!');
 
 
 void setup() {
-  size(500, 700, PDF, "woodtype_test.pdf"); //pdf output size and file name
-  //size(500, 700); //canvas size for non-PDF test runs
+  //size(500, 700, PDF, "woodtype_test.pdf"); //pdf output size and file name
+  size(500, 700); //canvas size for non-PDF test runs
   background(255); //white background
-  apercu = createFont("ApercuProMono.ttf", 18); //initialize apercu font
+  apercu = createFont("ApercuProMono.ttf", fontSize); //initialize apercu font
   allBuckets = new TypeBucket[9]; //create array to store all available TypeBuckets
   
   //initialize allBuckets[] with all TypeBucket instances
@@ -68,8 +74,8 @@ void setup() {
   drawInstructions();
   //println(instructionList);
   
-  exit(); //save and exit pdf file
-  println("Drawn and saved."); //indicate setup() has finished, including writing to PDF
+  //exit(); //save and exit pdf file
+  //println("Drawn and saved."); //indicate setup() has finished, including writing to PDF
 }
 
 
@@ -84,7 +90,7 @@ char[] convertString(String s) {
   //new character array has as many indices as there are characters in String s
   char[] charArray = new char[s.length()];
   //get each character from beginning to end of String s, and store in an index of charArray
-  s.getChars(0, s.length()-1, charArray, 0);
+  s.getChars(0, s.length(), charArray, 0);
   //return the char[] charArray
   return charArray;
 }
@@ -104,6 +110,7 @@ void newCheckBuckets(char x[]) {
         if (letter == allBuckets[j].bucketContents[k]) {
           //if so, use TypeBucket's method .identifier() to append its name to instructionList
           instructionList += allBuckets[j].identifier;
+          numInstructions ++;
         }
       }
     }
@@ -112,17 +119,27 @@ void newCheckBuckets(char x[]) {
 
 
 
-//draw instructions to the canvas
-//header: general instructions to select type from following bins
+//draw instructions to the canvas with 5 components:
+//header: fixed instruction to select type from following bins
 //spaces: how many spaces can be used
-//instruction list: list of bins to select type from via variable instructionList
-//ink: ratio of ink to mix to print letters
+//ink: ratios of ink to mix
+//instructionList: bins to select type from that was constructed in newCheckBuckets()
+//rules: traditional type element (a straight line) that divides sections/information
 void drawInstructions() {
-  fill(0); //black fill
-  stroke(240, 30, 30); //black stroke
-  line(30, 30, width-30, 30);
-  textFont(apercu); //apercu mono
-  text(header+"\n"+spaces+"\n\n"+instructionList, 30, 50, width-60, height-250);
-  line(30, height-180, width-30, height-180);
-  text(ink, 30, height-160, width-60, height-160);
+  //textboxes dimensions
+  float paramHeight = lineLeading * 7; //opening instructions always 7 lines in height
+  float listHeight = (numInstructions+5) * lineLeading;  //list length of bins is variable
+  float textBoxWidth = width - margin * 2; //both as wide as canvas minus left + right margins
+  
+  fill(0); //black fill for text
+  stroke(240, 30, 30); //red stroke for (typographical) rules
+  line(30, 30, width-30, 30); //rule framing header
+  
+  //draw all String instructions for printer as text inside one fixed text box
+  //and one variable-height text box
+  textFont(apercu); //set font to apercu mono
+  textLeading(lineLeading);
+  text(header+"\n\n"+spaces+"\n\n"+ink, margin, 50, textBoxWidth, paramHeight); //fixed height
+  text(instructionList, margin, paramHeight+100, textBoxWidth, listHeight); //variable height
+  line(margin, paramHeight+75, width-margin, paramHeight+75); //second rule dividing textboxes
 }
