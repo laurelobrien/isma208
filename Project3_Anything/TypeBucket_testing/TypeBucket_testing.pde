@@ -6,6 +6,8 @@ lobrien14692@ecuad.ca
 [Project Description]
 */
 
+import processing.pdf.*; //import everything in PDF library
+
 char letter;
 String singleWord = "";
 String sentence = "hello world!";
@@ -38,7 +40,7 @@ print bucket identifier
 */
 
 void setup() {
-  size(500, 700);
+  size(500, 700, PDF, "woodtype_test.pdf"); //pdf output size and name
   background(255);
   apercu = createFont("ApercuProMono.ttf", 18);
   allBuckets = new TypeBucket[9];
@@ -65,7 +67,10 @@ void setup() {
   //checkBuckets(g, a, p);
   newCheckBuckets(sentenceChars);
   drawInstructions();
-  println(instructionList);
+  //println(instructionList);
+  
+  println("Drawn and saved.");
+  exit(); //save and exit pdf file
 }
 
 void draw() {
