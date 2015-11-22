@@ -11,7 +11,9 @@ import processing.pdf.*; //import everything in PDF library
 char letter;
 String singleWord = "";
 String sentence = "hello world!";
-char sentenceChars[] = {'h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '!'};
+char sentenceChars[] = {'h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd', '!'};
+char[] charArray;
+char splitList[];
 
 String helloWorld = new String(sentenceChars);
 String instructionList = ""; //empty list of instructions
@@ -22,7 +24,9 @@ String ink = "Ink the type with a mix of "+int(random(2, 33))+" parts Pthalo Gre
 
 PFont apercu;
 
-TypeBucket[] allBuckets; //array of TypeBucket objects
+TypeBucket[] allBuckets; //declare array of TypeBucket objects
+
+//declare and instantiate TypeBuckets for each 
 TypeBucket abcBucket = new TypeBucket('a', 'b', 'c');
 TypeBucket defBucket = new TypeBucket('d', 'e', 'f');
 TypeBucket ghiBucket = new TypeBucket('g', 'h', 'i');
@@ -33,22 +37,14 @@ TypeBucket stuBucket = new TypeBucket('s', 't', 'u');
 TypeBucket vwxBucket = new TypeBucket('v', 'w', 'x');
 TypeBucket yzBucket = new TypeBucket('y', 'z', '!');
 
-/*
-for each index in charList[]
-identify which bucket it goes in
-print bucket identifier
-*/
+
 
 void setup() {
-  size(500, 700, PDF, "woodtype_test.pdf"); //pdf output size and name
-  background(255);
-  apercu = createFont("ApercuProMono.ttf", 18);
-  allBuckets = new TypeBucket[9];
-  
-  //select 10 letters from abcBucket and append them to singleWord
-  for (int i = 0; i < 10; i ++) {
-    singleWord += abcBucket.pullType();
-  }
+  //size(500, 700, PDF, "woodtype_test.pdf"); //pdf output size and file name
+  size(500, 700);
+  background(255); //white background
+  apercu = createFont("ApercuProMono.ttf", 18); //initialize apercu font
+  allBuckets = new TypeBucket[9]; //create array to store all available TypeBuckets
   
   //initialize allBuckets[]
   allBuckets[0] = abcBucket;
@@ -61,29 +57,47 @@ void setup() {
   allBuckets[7] = vwxBucket;
   allBuckets[8] = yzBucket;
   
-  //println(abcBucket.identifier);
-  //println(allBuckets[0].identifier);
-  
-  //checkBuckets(g, a, p);
-  newCheckBuckets(sentenceChars);
-  drawInstructions();
+  //newCheckBuckets(sentenceChars);
+  //drawInstructions();
   //println(instructionList);
   
-  println("Drawn and saved.");
-  exit(); //save and exit pdf file
+  println(convertString(sentence)); //print "hello world!" as a character array
+  
+  //exit(); //save and exit pdf file
+  //println("Drawn and saved."); //indicate draw() has finished incl writing PDF file
 }
+
 
 void draw() {
   
 }
 
 
+
+//return a character array containing all the characters in the argument's string
+char[] convertString(String s) {
+  //new character array has as many indices as there are characters in String s
+  char[] charArray = new char[s.length()];
+  //get each character from beginning to end of String s, and store in an index of charArray
+  s.getChars(0, s.length()-1, charArray, 0);
+  //return the char[] charArray
+  return charArray;
+}
+
+
+//identify which bucket each character in a character array comes from.
+//add the bucket's name to a list of instructions to be printed later.
 void newCheckBuckets(char x[]) {
+  //for every character in the argument's array:
   for (int i = 0; i < x.length; i ++) {
+    //for every bucket of type:
     for (int j = 0; j < allBuckets.length; j ++) {
+      //for the three characters that normally go in that bucket
       for (int k = 0; k < 3; k ++) {
         letter = x[i];
+        //check if the argument character matches any of the bucket's characters
         if (letter == allBuckets[j].bucketContents[k]) {
+          //if so, use TypeBucket's method .identifier() to append its name to instructionList
           instructionList += allBuckets[j].identifier;
         }
       }
@@ -91,6 +105,13 @@ void newCheckBuckets(char x[]) {
   }
 }
 
+
+
+//draw instructions to the canvas
+//header: general instructions to select type from following bins
+//spaces: how many spaces can be used
+//instruction list: list of bins to select type from via variable instructionList
+//ink: ratio of ink to mix to print letters
 void drawInstructions() {
   fill(0); //black fill
   stroke(240, 30, 30); //black stroke
@@ -99,33 +120,4 @@ void drawInstructions() {
   text(header+"\n"+spaces+"\n\n"+instructionList, 30, 50, width-60, height-250);
   line(30, height-180, width-30, height-180);
   text(ink, 30, height-160, width-60, height-160);
-}
-
-//allBuckets -> abcBucket -> .bucketContents[CHECK THIS]
-//allBuckets[abcBucket.bucketContents[0]]
-//check each bucket to see if a character can be found inside of it
-void checkBuckets(char x, char y, char z) {
-  for (int i = 0; i < allBuckets.length; i ++) {
-    for (int j = 0; j < 3; j ++) {
-      if (x == allBuckets[i].bucketContents[j]) {
-        instructionList += allBuckets[i].identifier;
-      }
-    }
-  }
-  
-  for (int i = 0; i < allBuckets.length; i ++) {
-    for (int j = 0; j < 3; j ++) {
-      if (y == allBuckets[i].bucketContents[j]) {
-        instructionList += allBuckets[i].identifier;
-      }
-    }
-  }
-  
-  for (int i = 0; i < allBuckets.length; i ++) {
-    for (int j = 0; j < 3; j ++) {
-      if (z == allBuckets[i].bucketContents[j]) {
-        instructionList += allBuckets[i].identifier;
-      }
-    }
-  }
 }
