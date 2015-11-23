@@ -4,7 +4,9 @@ Laurel O'Brien
 lobrien14692@ecuad.ca
 
 TO DO
-- decide if draw() will be used at all in this program
+- simplify calculations for drawing button and coloured rectangles
+- add didactic text for user 
+- store chosen colour when it's clicked on
 */
 
 //import everything in PDF library
@@ -29,6 +31,18 @@ float lineLeading = fontSize * 1.4; //leading: looks best at 140% of text size f
 float numInstructions = 0; //count of instructions added to instructionList
 float margin = 30; //pixel margin to stay inside, inset from edge of canvas
 
+//random colours for colourPicker()
+color topLeftQuad = color(random(255), random(255), random(255));
+color topRightQuad = color(random(255), random(255), random(255));;
+color bottomLeftQuad = color(random(255), random(255), random(255));;
+color bottomRightQuad = color(random(255), random(255), random(255));;
+
+float rectWidth;
+float rectHeight;
+float buttonArea = 100; //pixel height of button and its margins
+float buttonWidth;
+float buttonHeight;
+
 //declare PFont for drawing text in drawInstructions()
 PFont apercu;
 
@@ -50,10 +64,14 @@ TypeBucket yzBucket = new TypeBucket('y', 'z', '!');
 
 void setup() {
   //size(500, 700, PDF, "woodtype_test.pdf"); //pdf output size and file name
-  size(500, 700); //canvas size for non-PDF test runs
+  size(600, 700); //canvas size for interactive portion
   background(255); //white background
   apercu = createFont("ApercuProMono.ttf", fontSize); //initialize apercu font
   allBuckets = new TypeBucket[9]; //create array to store all available TypeBuckets
+  
+  //sizes and constants for rect()s in colourPicker()
+  rectWidth = (width-margin*3) / 2;
+  rectHeight = (height-buttonArea-margin*3) / 2;
   
   //initialize allBuckets[] with all TypeBucket instances
   allBuckets[0] = abcBucket;
@@ -71,7 +89,7 @@ void setup() {
   newCheckBuckets(convertString(sentence));
   
   //call drawInstructions to format and draw complete set of instructions
-  drawInstructions();
+  //drawInstructions();
   //println(instructionList);
   
   //exit(); //save and exit pdf file
@@ -80,9 +98,60 @@ void setup() {
 
 
 void draw() {
-  
+  shuffleButton();
+  colourPicker();
 }
 
+
+
+void colourPicker() {
+  noStroke();
+  fill(topLeftQuad);
+  rect(margin, margin+buttonArea, rectWidth, rectHeight);
+  
+  fill(topRightQuad);
+  rect(margin*2+rectWidth, margin+buttonArea, rectWidth, rectHeight);
+  
+  fill(bottomLeftQuad);
+  rect(margin, margin*2+rectHeight+buttonArea, rectWidth, rectHeight);
+  
+  fill(bottomRightQuad);
+  rect(margin*2+rectWidth, margin*2+rectHeight+buttonArea, rectWidth, rectHeight);
+}
+
+//draw a labelled button above the coloured rectangles
+void shuffleButton() {
+  buttonWidth = fontSize * 6;
+  buttonHeight = lineLeading * 2;
+  
+  //outline of button
+  stroke(200); //light grey stroke
+  strokeWeight(2); //thicker stroke
+  noFill(); //remove fill: ghost button
+  rect(margin, margin, buttonWidth, buttonHeight); //button outline
+  
+  //text inside button
+  fill(200); //light grey fill
+  textFont(apercu); //set font to apercu mono
+  textAlign(CENTER);
+  text("shuffle", margin+buttonWidth/2, margin+buttonHeight/1.7);
+}
+
+
+
+//shuffle colours if user clicks on button, and store fill colour of 
+//a rectangle if the user clicks on it
+void mouseClicked() {
+  if ((mouseX > margin && mouseX < margin + buttonWidth) 
+  && (mouseY > margin && mouseY < margin + buttonHeight)) {
+    //re-randomize  rect() colours
+    topLeftQuad = color(random(255), random(255), random(255));
+    topRightQuad = color(random(255), random(255), random(255));;
+    bottomLeftQuad = color(random(255), random(255), random(255));;
+    bottomRightQuad = color(random(255), random(255), random(255));;
+  }
+  
+}
 
 
 //return a character array containing all the characters in the argument's string
