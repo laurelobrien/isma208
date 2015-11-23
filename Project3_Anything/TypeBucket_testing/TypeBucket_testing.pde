@@ -36,6 +36,7 @@ color topLeftQuad = color(random(255), random(255), random(255));
 color topRightQuad = color(random(255), random(255), random(255));;
 color bottomLeftQuad = color(random(255), random(255), random(255));;
 color bottomRightQuad = color(random(255), random(255), random(255));;
+color selectedColour;
 
 float rectWidth;
 float rectHeight;
@@ -142,6 +143,7 @@ void shuffleButton() {
 //shuffle colours if user clicks on button, and store fill colour of 
 //a rectangle if the user clicks on it
 void mouseClicked() {
+  //check if click was inside shuffle button
   if ((mouseX > margin && mouseX < margin + buttonWidth) 
   && (mouseY > margin && mouseY < margin + buttonHeight)) {
     //re-randomize  rect() colours
@@ -151,6 +153,29 @@ void mouseClicked() {
     bottomRightQuad = color(random(255), random(255), random(255));;
   }
   
+  //check if top left colour was clicked
+  if ((mouseX > margin && mouseX < margin + rectWidth) 
+  && (mouseY > margin && mouseY < margin + rectHeight)) {
+    selectedColour = topLeftQuad; //assign its colour to selectedColour
+  }
+  
+  //check if top right colour was clicked
+  if ((mouseX > margin*2+rectWidth && mouseX < margin*2+rectWidth + rectWidth) 
+  && (mouseY > margin && mouseY < margin + rectHeight)) {
+    selectedColour = topRightQuad; //assign its colour to selectedColour
+  }
+  
+  //check if bottom left colour was clicked
+  if ((mouseX > margin && mouseX < margin + rectWidth) 
+  && (mouseY > margin*2+rectHeight && mouseY < margin*2 + rectHeight*2)) {
+    selectedColour = bottomLeftQuad; //assign its colour to selectedColour
+  }
+  
+  //check if bottom right colour was clicked
+  if ((mouseX > margin*2+rectWidth && mouseX < margin*2 + rectWidth*2) 
+  && (mouseY > margin*2+rectHeight && mouseY < margin*2 + rectHeight*2)) {
+    selectedColour = bottomRightQuad; //assign its colour to selectedColour
+  }
 }
 
 
