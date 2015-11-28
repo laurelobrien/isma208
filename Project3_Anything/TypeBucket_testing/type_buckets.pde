@@ -4,7 +4,7 @@ class TypeBucket {
   char[] bucketContents = new char[3];
   String identifier = new String(bucketContents);
 
-  //contructor
+  //constructor
   TypeBucket(char tempX, char tempY, char tempZ) {
     x = tempX;
     y = tempY;
@@ -16,7 +16,7 @@ class TypeBucket {
   }
 
 //methods
-
+//
 //select and return a random character from bucketContents
 char pullType() {
   return bucketContents[int(random(0, 3))];

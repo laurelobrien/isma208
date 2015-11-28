@@ -15,16 +15,9 @@ import processing.pdf.*;
 //declare and initialize global variables
 //
 //
-String sentence = "hello world!"; //input text
+String inputString = "red hair, blue eyes, freckles"; //input text
 char letter;
 char[] charArray;
-
-//Strings for drawing text on canvas
-String instructionList = ""; //empty list of instructions
-String header = "Pull one character from each bin.";
-String spaces = "Use up to "+int(random(2, 5))+" spaces.";
-String ink = "Ink the type with a mix of "+int(random(2, 33))+" parts Pthalo Green, "+int(random(2, 33))+
-" parts Crimson Red, and "+int(random(2, 33))+" parts Ultramarine Blue.";
 
 float fontSize = 18; //point-size of loaded PFont
 float lineLeading = fontSize * 1.4; //leading: looks best at 140% of text size for short-form
@@ -33,9 +26,13 @@ float margin = 30; //pixel margin to stay inside, inset from edge of canvas
 
 //random colours for colourPicker()
 color topLeftQuad = color(random(255), random(255), random(255));
-color topRightQuad = color(random(255), random(255), random(255));;
-color bottomLeftQuad = color(random(255), random(255), random(255));;
-color bottomRightQuad = color(random(255), random(255), random(255));;
+color topRightQuad = color(random(255), random(255), random(255));
+color bottomLeftQuad = color(random(255), random(255), random(255));
+color bottomRightQuad = color(random(255), random(255), random(255));
+float cyan = 0;
+float yellow = 0;
+float magenta = 0;
+float black = 0;
 color selectedColour;
 
 float rectWidth;
@@ -43,6 +40,13 @@ float rectHeight;
 float buttonArea = 100; //pixel height of button and its margins
 float buttonWidth;
 float buttonHeight;
+boolean colourChosen = false; //indicate if user has selected a colour
+
+//Strings for drawing text on canvas
+String instructionList = ""; //empty list of instructions
+String header = "Pull one character from each bin.";
+String spaces = "Use up to "+int(random(2, 5))+" spaces.";
+String ink;
 
 //declare PFont for drawing text in drawInstructions()
 PFont apercu;
@@ -65,8 +69,10 @@ TypeBucket yzBucket = new TypeBucket('y', 'z', '!');
 
 void setup() {
   //size(500, 700, PDF, "woodtype_test.pdf"); //pdf output size and file name
-  size(600, 700); //canvas size for interactive portion
+  size(400, 1000); //canvas size for interactive portion
   background(255); //white background
+  colorMode(RGB, 255); //declare colourspace for CMYK conversion
+  
   apercu = createFont("ApercuProMono.ttf", fontSize); //initialize apercu font
   allBuckets = new TypeBucket[9]; //create array to store all available TypeBuckets
   
@@ -85,22 +91,41 @@ void setup() {
   allBuckets[7] = vwxBucket;
   allBuckets[8] = yzBucket;
   
-  //convert sentence into a character array, and feed that array through newCheckBuckets
-  //to determine which bucket each character can be found in
-  newCheckBuckets(convertString(sentence));
-  
-  //call drawInstructions to format and draw complete set of instructions
-  //drawInstructions();
-  //println(instructionList);
-  
   //exit(); //save and exit pdf file
   //println("Drawn and saved."); //indicate setup() has finished, including writing to PDF
 }
 
 
+
 void draw() {
-  shuffleButton();
-  colourPicker();
+  if (colourChosen == false) {
+    shuffleButton();
+    colourPicker();
+  } else {
+    //create an instance of CMYK_Colour using selectedColour as its swatch
+    CMYK_Colour selectedCMYK = new CMYK_Colour(selectedColour);
+    
+    //assign selectedCMYK's CMYK values to corresponding floats
+    cyan = selectedCMYK.cyan;
+    yellow = selectedCMYK.yellow;
+    magenta = selectedCMYK.magenta;
+    black = selectedCMYK.black;
+    
+    ink = "Ink the type with a mix of "+int(cyan)+" parts cyan, "+int(yellow)+
+" parts yellow, "+int(magenta)+" parts magenta, and "+int(black)+" parts black.";
+
+    //TBD: function that accepts text input from user here, stored in inputString
+    
+    //convert inputString into a character array, and feed that array through newCheckBuckets
+    //to determine which bucket each character can be found in
+    newCheckBuckets(convertString(inputString));
+    
+    //draw instructions as text on the canvas, overwriting colour picker
+    background(255);
+    drawInstructions();
+  }
+  
+  println(selectedColour);
 }
 
 
@@ -119,6 +144,8 @@ void colourPicker() {
   fill(bottomRightQuad);
   rect(margin*2+rectWidth, margin*2+rectHeight+buttonArea, rectWidth, rectHeight);
 }
+
+
 
 //draw a labelled button above the coloured rectangles
 void shuffleButton() {
@@ -143,40 +170,47 @@ void shuffleButton() {
 //shuffle colours if user clicks on button, and store fill colour of 
 //a rectangle if the user clicks on it
 void mouseClicked() {
-  //check if click was inside shuffle button
-  if ((mouseX > margin && mouseX < margin + buttonWidth) 
-  && (mouseY > margin && mouseY < margin + buttonHeight)) {
-    //re-randomize  rect() colours
-    topLeftQuad = color(random(255), random(255), random(255));
-    topRightQuad = color(random(255), random(255), random(255));;
-    bottomLeftQuad = color(random(255), random(255), random(255));;
-    bottomRightQuad = color(random(255), random(255), random(255));;
-  }
-  
-  //check if top left colour was clicked
-  if ((mouseX > margin && mouseX < margin + rectWidth) 
-  && (mouseY > margin && mouseY < margin + rectHeight)) {
-    selectedColour = topLeftQuad; //assign its colour to selectedColour
-  }
-  
-  //check if top right colour was clicked
-  if ((mouseX > margin*2+rectWidth && mouseX < margin*2+rectWidth + rectWidth) 
-  && (mouseY > margin && mouseY < margin + rectHeight)) {
-    selectedColour = topRightQuad; //assign its colour to selectedColour
-  }
-  
-  //check if bottom left colour was clicked
-  if ((mouseX > margin && mouseX < margin + rectWidth) 
-  && (mouseY > margin*2+rectHeight && mouseY < margin*2 + rectHeight*2)) {
-    selectedColour = bottomLeftQuad; //assign its colour to selectedColour
-  }
-  
-  //check if bottom right colour was clicked
-  if ((mouseX > margin*2+rectWidth && mouseX < margin*2 + rectWidth*2) 
-  && (mouseY > margin*2+rectHeight && mouseY < margin*2 + rectHeight*2)) {
-    selectedColour = bottomRightQuad; //assign its colour to selectedColour
+  if (colourChosen == false) {
+    //check if click was inside shuffle button
+    if ((mouseX > margin && mouseX < margin + buttonWidth) 
+    && (mouseY > margin && mouseY < margin + buttonHeight)) {
+      //re-randomize  rect() colours
+      topLeftQuad = color(random(255), random(255), random(255));
+      topRightQuad = color(random(255), random(255), random(255));;
+      bottomLeftQuad = color(random(255), random(255), random(255));;
+      bottomRightQuad = color(random(255), random(255), random(255));;
+    }
+    
+    //check if top left colour was clicked
+    else if ((mouseX > margin && mouseX < margin + rectWidth) 
+    && (mouseY > margin && mouseY < margin + rectHeight)) {
+      selectedColour = topLeftQuad; //assign its colour to selectedColour
+      colourChosen = true;
+    }
+    
+    //check if top right colour was clicked
+    else if ((mouseX > margin*2+rectWidth && mouseX < margin*2+rectWidth + rectWidth) 
+    && (mouseY > margin && mouseY < margin + rectHeight)) {
+      selectedColour = topRightQuad; //assign its colour to selectedColour
+      colourChosen = true;
+    }
+    
+    //check if bottom left colour was clicked
+    else if ((mouseX > margin && mouseX < margin + rectWidth) 
+    && (mouseY > margin*2+rectHeight && mouseY < margin*2 + rectHeight*2)) {
+      selectedColour = bottomLeftQuad; //assign its colour to selectedColour
+      colourChosen = true;
+    }
+    
+    //check if bottom right colour was clicked
+    else if ((mouseX > margin*2+rectWidth && mouseX < margin*2 + rectWidth*2) 
+    && (mouseY > margin*2+rectHeight && mouseY < margin*2 + rectHeight*2)) {
+      selectedColour = bottomRightQuad; //assign its colour to selectedColour
+      colourChosen = true;
+    }
   }
 }
+
 
 
 //return a character array containing all the characters in the argument's string
@@ -188,6 +222,7 @@ char[] convertString(String s) {
   //return the char[] charArray
   return charArray;
 }
+
 
 
 //identify which bucket each character in a character array comes from.
@@ -231,6 +266,7 @@ void drawInstructions() {
   
   //draw all String instructions for printer as text inside one fixed text box
   //and one variable-height text box
+  textAlign(LEFT); //align text to the left
   textFont(apercu); //set font to apercu mono
   textLeading(lineLeading);
   text(header+"\n\n"+spaces+"\n\n"+ink, margin, 50, textBoxWidth, paramHeight); //fixed height
