@@ -6,7 +6,6 @@
 // to do: better variables names
 
 
-
 class WoodBlock {
 
   /////////////////////
