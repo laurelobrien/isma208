@@ -20,6 +20,7 @@ class TypoAutomata {
   String typeBlock; //actual character in reference to a wood type block, case sensitive
   String empty = "-";
   float x, y; //coordinate positions
+  
   //type characteristics
   boolean hasAscender, hasDescender, hasCounter, hasSerifs, isLower;
   
@@ -27,7 +28,7 @@ class TypoAutomata {
   //constructor
   TypoAutomata(String[] r) {
     rules = r;
-    emSize = 5;
+    emSize = 10;
     letters = new String[width/emSize];
     restart();
   }
@@ -78,21 +79,29 @@ class TypoAutomata {
   } //end of generate()
   
   
+  
   //draw generation on canvas
   //currently draws CELLS (squares) for the purpose of testing but should draw type
   //with text() in a grid, or append instructions to a String list etc
   void render() {
     //for every index in letters[]
+    fill(255);
     for (int i = 0; i < letters.length; i ++) {
       if (letters[i] != "-") {
-        fill(255); //set fill to white if it isn't empty
+        //fill(255); //set fill to white if it isn't empty
+        typeBlock = "a";
       } else {
-        fill(0); //or black if it is
+        //fill(0); //or black if it is
+        typeBlock = "-";
       }
-      noStroke(); //turn off stroke
-      rect(i * emSize, generation * emSize, emSize, emSize); //draw "cell" version
+      //noStroke(); //turn off stroke
+      //rect(i * emSize, generation * emSize, emSize, emSize); //draw "cell" version
+      
+      textAlign(CENTER); //align text's bottom-center with coordinates
+      text(typeBlock, i * emSize, generation * emSize);
     }
   } //end of render()
+    
     
     
   //implementing wolfram rules
