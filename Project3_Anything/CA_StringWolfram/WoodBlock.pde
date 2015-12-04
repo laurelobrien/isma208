@@ -6,7 +6,6 @@
 // to do: better variables names
 
 
-
 class WoodBlock {
 
   /////////////////////
@@ -31,10 +30,6 @@ class WoodBlock {
   /////////////////////
   //methods
   
-  //print human-friendly identify to output — mostly for debugging
-  void identify() {
-    println("WoodBlock instance: "+letter);
-  }
   
 } //end of Wood Block
 
