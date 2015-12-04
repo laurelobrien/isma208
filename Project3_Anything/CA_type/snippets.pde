@@ -1,25 +1,40 @@
-/* code snippets
-
-display char on canvas
-------
-render() {
-  textSize(12); //in points
-  text(letter, x, y); //draw character 
-} //end of render()
+////////////////////////
+//
+// WoodBlock class
+// defines a letter in the roman alphabet, case sensitive
+//
+// to do: better variables names
 
 
 
-accept booleans describing typographic anatomy as
-arguments in the constructor
-------
-WoodBlock(char tempLetter, boolean as, boolean des, boolean count, boolean serifs, 
-            boolean low) {
+class WoodBlock {
+
+  /////////////////////
+  //attributes
+  String letter;
+  
+  //fixed type anatomy: always occurs in the letter
+  boolean hasAscender, hasDescender, hasCounter, isLower;
+  //variable type anatomy: prescence depends on typeface used
+  boolean hasSerifs;
+  
+  /////////////////////
+  //constructor
+  WoodBlock(String tempLetter, boolean as, boolean des, boolean count, boolean low) {
     letter = tempLetter;
     hasAscender = as;
     hasDescender = des;
     hasCounter = count;
-    hasSerifs = serifs;
     isLower = low; 
-
-*/
+  }
+  
+  /////////////////////
+  //methods
+  
+  //print human-friendly identify to output — mostly for debugging
+  void identify() {
+    println("WoodBlock instance: "+letter);
+  }
+  
+} //end of Wood Block
 

@@ -102,4 +102,4 @@ class GOL {
     
   } //end of display
   
-}
+} //end of GOL

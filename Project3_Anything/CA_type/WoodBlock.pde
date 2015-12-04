@@ -5,31 +5,27 @@
 // https://processing.org/examples/wolfram.html
 //
 // to do: better variable names
-//        String list? something more readable than booleans?
-//        off state? dead state? alternative to binary states?
 
 class TypoAutomata {
   ////////////////////////
   //attributes
   String[] letters; //array of characters
-  int generation; //generations that has transpired
+  String[] rules; //store the ruleset provided in constructor
+  int generation; //count generations that have transpired
   int emSize; //height and width of each character in pixels (monospace font for now)
   
-  String[] rules; //store the ruleset
-  
   String typeBlock; //actual character in reference to a wood type block, case sensitive
-  String empty = "-";
+  String empty = "-"; //failed/dead/false version of attribute being checked for
   float x, y; //coordinate positions
-  
-  //type characteristics
-  boolean hasAscender, hasDescender, hasCounter, hasSerifs, isLower;
+  PFont apercu;
   
   ////////////////////////
   //constructor
   TypoAutomata(String[] r) {
-    rules = r;
-    emSize = 10;
+    rules = r; //assign rules
+    emSize = 24; //set font size
     letters = new String[width/emSize];
+    apercu = createFont("ApercuProMono.ttf", 16);
     restart();
   }
 
@@ -85,20 +81,23 @@ class TypoAutomata {
   //with text() in a grid, or append instructions to a String list etc
   void render() {
     //for every index in letters[]
-    fill(255);
+    
     for (int i = 0; i < letters.length; i ++) {
       if (letters[i] != "-") {
         //fill(255); //set fill to white if it isn't empty
+        fill(random(255), random(255), random(255));
         typeBlock = "a";
       } else {
         //fill(0); //or black if it is
+        fill(200);
         typeBlock = "-";
       }
       //noStroke(); //turn off stroke
       //rect(i * emSize, generation * emSize, emSize, emSize); //draw "cell" version
       
+      textFont(apercu); //set font to apercu mono, 7.5pt
       textAlign(CENTER); //align text's bottom-center with coordinates
-      text(typeBlock, i * emSize, generation * emSize);
+      text(typeBlock, i * emSize, generation * emSize, emSize, emSize);
     }
   } //end of render()
     
