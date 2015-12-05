@@ -19,21 +19,20 @@ class TypoAutomata {
   String typeBlock; //final String used to draw letters on canvas
   WoodBlock empty; //off, false, dead, opposite state of typeBlock
   float x, y; //coordinate positions for drawing grid of letters
-  PFont apercu, cutive; //sans and serif monospace typefaces for simulating output
+  PFont circleTTF; //sans and serif monospace typefaces for simulating output
 
   //////////////////////
   //constructor
   TypoAutomata(WoodBlock[] r) {
     rules = r;
-    emSize = 38; //set font size
+    emSize = 24; //set font size
     empty = allBlocks[0];
     
     //create indices in currentGen that fit in canvas when drawn as typeBlocks
     currentGen = new WoodBlock[width/emSize];
     
     //fonts
-    apercu = createFont("ApercuProMono.ttf", 24); //Apercu Mono Pro
-    cutive = createFont("CutiveMono.ttf", 16); //Cutive Mono
+    circleTTF = createFont("AcneStudiosCircleBold.ttf", 18); //bold Circle font
     
     //initialize currentGen[] with a seed array and generation as 0
     restart();
@@ -53,10 +52,9 @@ class TypoAutomata {
   void restart() {
     //for all indicies in currentGen[]
     for (int i = 0; i < currentGen.length; i ++) {
-      currentGen[i] = allBlocks[0];
+      currentGen[i] = allBlocks[int(random(allBlocks.length))]; //assign WoodBlock object with .letter "a"
     }
     
-    currentGen[currentGen.length/2] = allBlocks[5]; //seed value, loner in generation 0
     generation = 0; //(re)set generation counter
   } //end of restart
   
@@ -92,17 +90,26 @@ class TypoAutomata {
   void render() {
     //for every WoodBlock in currentGen, determine what its String output will look like
     for (int i = 0; i < currentGen.length; i ++) {
-      if (currentGen[i].hasAscender) {
-        fill(#12deef);
+      //diff colours for debugging/visualizing. 
+      //can be toggled easily in global variables
+      if (wantColour) {
+        if (currentGen[i].hasAscender) {
+          fill(#1500a2);
+        } else if (currentGen[i].hasDescender) {
+          fill(#12deef);
+        } else {
+          fill(#f8d022);
+        }
       } else {
-        fill(#de12ef);
+        fill(0);
       }
-      //fill(0); //set text colour: black
-      typeBlock = currentGen[i].letter; //assign this loop's WoodBlock.letter to typeBlock
+      
+      //assign object's .letter String for text() use
+      typeBlock = currentGen[i].letter;
       
       //draw the typeBlock on canvas in a grid position, where 
       //emSize spaces out columns and generation spaces out rows
-      textFont(apercu); //set font to Apercu Mono Pro
+      textFont(circleTTF); //set font to Circle
       textAlign(CENTER); //center-align text at coordinate position
       text(typeBlock, i * emSize, generation * emSize, emSize, emSize); //draw
     }
