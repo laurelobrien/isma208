@@ -3,28 +3,37 @@ CA
 or something like it
 
 lobrien14692@ecuad.ca
-
-ruleSet, initialized in setup(), works correctly except that the random selections
-become fixed after it's initialized, and re-declaring it in draw or re-assigning
-it to reliefGrid.rules in attempts to re-randomize its values draws an error
 */
 
-//toggle this to turn colour indicators on/off. final output
-//will be monochrome but it makes it faster to identify pattern
-//when de-bugging
+
+
+/* toggle this to turn colour indicators on/off. final output
+   will be monochrome but it makes it faster to identify pattern
+   when de-bugging
+----------------------------------------------------------*/
 boolean wantColour = false;
 
-////////////////////////////
-//declare and initialize global variables
 
-TypoAutomata reliefGrid; //instantiate 1D cellular automata
+
+/*declare and initialize global variables
+----------------------------------------------------------*/
+TypoAutomata reliefGrid; //instantiate 2D cellular automata
 
 //array of WoodBlocks for every lowercase letter in the English alphabet
 WoodBlock[] allBlocks = new WoodBlock[26];
 
-//array of rules, prescribed outcomes for arrangements of letters
+//array of rules; prescribed offspring for arrangements of letters
 boolean[] xRuleSet; //x axis rules, vowel based
-boolean[] yRuleSet; //y axis rules, anatomy based
+boolean[] yRuleSet; //y axis rules, typographic anatomy based
+
+//values for laying out type in a grid via reliefGrid.render(),
+//and transforming that rendering to be mirrored
+int fontSize = 24; //font size in points
+int emSize = int(fontSize * 1.4);//textbox dimensions
+//number of r and columns, variable with textbox size
+//and always -2 to allow one row/column of margin on each side
+int col = int(emSize * (width / emSize))-2;
+int row = int(emSize * (height / emSize))-2; 
 
 
 
@@ -32,102 +41,48 @@ boolean[] yRuleSet; //y axis rules, anatomy based
 void setup() {
   size(500, 800); //canvas size, aspect ratio of 15x24" poster size
   background(255); //white
-
   instantiateWoodBlocks(); //initialize allBlocks[] with new WoodBlocks
   
-  //true == vowel, false == consonant
+  /* declare & initialize rule sets for evaluating
+     generations of TypoAutomata objects on their x and y axes
+---------------------------------------------------------*/
+  //x axis: true == vowel, false == consonant
   boolean[] xRuleSet = { false, true,
-                           false, true,
-                           false, false,
-                           true, false };
-  
-  //true == has ascender, false == has not
+                         false, true,
+                         false, false,
+                         true, false };
+  //y axis: true == has ascender, false == has not
   boolean[] yRuleSet = { true, false, 
-                           true, false, 
-                           true, true, 
-                           false, true};
-                         
+                         true, false, 
+                         true, true, 
+                         false, true};
   
-                         
-  //reRandomizeRules();
+  //instantiate TypoAutomata object with 2 rule sets
+  reliefGrid = new TypoAutomata(xRuleSet, yRuleSet, fontSize);
   
-  reliefGrid = new TypoAutomata(xRuleSet, yRuleSet); //instantiate TypoAutomata object with a rule set
-  reliefGrid.render();
+  /* mirror grid of type horizontally to create template
+     for setting type, which needs to be set backwards.
+     note: transformations happen in reverse order
+---------------------------------------------------------*/
+  pushMatrix(); //isolate memory for transformations
+  translate(((emSize * (width/emSize))/2), ((emSize * (height/emSize))/2)); //translate back to final position
+  scale(-1, 1); //negative scaling on horizontal axis: mirroring
+  translate(-((emSize * (width/emSize-2))/2),-((emSize * (height/emSize-2))/2)); //translate center of reliefGrid's to canvas origin (0, 0)
+  reliefGrid.render(); //render the first generation on canvas
+  popMatrix(); //done isolating memory
+}
+
+
+//descrip. still needed here
+void draw() {
+  //empty: drawing only happens when mouse is clicked
 }
 
 
 
-void draw() { 
-} //end of draw()
-
-
-
+//on mouse click, any button:
 void mouseClicked() {
   background(255); //white, erase last frame
   reliefGrid.generate(); //create new generation 
-  reliefGrid.render();
+  reliefGrid.render(); //render new generation on canvas
 }
-
-
-
-//accepts a string describing the anatomy you want in a letter and pulls
-//a random WoodBlock object from a pool of qualifying objects. using a String
-//thus far makes it more legible than trying to reference a private 
-//WoodBlock attribute but feels unnecessarily manual 
-WoodBlock pullType(String anatomy) {
-  ArrayList<WoodBlock> possMatches = new ArrayList<WoodBlock>();
-  //declare ArrayList to append WoodBlocks that match argument
-  //ArrayList<WoodBlock> possMatches = new ArrayList<WoodBlock>();
-  
-  //ascenders
-  if (anatomy.equals("ascender")) {
-    for (int i = 0; i < allBlocks.length; i ++) {
-      if (allBlocks[i].hasAscender) {
-        possMatches.add(allBlocks[i]);
-      }
-    }
-  }
-  //descenders
-  else if (anatomy.equals("descender")) {
-    for (int i = 0; i < allBlocks.length; i ++) {
-      if (allBlocks[i].hasDescender) {
-        possMatches.add(allBlocks[i]);
-      }
-    }
-  } 
-  //counters
-  else if (anatomy.equals("counter")) {
-    for (int i = 0; i < allBlocks.length; i ++) {
-      if (allBlocks[i].hasCounter) {
-        possMatches.add(allBlocks[i]);
-      }
-    }
-  }
-  //no ascenders OR descenders
-  else if (anatomy.equals("no limbs")) {
-    for (int i = 0; i < allBlocks.length; i ++) {
-      if (!allBlocks[i].hasAscender && !allBlocks[i].hasDescender) {
-        possMatches.add(allBlocks[i]);
-      }
-    }
-  }
-  //vowels
-  else if (anatomy.equals("vowel")) {
-    for (int i = 0; i < allBlocks.length; i ++) {
-      if (allBlocks[i].isVowel) {
-        possMatches.add(allBlocks[i]);
-      }
-    }
-  }
-  //consonants
-  else if (anatomy.equals("no limbs")) {
-    for (int i = 0; i < allBlocks.length; i ++) {
-      if (!allBlocks[i].isVowel) {
-        possMatches.add(allBlocks[i]);
-      }
-    }
-  }
-  
-  WoodBlock chosenType = possMatches.get(int(random(possMatches.size())));
-  return chosenType;
-} //end of pullType

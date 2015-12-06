@@ -14,12 +14,8 @@ class TypoAutomata {
   WoodBlock[][] currentGen;
   boolean[] xRules, yRules; //store the rule sets provided in constructor
   int generation; //count generations that have transpired
-  int fontSize = 24; //pt size of PFont
-  int emSize = int(fontSize * 1.4); //height and width of text() letters incl. padding
-  
-  //columns and rows of type, letter at each intersection/"cell"
-  int columns = int(width/emSize)-2;
-  int rows = int(height/emSize)-2;
+  int fontSize, spacing;
+  int columns, rows;
   
   String typeBlock; //final String used to draw letters on canvas
   float x, y; //coordinate positions for drawing grid of letters
@@ -27,10 +23,15 @@ class TypoAutomata {
 
   //////////////////////
   //constructor
-  TypoAutomata(boolean[] x, boolean[] y) {
+  TypoAutomata(boolean[] x, boolean[] y, int font) {
     xRules = x;
     yRules = y;
-    //emSize = 24; //set font size
+    fontSize = font;
+    spacing = int(fontSize * 1.4); //height and width of text() letters incl. padding
+    
+    //columns and rows of type
+    columns = int(width/spacing)-2;
+    rows = int(height/spacing)-2;
     
     //create indices in currentGen that fit in canvas when drawn as text()
     currentGen = new WoodBlock[columns][rows];
@@ -127,10 +128,11 @@ class TypoAutomata {
         //emSize spaces out columns and generation spaces out rows
         textFont(circleTTF); //set font to Circle
         textAlign(CENTER); //center-align text at coordinate position
-        text(typeBlock, (i+1) * emSize, (j+1) * emSize, emSize-7, emSize); //draw 
+        text(typeBlock, (i) * spacing, (j) * spacing, spacing, spacing);
       }
     }
-  } //end of render()
+  }
+  
   
   
   //match state of "me" and the objects around it to a prescribed 
