@@ -19,7 +19,7 @@ class TypoAutomata {
   
   String typeBlock; //final String used to draw letters on canvas
   float x, y; //coordinate positions for drawing grid of letters
-  PFont circleTTF; //sans and serif monospace typefaces for simulating output
+  PFont serif, sansSerif; //sans and serif monospace typefaces for simulating output
 
   //////////////////////
   //constructor
@@ -27,7 +27,7 @@ class TypoAutomata {
     xRules = x;
     yRules = y;
     fontSize = font;
-    spacing = int(fontSize * 1.4); //height and width of text() letters incl. padding
+    spacing = int(fontSize * 1.6); //height and width of text() letters incl. padding
     
     //columns and rows of type
     columns = int(width/spacing)-2;
@@ -37,7 +37,8 @@ class TypoAutomata {
     currentGen = new WoodBlock[columns][rows];
     
     //fonts
-    circleTTF = createFont("AcneStudiosCircleBold.ttf", fontSize); //bold Circle font
+    serif = createFont("TiemposTextSemibold.ttf", fontSize); //Tiempos Text
+    sansSerif = createFont("AcneStudiosCircleBold.ttf", fontSize); //Circle Display
     
     //initialize currentGen[] with a seed array and generation as 0
     init();
@@ -54,9 +55,8 @@ class TypoAutomata {
       //for each row (y-axis)
       for (int j = 0; j < rows; j ++) {
         //select the intersection in currentGen[][]
-        //and assign as random WoodBlock object, 
-        //minus the full-stop in the last index
-        currentGen[i][j] = allBlocks[int(random(allBlocks.length))]; 
+        //and assign as random WoodBlock object
+        currentGen[i][j] = allBlocks[int(random(allBlocks.length))];
       }
     }
     
@@ -126,7 +126,7 @@ class TypoAutomata {
         
         //draw the typeBlock on canvas in a grid position, where 
         //emSize spaces out columns and generation spaces out rows
-        textFont(circleTTF); //set font to Circle
+        textFont(serif); //set font to Circle
         textAlign(CENTER); //center-align text at coordinate position
         text(typeBlock, (i) * spacing, (j) * spacing, spacing, spacing);
       }

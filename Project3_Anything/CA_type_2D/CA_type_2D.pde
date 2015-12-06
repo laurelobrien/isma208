@@ -3,6 +3,11 @@ CA
 or something like it
 
 lobrien14692@ecuad.ca
+
+TO DO: - add pdf functionality
+       - refine rules to have intentional pattern/progression
+       - decide on punctuation
+       - write function for dissecting seed strings (NOPE)
 */
 
 
@@ -29,7 +34,7 @@ boolean[] yRuleSet; //y axis rules, typographic anatomy based
 //values for laying out type in a grid via reliefGrid.render(),
 //and transforming that rendering to be mirrored
 int fontSize = 24; //font size in points
-int emSize = int(fontSize * 1.4);//textbox dimensions
+int emSize = int(fontSize * 1.6);//textbox dimensions
 //number of r and columns, variable with textbox size
 //and always -2 to allow one row/column of margin on each side
 int col = int(emSize * (width / emSize))-2;
