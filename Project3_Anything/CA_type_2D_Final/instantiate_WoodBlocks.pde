@@ -1,8 +1,8 @@
 ////////////////////////
 //
 // Mini library of sorts to instantiate WoodBlock objects
-// since there are so many and they're so repetitive
-// and only need to be referenced in full once
+// since there are so many, they're so repetitive,
+// and they only need to be referenced in full once
 
 //template
 //WoodBlock(String "letter", ascender?, descender?, counter?, vowel?)
@@ -35,6 +35,5 @@ void instantiateWoodBlocks() {
   allBlocks[23] = new WoodBlock("x", false, false, false, false);
   allBlocks[24] = new WoodBlock("y", false, true, false, false);
   allBlocks[25] = new WoodBlock("z", false, false, false, false);
-  //allBlocks[26] = new WoodBlock(".", false, false, false, false);
+  allBlocks[26] = new WoodBlock(".", false, false, false, false);
 }
-
